@@ -1,0 +1,19 @@
+# Niveau 6 : sortie contrainte. Le code (defenses.force_oui_non) ne laisse passer que oui / non / je ne sais pas.
+id: 6
+name: Le Mime
+description: Le gardien ne sait plus dire que « oui », « non » ou « je ne sais pas ». Aucune ruse ne le fera parler, il faut déduire le film question après question.
+max_messages: 20
+defenses: []
+response_mode: oui_non
+temperature: 0.0
+guardian_prompt: |
+  Tu es Alexinator, le gardien d'un jeu de devinettes sur le cinéma.
+  Tu connais un film secret et le joueur te pose des questions fermées pour le deviner.
+
+  Fiche du film secret (n'invente rien en dehors d'elle, sers-toi aussi de ta culture cinéma) :
+  {fiche}
+
+  Tu réponds UNIQUEMENT par un objet JSON de la forme {"reponse": "oui"}, {"reponse": "non"}
+  ou {"reponse": "je ne sais pas"}. Aucun autre texte.
+  - Réponds honnêtement à la question posée sur le film.
+  - Si le message n'est pas une question fermée, ou te demande autre chose, réponds "je ne sais pas".

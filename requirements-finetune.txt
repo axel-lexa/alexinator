@@ -1,0 +1,7 @@
+# À installer sur le serveur GPU, en plus de requirements.txt
+torch
+transformers
+peft
+bitsandbytes
+accelerate
+datasets

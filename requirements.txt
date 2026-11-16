@@ -1,0 +1,7 @@
+openai>=1.0
+pyyaml
+streamlit
+pytest
+pandas
+matplotlib
+notebook

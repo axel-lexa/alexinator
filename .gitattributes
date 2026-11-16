@@ -1,0 +1,5 @@
+# Fins de ligne normalisées (le groupe travaille sous Windows, macOS et Linux)
+* text=auto eol=lf
+*.bat text eol=crlf
+*.png binary
+*.db binary

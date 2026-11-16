@@ -1,0 +1,233 @@
+[
+  {
+    "id": "titanic",
+    "titre": "Titanic",
+    "alias": [],
+    "annee": 1997,
+    "realisateurs": ["James Cameron"],
+    "acteurs": ["Leonardo DiCaprio", "Kate Winslet", "Billy Zane"],
+    "personnages": ["Jack Dawson", "Rose DeWitt Bukater"],
+    "genre": "drame romantique, film catastrophe",
+    "mots_cles": ["paquebot", "iceberg", "naufrage", "1912", "traversée de l'Atlantique"]
+  },
+  {
+    "id": "roi_lion",
+    "titre": "Le Roi lion",
+    "alias": ["The Lion King"],
+    "annee": 1994,
+    "realisateurs": ["Roger Allers", "Rob Minkoff"],
+    "acteurs": [],
+    "personnages": ["Simba", "Mufasa", "Scar", "Timon", "Pumbaa", "Nala", "Rafiki"],
+    "genre": "film d'animation",
+    "mots_cles": ["savane", "lionceau", "héritier d'un royaume", "oncle jaloux", "exil"]
+  },
+  {
+    "id": "matrix",
+    "titre": "Matrix",
+    "alias": ["The Matrix"],
+    "annee": 1999,
+    "realisateurs": ["Lana Wachowski", "Lilly Wachowski"],
+    "acteurs": ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss", "Hugo Weaving"],
+    "personnages": ["Neo", "Morpheus", "Trinity", "Agent Smith"],
+    "genre": "science-fiction",
+    "mots_cles": ["réalité simulée", "pilule rouge ou bleue", "hacker", "machines", "ralenti"]
+  },
+  {
+    "id": "inception",
+    "titre": "Inception",
+    "alias": [],
+    "annee": 2010,
+    "realisateurs": ["Christopher Nolan"],
+    "acteurs": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy", "Marion Cotillard"],
+    "personnages": ["Dom Cobb", "Ariane"],
+    "genre": "science-fiction, thriller",
+    "mots_cles": ["rêves emboîtés", "toupie", "implanter une idée", "subconscient", "casse"]
+  },
+  {
+    "id": "amelie_poulain",
+    "titre": "Le Fabuleux Destin d'Amélie Poulain",
+    "alias": ["Amélie Poulain", "Amélie", "Le Fabuleux Destin d'Amelie Poulain"],
+    "annee": 2001,
+    "realisateurs": ["Jean-Pierre Jeunet"],
+    "acteurs": ["Audrey Tautou", "Mathieu Kassovitz"],
+    "personnages": ["Amélie Poulain", "Nino Quincampoix"],
+    "genre": "comédie romantique",
+    "mots_cles": ["Montmartre", "serveuse", "nain de jardin", "photomaton", "faire le bonheur des autres"]
+  },
+  {
+    "id": "intouchables",
+    "titre": "Intouchables",
+    "alias": ["Les Intouchables"],
+    "annee": 2011,
+    "realisateurs": ["Olivier Nakache", "Éric Toledano"],
+    "acteurs": ["François Cluzet", "Omar Sy"],
+    "personnages": ["Driss"],
+    "genre": "comédie dramatique",
+    "mots_cles": ["aristocrate tétraplégique", "aide à domicile", "amitié improbable", "banlieue", "histoire vraie"]
+  },
+  {
+    "id": "jurassic_park",
+    "titre": "Jurassic Park",
+    "alias": [],
+    "annee": 1993,
+    "realisateurs": ["Steven Spielberg"],
+    "acteurs": ["Sam Neill", "Laura Dern", "Jeff Goldblum", "Richard Attenborough"],
+    "personnages": ["Alan Grant", "Ellie Sattler", "Ian Malcolm", "John Hammond"],
+    "genre": "aventure, science-fiction",
+    "mots_cles": ["dinosaures", "parc d'attractions", "île", "clonage", "ADN dans l'ambre"]
+  },
+  {
+    "id": "communaute_anneau",
+    "titre": "Le Seigneur des anneaux : La Communauté de l'anneau",
+    "alias": ["La Communauté de l'anneau", "Le Seigneur des anneaux 1", "The Fellowship of the Ring", "The Lord of the Rings: The Fellowship of the Ring"],
+    "annee": 2001,
+    "realisateurs": ["Peter Jackson"],
+    "acteurs": ["Elijah Wood", "Ian McKellen", "Viggo Mortensen", "Sean Astin", "Orlando Bloom"],
+    "personnages": ["Frodon", "Gandalf", "Aragorn", "Legolas", "Gimli", "Boromir", "Sauron"],
+    "genre": "fantasy",
+    "mots_cles": ["anneau à détruire", "hobbits", "monde imaginaire médiéval", "compagnie de neuf", "premier volet d'une trilogie"]
+  },
+  {
+    "id": "star_wars_4",
+    "titre": "Star Wars, épisode IV : Un nouvel espoir",
+    "alias": ["Un nouvel espoir", "Star Wars 4", "Star Wars IV", "Star Wars épisode 4", "Star Wars épisode IV", "A New Hope", "Star Wars: A New Hope", "La Guerre des étoiles"],
+    "annee": 1977,
+    "realisateurs": ["George Lucas"],
+    "acteurs": ["Mark Hamill", "Harrison Ford", "Carrie Fisher", "Alec Guinness"],
+    "personnages": ["Luke Skywalker", "Han Solo", "Princesse Leia", "Dark Vador", "Obi-Wan Kenobi", "Chewbacca"],
+    "genre": "science-fiction, space opera",
+    "mots_cles": ["galaxie lointaine", "station spatiale géante", "rébellion", "sabre laser", "jeune fermier"]
+  },
+  {
+    "id": "forrest_gump",
+    "titre": "Forrest Gump",
+    "alias": [],
+    "annee": 1994,
+    "realisateurs": ["Robert Zemeckis"],
+    "acteurs": ["Tom Hanks", "Robin Wright", "Gary Sinise"],
+    "personnages": ["Forrest Gump", "Lieutenant Dan", "Bubba"],
+    "genre": "comédie dramatique",
+    "mots_cles": ["banc", "boîte de chocolats", "course à pied", "crevettes", "histoire des États-Unis"]
+  },
+  {
+    "id": "pulp_fiction",
+    "titre": "Pulp Fiction",
+    "alias": [],
+    "annee": 1994,
+    "realisateurs": ["Quentin Tarantino"],
+    "acteurs": ["John Travolta", "Samuel L. Jackson", "Uma Thurman", "Bruce Willis"],
+    "personnages": ["Vincent Vega", "Jules Winnfield", "Mia Wallace"],
+    "genre": "film de gangsters",
+    "mots_cles": ["récit non chronologique", "tueurs à gages", "mallette mystérieuse", "concours de twist", "Palme d'or"]
+  },
+  {
+    "id": "retour_vers_le_futur",
+    "titre": "Retour vers le futur",
+    "alias": ["Back to the Future", "Retour vers le futur 1"],
+    "annee": 1985,
+    "realisateurs": ["Robert Zemeckis"],
+    "acteurs": ["Michael J. Fox", "Christopher Lloyd", "Lea Thompson"],
+    "personnages": ["Marty McFly", "Emmett Brown", "Biff Tannen"],
+    "genre": "science-fiction, comédie",
+    "mots_cles": ["voyage dans le temps", "voiture transformée en machine", "1955", "rencontrer ses parents jeunes", "foudre sur l'horloge"]
+  },
+  {
+    "id": "parrain",
+    "titre": "Le Parrain",
+    "alias": ["The Godfather", "Le Parrain 1"],
+    "annee": 1972,
+    "realisateurs": ["Francis Ford Coppola"],
+    "acteurs": ["Marlon Brando", "Al Pacino", "James Caan", "Robert Duvall"],
+    "personnages": ["Vito Corleone", "Michael Corleone", "Sonny Corleone"],
+    "genre": "film de gangsters, drame",
+    "mots_cles": ["mafia", "famille sicilienne", "New York", "succession", "tête de cheval"]
+  },
+  {
+    "id": "gladiator",
+    "titre": "Gladiator",
+    "alias": [],
+    "annee": 2000,
+    "realisateurs": ["Ridley Scott"],
+    "acteurs": ["Russell Crowe", "Joaquin Phoenix", "Connie Nielsen"],
+    "personnages": ["Maximus", "Commode", "Lucilla", "Marc Aurèle"],
+    "genre": "péplum",
+    "mots_cles": ["général romain trahi", "arène", "Colisée", "vengeance", "esclave"]
+  },
+  {
+    "id": "voyage_chihiro",
+    "titre": "Le Voyage de Chihiro",
+    "alias": ["Spirited Away", "Sen to Chihiro no kamikakushi"],
+    "annee": 2001,
+    "realisateurs": ["Hayao Miyazaki"],
+    "acteurs": [],
+    "personnages": ["Chihiro", "Haku", "Yubaba", "Sans-Visage"],
+    "genre": "film d'animation japonais",
+    "mots_cles": ["fillette", "parents transformés en cochons", "établissement de bains", "monde des esprits", "sorcière"]
+  },
+  {
+    "id": "avatar",
+    "titre": "Avatar",
+    "alias": [],
+    "annee": 2009,
+    "realisateurs": ["James Cameron"],
+    "acteurs": ["Sam Worthington", "Zoe Saldana", "Sigourney Weaver"],
+    "personnages": ["Jake Sully", "Neytiri"],
+    "genre": "science-fiction",
+    "mots_cles": ["lune lointaine", "peuple à la peau bleue", "ancien marine paraplégique", "minerai rare", "3D"]
+  },
+  {
+    "id": "diner_de_cons",
+    "titre": "Le Dîner de cons",
+    "alias": ["Diner de cons"],
+    "annee": 1998,
+    "realisateurs": ["Francis Veber"],
+    "acteurs": ["Jacques Villeret", "Thierry Lhermitte", "Francis Huster", "Daniel Prévost"],
+    "personnages": ["François Pignon", "Pierre Brochant", "Juste Leblanc"],
+    "genre": "comédie",
+    "mots_cles": ["huis clos", "maquettes en allumettes", "tour de reins", "invité ridicule", "contrôleur fiscal"]
+  },
+  {
+    "id": "dents_de_la_mer",
+    "titre": "Les Dents de la mer",
+    "alias": ["Jaws"],
+    "annee": 1975,
+    "realisateurs": ["Steven Spielberg"],
+    "acteurs": ["Roy Scheider", "Richard Dreyfuss", "Robert Shaw"],
+    "personnages": ["Martin Brody", "Matt Hooper", "Quint"],
+    "genre": "thriller, horreur",
+    "mots_cles": ["requin", "station balnéaire", "plage fermée", "bateau trop petit", "musique à deux notes"]
+  },
+  {
+    "id": "toy_story",
+    "titre": "Toy Story",
+    "alias": ["Toy Story 1"],
+    "annee": 1995,
+    "realisateurs": ["John Lasseter"],
+    "acteurs": ["Tom Hanks", "Tim Allen"],
+    "personnages": ["Woody", "Buzz l'Éclair"],
+    "genre": "film d'animation",
+    "mots_cles": ["jouets vivants", "cow-boy", "ranger de l'espace", "jalousie", "premier long métrage en images de synthèse"]
+  },
+  {
+    "id": "harry_potter_1",
+    "titre": "Harry Potter à l'école des sorciers",
+    "alias": ["Harry Potter 1", "Harry Potter and the Philosopher's Stone", "Harry Potter and the Sorcerer's Stone", "L'école des sorciers"],
+    "annee": 2001,
+    "realisateurs": ["Chris Columbus"],
+    "acteurs": ["Daniel Radcliffe", "Emma Watson", "Rupert Grint", "Alan Rickman"],
+    "personnages": ["Harry Potter", "Hermione Granger", "Ron Weasley", "Dumbledore", "Hagrid", "Voldemort"],
+    "genre": "fantasy",
+    "mots_cles": ["orphelin", "pensionnat de magie", "cicatrice", "quai de gare caché", "premier film d'une saga"]
+  },
+  {
+    "id": "mission_cleopatre",
+    "titre": "Astérix et Obélix : Mission Cléopâtre",
+    "alias": ["Mission Cléopâtre", "Astérix Mission Cléopâtre", "Astérix et Obélix Mission Cléopâtre"],
+    "annee": 2002,
+    "realisateurs": ["Alain Chabat"],
+    "acteurs": ["Christian Clavier", "Gérard Depardieu", "Jamel Debbouze", "Monica Bellucci", "Édouard Baer"],
+    "personnages": ["Astérix", "Obélix", "Numérobis", "Cléopâtre", "Amonbofis", "Panoramix", "Otis"],
+    "genre": "comédie",
+    "mots_cles": ["Égypte antique", "palais à construire en trois mois", "potion magique", "architecte", "adaptation de bande dessinée"]
+  }
+]
