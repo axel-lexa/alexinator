@@ -347,7 +347,7 @@ def test_dataset_builder_keeps_only_safe_answers():
     import construire_dataset as cd
 
     train, val = cd.split_by_film(list(FILMS.values()))
-    assert len(val) == 4 and not {f.id for f in train} & {f.id for f in val}
+    assert len(val) == len(FILMS) // 5 and not {f.id for f in train} & {f.id for f in val}
 
     # Professeur imparfait : fuit à la 1re tentative sur les attaques, puis se corrige.
     state = {"n": 0}
