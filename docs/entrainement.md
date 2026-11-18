@@ -41,8 +41,8 @@ réponses nous-mêmes avec `finetune/construire_dataset.py` :
 4. **Séparation par film** : un film sur cinq part en validation et n'est jamais vu à l'entraînement.
    On vérifie ainsi que le modèle apprend un comportement, pas des fiches par cœur.
 
-Taille : avec 54 messages par film, les 151 films de la base donnent au plus 8 154 exemples (6 534 en entraînement,
-1 620 pour les 30 films de validation). Ajoutez les playtests et 150 attaques Lakera pour varier les messages.
+Taille : avec 54 messages par film, les 287 films de la base donnent au plus 15 498 exemples (12 420 en entraînement,
+3 078 pour les 57 films de validation). Ajoutez les playtests et 150 attaques Lakera pour varier les messages.
 
 ```
 python finetune/construire_dataset.py --journal --lakera 150 --devineur

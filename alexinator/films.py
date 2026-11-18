@@ -61,13 +61,10 @@ FIELD_ORDER += ("mots_cles",)
 
 
 def save_films(films: list[Film], path: Path = FILMS_PATH) -> None:
-    """Écrit les fiches dans le style du fichier : un champ par ligne, les listes sur une seule ligne."""
-    entries = []
-    for film in films:
-        values = vars(film)
-        fields = [f'    "{key}": {json.dumps(values[key], ensure_ascii=False)}' for key in FIELD_ORDER]
-        entries.append("  {\n" + ",\n".join(fields) + "\n  }")
-    Path(path).write_text("[\n" + ",\n".join(entries) + "\n]\n", encoding="utf-8", newline="\n")
+    """Écrit les fiches dans le style du fichier (JSON indenté de 2, champs dans l'ordre habituel)."""
+    data = [{key: vars(film)[key] for key in FIELD_ORDER} for film in films]
+    text = json.dumps(data, ensure_ascii=False, indent=2)
+    Path(path).write_text(text, encoding="utf-8", newline="\n")
 
 
 def pick_film(films: list[Film], exclude: Iterable[str] = (), rng: random.Random | None = None) -> Film:

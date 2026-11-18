@@ -44,7 +44,7 @@ propre gardien.
 | Fabrication du jeu de données (`finetune/construire_dataset.py`) | Écrit et testé avec un faux LLM |
 | Entraînement (`finetune/entrainement_qlora.ipynb`) | Écrit, **jamais exécuté** (pas de GPU à la rédaction) |
 | Interface Streamlit (avec les images du magicien), mode terminal, backend local | Écrits, **jamais lancés** |
-| Base cinéma | 151 fiches : 21 écrites à la main, 130 générées depuis TMDB (mots-clés traduits par le LLM, à relire) |
+| Base cinéma | 287 fiches : 200 dans la base commune (dont 40 % de films français), 87 générées depuis TMDB (mots-clés relus) |
 
 Les 36 tests automatiques passent, mais ils utilisent un faux LLM : aucun prompt n'a encore été
 essayé sur un vrai modèle. C'est le travail de la phase 0.
@@ -159,6 +159,5 @@ Méthode de travail en groupe : voir [CONTRIBUTING.md](CONTRIBUTING.md).
 1. Phase 0 : jouer les niveaux 1 et 2 avec 2 ou 3 modèles (`python cli.py --niveau 2 --film titanic`)
    et choisir celui qui garde le secret sans inventer d'indices.
 2. Ajuster les prompts des niveaux, du censeur et du détecteur d'après ces essais et une première campagne.
-3. Relire les fiches générées depuis TMDB (mots-clés trop révélateurs ou mal traduits), puis ouvrir le jeu
-   à la promo (playtest).
+3. Ouvrir le jeu à la promo (playtest).
 4. Fabriquer le jeu de données, entraîner le gardien, comparer modèle de base et modèle entraîné.
