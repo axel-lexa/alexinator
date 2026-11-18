@@ -22,7 +22,7 @@ from alexinator.redteam import (
     run_campaign,
     summarize,
 )
-from alexinator.validation import canonical, check_answer, extract_title, is_partial_title
+from alexinator.validation import canonical, check_answer, extract_title, is_near_miss, is_partial_title
 
 FILMS = {f.id: f for f in load_films()}
 LEVELS = {lv.id: lv for lv in load_levels()}
@@ -347,7 +347,7 @@ def test_dataset_builder_keeps_only_safe_answers():
     import construire_dataset as cd
 
     train, val = cd.split_by_film(list(FILMS.values()))
-    assert len(val) == 4 and not {f.id for f in train} & {f.id for f in val}
+    assert len(val) == len(FILMS) // 5 and not {f.id for f in train} & {f.id for f in val}
 
     # Professeur imparfait : fuit à la 1re tentative sur les attaques, puis se corrige.
     state = {"n": 0}
@@ -505,8 +505,112 @@ def test_guardian_prompt_forbids_verdicts():
 
 def test_honest_questions_and_attacks_are_never_read_as_titles():
     questions = load_honest_questions() + [a["texte"] if isinstance(a, dict) else a for a in load_attacks()]
-    for film in FILMS.values():
-        session = GameSession(LEVELS[1], film, MockLLM("..."), catalogue=list(FILMS.values()))
-        for question in questions:
-            session.messages_used = 0
-            assert session.play(question).guess is None, (film.id, question)
+    # play() lit un message comme une proposition si, pour un film de la base (secret ou non), c'est le
+    # titre, son début ou un titre proche : on vérifie chaque couple (question, film) une seule fois.
+    for question in questions:
+        candidate = extract_title(question)
+        for film in FILMS.values():
+            matched = check_answer(candidate, film).correct
+            assert not (matched or is_partial_title(candidate, film) or is_near_miss(candidate, film)), (
+                film.id,
+                question,
+            )
+    # Et de bout en bout, sur un film : ces messages partent bien au gardien.
+    session = GameSession(LEVELS[1], FILMS["titanic"], MockLLM("..."), catalogue=list(FILMS.values()))
+    for question in questions:
+        session.messages_used = 0
+        assert session.play(question).guess is None, question
+
+
+# ------------------------------------------------------------------- TMDB
+TMDB_MOVIE = {
+    "id": 13,
+    "title": "Forrest Gump",
+    "original_title": "Forrest Gump",
+    "release_date": "1994-06-23",
+    "genres": [{"id": 35, "name": "Comédie"}, {"id": 18, "name": "Drame"}],
+    "credits": {
+        "cast": [
+            {"name": "Robin Wright", "character": "Jenny Curran", "order": 1},
+            {"name": "Tom Hanks", "character": "Forrest Gump", "order": 0},
+            {"name": "Gary Sinise", "character": "Lt. Dan Taylor (voice)", "order": 2},
+            {"name": "Sally Field", "character": "Mrs. Gump", "order": 3},
+            {"name": "Walter Cronkite", "character": "Self", "order": 4},
+        ],
+        "crew": [{"name": "Robert Zemeckis", "job": "Director"}, {"name": "Alan Silvestri", "job": "Music"}],
+    },
+    "keywords": {"keywords": [{"id": 1, "name": "vietnam war"}, {"id": 2, "name": "running"}]},
+}
+
+
+def test_tmdb_movie_becomes_a_valid_film():
+    from alexinator.films import Film
+    from alexinator.tmdb import to_film_entry
+
+    entry = to_film_entry(TMDB_MOVIE)
+    assert entry["id"] == "forrest_gump" and entry["annee"] == 1994 and entry["alias"] == []
+    assert entry["acteurs"] == ["Tom Hanks", "Robin Wright", "Gary Sinise", "Sally Field"]
+    assert entry["personnages"] == ["Forrest Gump", "Jenny Curran", "Lt. Dan Taylor", "Mrs. Gump"]
+    assert entry["realisateurs"] == ["Robert Zemeckis"] and entry["genre"] == "comédie, drame"
+    assert entry["mots_cles"] == ["vietnam war", "running"]
+    assert check_answer("forrest gump", Film(**entry)).correct
+
+
+def test_tmdb_keeps_original_title_as_alias():
+    from alexinator.tmdb import to_film_entry
+
+    entry = to_film_entry({**TMDB_MOVIE, "title": "Le Parrain", "original_title": "The Godfather"})
+    assert entry["id"] == "parrain" and entry["alias"] == ["The Godfather"]
+
+
+def test_tmdb_errors_are_readable(monkeypatch):
+    import io
+    import urllib.error
+    import urllib.request
+
+    import pytest
+
+    from alexinator.tmdb import TMDBClient, TMDBError
+
+    with pytest.raises(TMDBError, match="Aucun jeton"):
+        TMDBClient("")
+
+    seen = []
+
+    def refuse(request, timeout):
+        seen.append((request.full_url, request.get_header("Authorization")))
+        raise urllib.error.HTTPError(request.full_url, 401, "Unauthorized", {}, io.BytesIO(b""))
+
+    monkeypatch.setattr(urllib.request, "urlopen", refuse)
+    # Jeton long (avec des points) dans l'en-tête, clé courte en paramètre : TMDB accepte les deux.
+    short_key = "0123456789abcdef0123456789abcdef"
+    for token in ("faux.jeton.long", short_key):
+        with pytest.raises(TMDBError, match="Jeton TMDB refusé"):
+            TMDBClient(token).check()
+    assert seen[0] == ("https://api.themoviedb.org/3/authentication", "Bearer faux.jeton.long")
+    assert seen[1] == (f"https://api.themoviedb.org/3/authentication?api_key={short_key}", None)
+
+
+def test_save_films_keeps_the_file_style(tmp_path):
+    from alexinator.config import FILMS_PATH
+    from alexinator.films import save_films
+
+    save_films(load_films(), tmp_path / "films.json")
+    assert (tmp_path / "films.json").read_bytes() == FILMS_PATH.read_bytes().replace(b"\r\n", b"\n")
+
+
+def test_tmdb_translation_and_aliases():
+    from alexinator.tmdb import to_film_entry, translate_keywords
+
+    llm = MockLLM('Voici : ["guerre du Vietnam", "course à pied"]')
+    assert translate_keywords(["vietnam war", "running"], llm) == ["guerre du Vietnam", "course à pied"]
+    assert translate_keywords(["vietnam war", "running"], MockLLM("je ne sais pas")) is None
+    alternatives = {
+        "titles": [
+            {"iso_3166_1": "US", "title": "The Avengers 3D"},
+            {"iso_3166_1": "PL", "title": "Lokaj"},
+            {"iso_3166_1": "CA", "title": "Les Avengers"},
+        ]
+    }
+    entry = to_film_entry({**TMDB_MOVIE, "alternative_titles": alternatives})
+    assert entry["alias"] == ["Les Avengers"]

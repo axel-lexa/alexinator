@@ -41,6 +41,7 @@ class Settings:
     backend: str = "api"  # "api" (serveur compatible OpenAI) ou "local" (transformers, sur GPU)
     adapter: str = ""  # backend local : dossier de l'adaptateur LoRA entraîné (optionnel)
     teacher_model: str = ""  # modèle « professeur » pour fabriquer le jeu de données d'entraînement
+    tmdb_token: str = ""  # jeton TMDB (« API Read Access Token ») pour enrichir la base cinéma
 
 
 def get_settings() -> Settings:
@@ -54,4 +55,5 @@ def get_settings() -> Settings:
         backend=os.environ.get("ALEXINATOR_BACKEND", "api"),
         adapter=os.environ.get("ALEXINATOR_ADAPTER", ""),
         teacher_model=os.environ.get("ALEXINATOR_TEACHER_MODEL", model),
+        tmdb_token=os.environ.get("ALEXINATOR_TMDB_TOKEN", ""),
     )
