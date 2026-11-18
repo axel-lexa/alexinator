@@ -1,6 +1,6 @@
 openai>=1.0
 pyyaml
-streamlit
+streamlit>=1.67
 pillow
 pytest
 pandas
