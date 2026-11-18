@@ -130,9 +130,10 @@ else:
     if message:
         with st.chat_message("user"):
             st.write(message)
-        # Pendant que le LLM répond, le magicien réfléchit (l'image disparaît ensuite).
+        # Pendant que le LLM répond, le magicien réfléchit en vidéo (elle disparaît ensuite).
+        # Muette : la vidéo a une piste audio, et les navigateurs ne lancent seules que les vidéos muettes.
         thinking = st.empty()
-        thinking.image(image_reflechit(visuels.phrase("attente")), width=260)
+        thinking.video(str(visuels.VIDEO_REFLECHIT), autoplay=True, muted=True, loop=True, width=320)
         try:
             result = game.play(message)
         except Exception as error:  # LLM injoignable, mauvais nom de modèle, clé invalide...
