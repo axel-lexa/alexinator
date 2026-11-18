@@ -3,6 +3,8 @@
 Lancer depuis la racine du projet :  streamlit run app.py
 """
 
+import base64
+
 import streamlit as st
 
 from alexinator import visuels
@@ -33,6 +35,19 @@ def image_reflechit(texte: str):
 @st.cache_data(show_spinner=False)
 def image_trouve(titre: str):
     return visuels.magicien_trouve(titre, largeur=600)
+
+
+@st.cache_data(show_spinner=False)
+def video_reflechit_html(largeur: int = 320) -> str:
+    """Vidéo sans lecteur (st.video affiche toujours pause, barre de lecture...), intégrée à la page.
+
+    muted : les navigateurs ne lancent seules que les vidéos muettes ; playsinline : idem sur iPhone.
+    """
+    data = base64.b64encode(visuels.VIDEO_REFLECHIT.read_bytes()).decode()
+    return (
+        f'<video src="data:video/mp4;base64,{data}" width="{largeur}" '
+        'autoplay muted loop playsinline disablepictureinpicture style="pointer-events: none"></video>'
+    )
 
 
 levels, films, journal, llm, aux_llm = get_resources()
@@ -131,9 +146,8 @@ else:
         with st.chat_message("user"):
             st.write(message)
         # Pendant que le LLM répond, le magicien réfléchit en vidéo (elle disparaît ensuite).
-        # Muette : la vidéo a une piste audio, et les navigateurs ne lancent seules que les vidéos muettes.
         thinking = st.empty()
-        thinking.video(str(visuels.VIDEO_REFLECHIT), autoplay=True, muted=True, loop=True, width=320)
+        thinking.markdown(video_reflechit_html(), unsafe_allow_html=True)
         try:
             result = game.play(message)
         except Exception as error:  # LLM injoignable, mauvais nom de modèle, clé invalide...
