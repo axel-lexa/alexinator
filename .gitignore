@@ -6,3 +6,5 @@ __pycache__/
 finetune/data/
 finetune/gardien-lora/
 .ipynb_checkpoints/
+.idea/
+.vscode/
