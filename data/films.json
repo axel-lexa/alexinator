@@ -23,7 +23,10 @@
       "naufrage",
       "1912",
       "traversée de l'Atlantique"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 28097,
+    "langue": "en"
   },
   {
     "id": "roi_lion",
@@ -53,7 +56,10 @@
       "héritier d'un royaume",
       "oncle jaloux",
       "exil"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 20427,
+    "langue": "en"
   },
   {
     "id": "matrix",
@@ -85,7 +91,10 @@
       "hacker",
       "machines",
       "ralenti"
-    ]
+    ],
+    "note": 8.3,
+    "votes": 29286,
+    "langue": "en"
   },
   {
     "id": "inception",
@@ -113,7 +122,10 @@
       "implanter une idée",
       "subconscient",
       "casse"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 40764,
+    "langue": "en"
   },
   {
     "id": "amelie_poulain",
@@ -142,7 +154,10 @@
       "nain de jardin",
       "photomaton",
       "faire le bonheur des autres"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 12840,
+    "langue": "fr"
   },
   {
     "id": "intouchables",
@@ -169,7 +184,10 @@
       "amitié improbable",
       "banlieue",
       "histoire vraie"
-    ]
+    ],
+    "note": 8.3,
+    "votes": 19082,
+    "langue": "fr"
   },
   {
     "id": "jurassic_park",
@@ -198,7 +216,10 @@
       "île",
       "clonage",
       "ADN dans l'ambre"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 18632,
+    "langue": "en"
   },
   {
     "id": "communaute_anneau",
@@ -236,7 +257,10 @@
       "monde imaginaire médiéval",
       "compagnie de neuf",
       "premier volet d'une trilogie"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 28899,
+    "langue": "en"
   },
   {
     "id": "star_wars_4",
@@ -276,7 +300,10 @@
       "rébellion",
       "sabre laser",
       "jeune fermier"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 23186,
+    "langue": "en"
   },
   {
     "id": "forrest_gump",
@@ -303,7 +330,10 @@
       "course à pied",
       "crevettes",
       "histoire des États-Unis"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 30912,
+    "langue": "en"
   },
   {
     "id": "pulp_fiction",
@@ -331,7 +361,10 @@
       "une jolie femme avec un carré",
       "concours de twist",
       "Palme d'or"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 31358,
+    "langue": "en"
   },
   {
     "id": "retour_vers_le_futur",
@@ -361,7 +394,10 @@
       "1955",
       "rencontrer ses parents jeunes",
       "foudre sur l'horloge"
-    ]
+    ],
+    "note": 8.3,
+    "votes": 22786,
+    "langue": "en"
   },
   {
     "id": "parrain",
@@ -392,7 +428,10 @@
       "New York",
       "succession",
       "tête de cheval"
-    ]
+    ],
+    "note": 8.7,
+    "votes": 24005,
+    "langue": "en"
   },
   {
     "id": "gladiator",
@@ -420,7 +459,10 @@
       "Colisée",
       "vengeance",
       "esclave"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 21886,
+    "langue": "en"
   },
   {
     "id": "voyage_chihiro",
@@ -447,7 +489,10 @@
       "établissement de bains",
       "monde des esprits",
       "sorcière"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 19238,
+    "langue": "ja"
   },
   {
     "id": "avatar",
@@ -473,7 +518,10 @@
       "ancien marine paraplégique",
       "minerai rare",
       "3D"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 35048,
+    "langue": "en"
   },
   {
     "id": "diner_de_cons",
@@ -503,7 +551,10 @@
       "tour de reins",
       "invité ridicule",
       "contrôleur fiscal"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 2137,
+    "langue": "fr"
   },
   {
     "id": "dents_de_la_mer",
@@ -532,7 +583,10 @@
       "plage fermée",
       "bateau trop petit",
       "musique à deux notes"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 12042,
+    "langue": "en"
   },
   {
     "id": "toy_story",
@@ -559,7 +613,10 @@
       "ranger de l'espace",
       "jalousie",
       "premier long métrage en images de synthèse"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 20844,
+    "langue": "en"
   },
   {
     "id": "harry_potter_1",
@@ -595,7 +652,10 @@
       "cicatrice",
       "quai de gare caché",
       "premier film d'une saga"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 30646,
+    "langue": "en"
   },
   {
     "id": "mission_cleopatre",
@@ -632,7 +692,10 @@
       "potion magique",
       "architecte",
       "adaptation de bande dessinée"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 3890,
+    "langue": "fr"
   },
   {
     "id": "la_haine",
@@ -661,7 +724,10 @@
       "24 heures",
       "revolver",
       "jusqu'ici tout va bien"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 4806,
+    "langue": "fr"
   },
   {
     "id": "bienvenue_chez_les_chtis",
@@ -695,7 +761,10 @@
       "accent du nord",
       "carillon",
       "maroilles"
-    ]
+    ],
+    "note": 6.7,
+    "votes": 2640,
+    "langue": "fr"
   },
   {
     "id": "la_grande_vadrouille",
@@ -724,7 +793,10 @@
       "Opéra Garnier",
       "peintre en bâtiment",
       "chef d'orchestre"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 1519,
+    "langue": "fr"
   },
   {
     "id": "les_visiteurs",
@@ -754,7 +826,10 @@
       "potion de mage",
       "Messire",
       "Okaaaaay"
-    ]
+    ],
+    "note": 7.1,
+    "votes": 2144,
+    "langue": "fr"
   },
   {
     "id": "le_pere_noel_est_une_ordure",
@@ -789,7 +864,10 @@
       "doubitchou",
       "gilet tricoté",
       "dépaneur d'ascenseur"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 1092,
+    "langue": "fr"
   },
   {
     "id": "les_bronzes_font_du_ski",
@@ -824,7 +902,10 @@
       "sur un malentendu",
       "liqueur d'échalas",
       "télésiège en panne"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 1303,
+    "langue": "fr"
   },
   {
     "id": "oss_117_le_caire",
@@ -855,7 +936,10 @@
       "muezzin",
       "poules",
       "bamboche"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 1935,
+    "langue": "fr"
   },
   {
     "id": "la_cite_de_la_peur",
@@ -888,7 +972,10 @@
       "la Carioca",
       "projectionniste",
       "Barbaque"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 1393,
+    "langue": "fr"
   },
   {
     "id": "taxi",
@@ -918,7 +1005,10 @@
       "gang des Mercedes",
       "vitesse",
       "radar"
-    ]
+    ],
+    "note": 6.7,
+    "votes": 2868,
+    "langue": "fr"
   },
   {
     "id": "le_cinquieme_element",
@@ -952,7 +1042,10 @@
       "diva Plavalaguna",
       "Multipass",
       "Menace Suprême"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 12375,
+    "langue": "fr"
   },
   {
     "id": "leon",
@@ -986,7 +1079,10 @@
       "Little Italy",
       "vengeance",
       "flic corrompu"
-    ]
+    ],
+    "note": 8.3,
+    "votes": 16812,
+    "langue": "fr"
   },
   {
     "id": "lauberge_espagnole",
@@ -1019,7 +1115,10 @@
       "colocation internationale",
       "études d'économie",
       "jeunesse"
-    ]
+    ],
+    "note": 7.1,
+    "votes": 1275,
+    "langue": "fr"
   },
   {
     "id": "les_choristes",
@@ -1051,7 +1150,10 @@
       "chorale",
       "avions en papier",
       "Vois sur ton chemin"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 2705,
+    "langue": "fr"
   },
   {
     "id": "la_famille_belier",
@@ -1083,7 +1185,10 @@
       "Michel Sardou",
       "concours Radio France",
       "langue des signes"
-    ]
+    ],
+    "note": 7.0,
+    "votes": 2537,
+    "langue": "fr"
   },
   {
     "id": "quest_ce_quon_a_fait_au_bon_dieu",
@@ -1118,7 +1223,10 @@
       "mariages mixtes",
       "beaux-fils",
       "notaire bourgeois"
-    ]
+    ],
+    "note": 6.7,
+    "votes": 3579,
+    "langue": "fr"
   },
   {
     "id": "un_prophete",
@@ -1147,7 +1255,10 @@
       "lame de rasoir",
       "ascension criminelle",
       "illettrisme"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 1825,
+    "langue": "fr"
   },
   {
     "id": "portrait_de_la_jeune_fille_en_feu",
@@ -1175,7 +1286,10 @@
       "portrait de mariage secret",
       "falaises",
       "amour interdit"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 3112,
+    "langue": "fr"
   },
   {
     "id": "120_battements_par_minute",
@@ -1206,7 +1320,10 @@
       "militantisme",
       "faux sang",
       "fête techno"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 1412,
+    "langue": "fr"
   },
   {
     "id": "anatomie_dune_chute",
@@ -1238,7 +1355,10 @@
       "procès d'assises",
       "enregistrement audio",
       "chien Snoop"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 3582,
+    "langue": "fr"
   },
   {
     "id": "bac_nord",
@@ -1246,7 +1366,7 @@
     "alias": [
       "The Stronghold"
     ],
-    "annee": 2020,
+    "annee": 2021,
     "realisateurs": [
       "Cédric Jimenez"
     ],
@@ -1269,7 +1389,10 @@
       "cité des Castellane",
       "saisie de drogue",
       "indicateur"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 1464,
+    "langue": "fr"
   },
   {
     "id": "cyrano_de_bergerac",
@@ -1299,7 +1422,10 @@
       "balcon",
       "siège d'Arras",
       "panache"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 864,
+    "langue": "fr"
   },
   {
     "id": "jean_de_florette",
@@ -1327,7 +1453,10 @@
       "culture des œillets",
       "sécheresse",
       "bossu"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 640,
+    "langue": "fr"
   },
   {
     "id": "manon_des_sources",
@@ -1357,7 +1486,10 @@
       "source du village",
       "ruban cousu sur la peau",
       "secret de famille"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 594,
+    "langue": "fr"
   },
   {
     "id": "rabbi_jacob",
@@ -1388,7 +1520,10 @@
       "déguisement de rabbin",
       "rue des Rosiers",
       "danse hassidique"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 1101,
+    "langue": "fr"
   },
   {
     "id": "le_gendarme_de_saint_tropez",
@@ -1419,7 +1554,10 @@
       "brigade de gendarmerie",
       "sœur au volant de la 2CV",
       "tableau volé"
-    ]
+    ],
+    "note": 7.0,
+    "votes": 972,
+    "langue": "fr"
   },
   {
     "id": "laile_ou_la_cuisse",
@@ -1450,7 +1588,10 @@
       "nourriture industrielle Tricatel",
       "perte du goût",
       "clown de cirque"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 1009,
+    "langue": "fr"
   },
   {
     "id": "les_tontons_flingueurs",
@@ -1481,7 +1622,10 @@
       "alcool frelaté le bizarre",
       "règlement de comptes",
       "tuteur légal"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 588,
+    "langue": "fr"
   },
   {
     "id": "ne_le_dis_a_personne",
@@ -1514,7 +1658,10 @@
       "webcam",
       "course-poursuite sur le périphérique",
       "Harlan Coben"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 1589,
+    "langue": "fr"
   },
   {
     "id": "la_mome",
@@ -1547,7 +1694,10 @@
       "crash d'avion",
       "Non je ne regrette rien",
       "Olympia"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 1792,
+    "langue": "fr"
   },
   {
     "id": "hors_de_prix",
@@ -1578,7 +1728,10 @@
       "croqueuse de diamants",
       "serveur timide",
       "gigolo d'occasion"
-    ]
+    ],
+    "note": 6.4,
+    "votes": 812,
+    "langue": "fr"
   },
   {
     "id": "dikkenek",
@@ -1609,7 +1762,10 @@
       "directeur des abattoirs d'Anderlecht",
       "donneur de leçons",
       "voiture de tuning"
-    ]
+    ],
+    "note": 6.7,
+    "votes": 748,
+    "langue": "fr"
   },
   {
     "id": "cest_arrive_pres_de_chez_vous",
@@ -1641,7 +1797,10 @@
       "poésie macabre",
       "cocktail Petit Grégory",
       "noir et blanc"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 1052,
+    "langue": "fr"
   },
   {
     "id": "de_battre_mon_coeur_sest_arrete",
@@ -1673,7 +1832,10 @@
       "audition",
       "professeure chinoise",
       "relation père-fils"
-    ]
+    ],
+    "note": 6.9,
+    "votes": 511,
+    "langue": "fr"
   },
   {
     "id": "la_nuit_americaine",
@@ -1706,7 +1868,10 @@
       "cinéma dans le cinéma",
       "caprices d'acteurs",
       "chat récalcitrant"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 688,
+    "langue": "fr"
   },
   {
     "id": "les_quatre_cents_coups",
@@ -1739,7 +1904,10 @@
       "machine à écrire volée",
       "centre d'observation",
       "course vers la mer"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 2432,
+    "langue": "fr"
   },
   {
     "id": "a_bout_de_souffle",
@@ -1770,7 +1938,10 @@
       "flic abattu",
       "voiture dérobée",
       "dénonciation"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 2123,
+    "langue": "fr"
   },
   {
     "id": "le_mepris",
@@ -1803,7 +1974,10 @@
       "musique de Georges Delerue",
       "rupture amoureuse",
       "cinéma"
-    ]
+    ],
+    "note": 7.0,
+    "votes": 1018,
+    "langue": "fr"
   },
   {
     "id": "nikita",
@@ -1836,7 +2010,10 @@
       "tueuse d'élite",
       "fausse mort",
       "fusil de précision dans les toilettes"
-    ]
+    ],
+    "note": 7.1,
+    "votes": 2275,
+    "langue": "fr"
   },
   {
     "id": "le_grand_bleu",
@@ -1866,7 +2043,10 @@
       "Sicile",
       "profondeurs marines",
       "rivalité sportive"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 1654,
+    "langue": "fr"
   },
   {
     "id": "subway",
@@ -1898,7 +2078,10 @@
       "groupe de rock",
       "rollers",
       "coffre-fort"
-    ]
+    ],
+    "note": 6.5,
+    "votes": 549,
+    "langue": "fr"
   },
   {
     "id": "delicatessen",
@@ -1929,7 +2112,10 @@
       "scie musicale",
       "troglodytes végétariens",
       "ressorts de lit"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 1726,
+    "langue": "fr"
   },
   {
     "id": "la_cite_des_enfants_perdus",
@@ -1963,7 +2149,10 @@
       "cerveau dans un bocal",
       "puce dressée",
       "yeux mécaniques"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 1288,
+    "langue": "fr"
   },
   {
     "id": "persepolis",
@@ -1993,7 +2182,10 @@
       "voile obligatoire",
       "Vienne",
       "dessin animé noir et blanc"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 2279,
+    "langue": "fr"
   },
   {
     "id": "kirikou_et_la_sorciere",
@@ -2025,7 +2217,10 @@
       "épine dans le dos",
       "fétiches",
       "Kirikou n'est pas grand"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 1206,
+    "langue": "fr"
   },
   {
     "id": "les_triplettes_de_belleville",
@@ -2055,7 +2250,10 @@
       "grenouilles",
       "paquebot géant",
       "balai et roue de bicyclette"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 1094,
+    "langue": "fr"
   },
   {
     "id": "la_rafle",
@@ -2087,7 +2285,10 @@
       "étoile jaune",
       "enfants déportés",
       "infirmière courageuse"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 1059,
+    "langue": "fr"
   },
   {
     "id": "samba",
@@ -2118,7 +2319,10 @@
       "laveur de vitres",
       "association d'aide",
       "Sénégal"
-    ]
+    ],
+    "note": 6.3,
+    "votes": 1009,
+    "langue": "fr"
   },
   {
     "id": "polisse",
@@ -2149,7 +2353,10 @@
       "fous rires nerveux",
       "garde à vue",
       "photographe immergée"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 1342,
+    "langue": "fr"
   },
   {
     "id": "les_miserables_2019",
@@ -2180,7 +2387,10 @@
       "drone",
       "bavure au LBD",
       "émeute dans la cité"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 1651,
+    "langue": "fr"
   },
   {
     "id": "titane",
@@ -2208,7 +2418,10 @@
       "grossesse mécanique",
       "huile de moteur",
       "Palme d'or"
-    ]
+    ],
+    "note": 6.3,
+    "votes": 1791,
+    "langue": "fr"
   },
   {
     "id": "grave",
@@ -2238,7 +2451,10 @@
       "cannibalisme",
       "goût du sang",
       "relation entre sœurs"
-    ]
+    ],
+    "note": 7.0,
+    "votes": 3538,
+    "langue": "fr"
   },
   {
     "id": "le_chant_du_loup",
@@ -2270,7 +2486,10 @@
       "sonar acoustique",
       "crise géopolitique",
       "tir de missile"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 2230,
+    "langue": "fr"
   },
   {
     "id": "boite_noire",
@@ -2303,7 +2522,10 @@
       "enregistreur de vol CVR",
       "complot industriel",
       "casque audio"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 1520,
+    "langue": "fr"
   },
   {
     "id": "l_arnacoeur",
@@ -2335,7 +2557,10 @@
       "mariage imminent",
       "chorégraphie de Dirty Dancing",
       "fausse larme"
-    ]
+    ],
+    "note": 6.6,
+    "votes": 1440,
+    "langue": "fr"
   },
   {
     "id": "podium",
@@ -2362,7 +2587,10 @@
       "danseuses Bernardettes",
       "concours de la Nuit des sosies",
       "costume à paillettes"
-    ]
+    ],
+    "note": 5.9,
+    "votes": 482,
+    "langue": "fr"
   },
   {
     "id": "chouchou",
@@ -2391,7 +2619,10 @@
       "paroisse de banlieue",
       "boîte de nuit l'Apocalypse",
       "histoire d'amour chic"
-    ]
+    ],
+    "note": 5.3,
+    "votes": 481,
+    "langue": "fr"
   },
   {
     "id": "brice_de_nice",
@@ -2420,7 +2651,10 @@
       "t-shirt jaune",
       "casser quelqu'un",
       "mains palmées"
-    ]
+    ],
+    "note": 5.5,
+    "votes": 1313,
+    "langue": "fr"
   },
   {
     "id": "rrrrrrrr",
@@ -2453,7 +2687,10 @@
       "premier meurtre de l'histoire",
       "biche volante",
       "animal écrasé"
-    ]
+    ],
+    "note": 6.3,
+    "votes": 1299,
+    "langue": "fr"
   },
   {
     "id": "la_verite_si_je_mens",
@@ -2486,7 +2723,10 @@
       "communauté juive",
       "chômage",
       "mensonge d'embauche"
-    ]
+    ],
+    "note": 6.3,
+    "votes": 569,
+    "langue": "fr"
   },
   {
     "id": "camping",
@@ -2518,7 +2758,10 @@
       "emplacement réservé",
       "pastis",
       "chirurgien esthétique en panne"
-    ]
+    ],
+    "note": 5.5,
+    "votes": 911,
+    "langue": "fr"
   },
   {
     "id": "le_prenom",
@@ -2553,7 +2796,10 @@
       "Adolphe",
       "appartement parisien",
       "règlements de comptes familiaux"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 1839,
+    "langue": "fr"
   },
   {
     "id": "tanguy",
@@ -2582,7 +2828,10 @@
       "trentenaire brillant",
       "stratagèmes pour le faire partir",
       "crise de nerfs"
-    ]
+    ],
+    "note": 6.0,
+    "votes": 521,
+    "langue": "fr"
   },
   {
     "id": "babysitting",
@@ -2614,7 +2863,10 @@
       "fête d'anniversaire hors de contrôle",
       "maison saccagée",
       "karting"
-    ]
+    ],
+    "note": 6.8,
+    "votes": 2059,
+    "langue": "fr"
   },
   {
     "id": "alibi_com",
@@ -2649,7 +2901,10 @@
       "beau-père client",
       "Cannes",
       "mensonges en cascade"
-    ]
+    ],
+    "note": 6.5,
+    "votes": 1791,
+    "langue": "fr"
   },
   {
     "id": "le_pacte_des_loups",
@@ -2684,7 +2939,10 @@
       "guerrier iroquois",
       "arts martiaux",
       "conspiration politique"
-    ]
+    ],
+    "note": 6.7,
+    "votes": 1838,
+    "langue": "fr"
   },
   {
     "id": "36_quai_des_orfevres",
@@ -2716,7 +2974,10 @@
       "trahison",
       "prison",
       "fusillade"
-    ]
+    ],
+    "note": 6.9,
+    "votes": 674,
+    "langue": "fr"
   },
   {
     "id": "mesrine_linstinct_de_mort",
@@ -2748,7 +3009,10 @@
       "guerre d'Algérie",
       "prison de haute sécurité au Québec",
       "évasion"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 1041,
+    "langue": "fr"
   },
   {
     "id": "la_tour_montparnasse_infernale",
@@ -2780,7 +3044,10 @@
       "parodie de Die Hard",
       "morve",
       "pizza aux quatre fromages"
-    ]
+    ],
+    "note": 6.3,
+    "votes": 939,
+    "langue": "fr"
   },
   {
     "id": "deux_freres",
@@ -2813,7 +3080,10 @@
       "arène de combat",
       "faune sauvage",
       "séparation"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 916,
+    "langue": "en"
   },
   {
     "id": "l_ours",
@@ -2844,7 +3114,10 @@
       "chasseurs à cheval",
       "champignons hallucinogènes",
       "falaise"
-    ]
+    ],
+    "note": 7.1,
+    "votes": 551,
+    "langue": "fr"
   },
   {
     "id": "le_nom_de_la_rose",
@@ -2877,7 +3150,10 @@
       "moines assassinés",
       "livre d'Aristote sur le rire",
       "Inquisition"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 3461,
+    "langue": "en"
   },
   {
     "id": "le_samourai",
@@ -2910,7 +3186,10 @@
       "clefs de voiture truquées",
       "contrat d'assassinat",
       "code d'honneur"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 1340,
+    "langue": "fr"
   },
   {
     "id": "plein_soleil",
@@ -2940,7 +3219,10 @@
       "héritier fortuné",
       "fausse signature",
       "soleil brûlant"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 637,
+    "langue": "fr"
   },
   {
     "id": "le_cercle_rouge",
@@ -2972,7 +3254,10 @@
       "tireur d'élite alcoolique",
       "coffre de voiture",
       "casse muet de vingt minutes"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 776,
+    "langue": "fr"
   },
   {
     "id": "la_boum",
@@ -3005,7 +3290,10 @@
       "Dreams Are My Reality",
       "lycée Henri-IV",
       "arrière-grand-mère complice"
-    ]
+    ],
+    "note": 6.6,
+    "votes": 1245,
+    "langue": "fr"
   },
   {
     "id": "jeux_denfants",
@@ -3035,7 +3323,10 @@
       "défis dangereux",
       "amour obsessionnel",
       "bloc de béton coulé"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 1933,
+    "langue": "fr"
   },
   {
     "id": "fight_club",
@@ -3064,7 +3355,10 @@
       "insomnie",
       "projet Chaos",
       "dédoublement de personnalité"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 33368,
+    "langue": "en"
   },
   {
     "id": "interstellar",
@@ -3096,7 +3390,10 @@
       "bibliothèque à cinq dimensions",
       "onde gravitationnelle",
       "planète vagues"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 41938,
+    "langue": "en"
   },
   {
     "id": "silence_des_agneaux",
@@ -3128,7 +3425,10 @@
       "vision nocturne",
       "FBI",
       "cris des agneaux"
-    ]
+    ],
+    "note": 8.3,
+    "votes": 18869,
+    "langue": "en"
   },
   {
     "id": "les_evades",
@@ -3161,7 +3461,10 @@
       "tuyau d'eaux usées",
       "évasion minutieuse",
       "plage de Zihuatanejo"
-    ]
+    ],
+    "note": 8.7,
+    "votes": 31873,
+    "langue": "en"
   },
   {
     "id": "la_ligne_verte",
@@ -3193,7 +3496,10 @@
       "pouvoir de guérison",
       "guérison miraculeuse",
       "peur du noir"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 20152,
+    "langue": "en"
   },
   {
     "id": "shining",
@@ -3226,7 +3532,10 @@
       "hache à travers la porte",
       "Here's Johnny",
       "Redrum"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 19705,
+    "langue": "en"
   },
   {
     "id": "odyssee_de_lespace",
@@ -3260,7 +3569,10 @@
       "Danube bleu en apesanteur",
       "fœtus astral",
       "os lancé dans le ciel"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 13165,
+    "langue": "en"
   },
   {
     "id": "orange_mecanique",
@@ -3293,7 +3605,10 @@
       "yeux écarquillés sous traitement Ludovico",
       "Neuvième symphonie de Beethoven",
       "chapeau melon"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 14331,
+    "langue": "en"
   },
   {
     "id": "full_metal_jacket",
@@ -3323,7 +3638,10 @@
       "guerre du Vietnam",
       "fusil M14",
       "sniper embusqué"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 11961,
+    "langue": "en"
   },
   {
     "id": "apocalypse_now",
@@ -3354,7 +3672,10 @@
       "odeur du napalm au petit matin",
       "folie mystique",
       "Cambodge"
-    ]
+    ],
+    "note": 8.3,
+    "votes": 9567,
+    "langue": "en"
   },
   {
     "id": "taxi_driver",
@@ -3384,7 +3705,10 @@
       "miroir You talkin to me",
       "vétéran du Vietnam",
       "pistolet sur glissière"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 14031,
+    "langue": "en"
   },
   {
     "id": "scarface",
@@ -3414,7 +3738,10 @@
       "tronçonneuse",
       "baignoire géante",
       "Say hello to my little friend"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 13701,
+    "langue": "en"
   },
   {
     "id": "les_affranchis",
@@ -3447,7 +3774,10 @@
       "sauce tomate coupée à la lame de rasoir",
       "Funny how",
       "hélicoptère paranoïaque"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 15047,
+    "langue": "en"
   },
   {
     "id": "casino",
@@ -3477,7 +3807,10 @@
       "mafia de Chicago",
       "champ de maïs",
       "voiture piégée"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 6884,
+    "langue": "en"
   },
   {
     "id": "loup_de_wall_street",
@@ -3511,7 +3844,10 @@
       "Quaalude",
       "yacht naufragé",
       "lancer de nains"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 26959,
+    "langue": "en"
   },
   {
     "id": "django_unchained",
@@ -3543,7 +3879,10 @@
       "plantation Candyland",
       "combat de mandingues",
       "dynamite"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 28992,
+    "langue": "en"
   },
   {
     "id": "inglourious_basterds",
@@ -3577,7 +3916,10 @@
       "cinéma parisien en flammes",
       "verre de lait",
       "signe trois avec les doigts"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 25179,
+    "langue": "en"
   },
   {
     "id": "kill_bill_1",
@@ -3613,7 +3955,10 @@
       "boîte de nuit Maison des Feuilles Bleues",
       "Crazy 88",
       "vengeance"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 19747,
+    "langue": "en"
   },
   {
     "id": "reservoir_dogs",
@@ -3645,7 +3990,10 @@
       "oreille coupée au rasoir",
       "flic infiltré",
       "pourboire de serveuse"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 16057,
+    "langue": "en"
   },
   {
     "id": "truman_show",
@@ -3677,7 +4025,10 @@
       "projecteur tombé du ciel",
       "voilier heurtant le mur d'horizon",
       "placement de produit"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 21253,
+    "langue": "en"
   },
   {
     "id": "eternal_sunshine",
@@ -3710,7 +4061,10 @@
       "cheveux teints en bleu et orange",
       "plage gelée de Montauk",
       "carnet de souvenirs"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 17005,
+    "langue": "en"
   },
   {
     "id": "sixieme_sens",
@@ -3743,7 +4097,10 @@
       "coup de théâtre final",
       "tente rouge",
       "air glacé"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 13628,
+    "langue": "en"
   },
   {
     "id": "shutter_island",
@@ -3775,7 +4132,10 @@
       "ouragan",
       "patiente disparue",
       "lobotomie"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 26837,
+    "langue": "en"
   },
   {
     "id": "seven",
@@ -3806,7 +4166,10 @@
       "boîte en carton dans le désert",
       "tueur méthodique",
       "vieux flic sur le point de partir en retraite"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 24242,
+    "langue": "en"
   },
   {
     "id": "usual_suspects",
@@ -3840,7 +4203,10 @@
       "tasse de café brisée Kobayashi",
       "boiteux qui se met à marcher droit",
       "légende urbaine du crime"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 11973,
+    "langue": "en"
   },
   {
     "id": "memento",
@@ -3868,7 +4234,10 @@
       "photos Polaroid",
       "chronologie inversée",
       "meurtre de sa femme"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 17062,
+    "langue": "en"
   },
   {
     "id": "le_prestige",
@@ -3902,7 +4271,10 @@
       "machine de clonage électrique Tesla",
       "cuve d'eau fermée",
       "journal codé"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 18485,
+    "langue": "en"
   },
   {
     "id": "the_dark_knight",
@@ -3938,7 +4310,10 @@
       "carte de joker",
       "pièce de monnaie à double face",
       "ferries piégés"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 37419,
+    "langue": "en"
   },
   {
     "id": "batman_begins",
@@ -3971,7 +4346,10 @@
       "monorail de Gotham",
       "bunker souterrain",
       "Batmobile blindée"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 23552,
+    "langue": "en"
   },
   {
     "id": "joker",
@@ -4001,7 +4379,10 @@
       "plateau de talk-show en direct",
       "pistolet dans le métro",
       "masque de clown"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 28719,
+    "langue": "en"
   },
   {
     "id": "oppenheimer",
@@ -4033,7 +4414,10 @@
       "essai Trinity",
       "audition de sécurité de la CEA",
       "physique quantique"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 12933,
+    "langue": "en"
   },
   {
     "id": "blade_runner",
@@ -4065,7 +4449,10 @@
       "yeux artificiels",
       "monologue larmes dans la pluie",
       "origami de licorne"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 15652,
+    "langue": "en"
   },
   {
     "id": "blade_runner_2049",
@@ -4097,7 +4484,10 @@
       "cheval de bois sculpté",
       "ruines de Las Vegas radioactives",
       "test de ligne de base"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 16042,
+    "langue": "en"
   },
   {
     "id": "terminator",
@@ -4129,7 +4519,10 @@
       "I'll be back",
       "fusil à pompe",
       "presse hydraulique"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 15446,
+    "langue": "en"
   },
   {
     "id": "terminator_2",
@@ -4163,7 +4556,10 @@
       "Hasta la vista baby",
       "pouce levé dans la lave",
       "cyberdyne systems"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 15206,
+    "langue": "en"
   },
   {
     "id": "alien_le_huitieme_passager",
@@ -4199,7 +4595,10 @@
       "sang acide",
       "ordinateur Maman",
       "chat Jonesy"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 17160,
+    "langue": "en"
   },
   {
     "id": "aliens_le_retour",
@@ -4234,7 +4633,10 @@
       "exosquelette de manutention élévateur",
       "détecteur de mouvement",
       "Get away from her you bitch"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 11393,
+    "langue": "en"
   },
   {
     "id": "predator",
@@ -4265,7 +4667,10 @@
       "camouflage thermique",
       "mitrailleuse Minigun",
       "boue sur le corps pour masquer la chaleur"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 9693,
+    "langue": "en"
   },
   {
     "id": "piege_de_cristal",
@@ -4298,7 +4703,10 @@
       "pieds nus sur verre brisé",
       "conduits de ventilation",
       "Yippee-ki-yay"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 12883,
+    "langue": "en"
   },
   {
     "id": "mad_max_fury_road",
@@ -4329,7 +4737,10 @@
       "guitariste lance-flammes",
       "pénurie d'eau et de pétrole",
       "War Boys au Valhalla"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 24972,
+    "langue": "en"
   },
   {
     "id": "aventuriers_arche_perdue",
@@ -4362,7 +4773,10 @@
       "Arche d'alliance",
       "soldats nazis fondus",
       "salle des cartes de Tanis"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 14237,
+    "langue": "en"
   },
   {
     "id": "et_extraterrestre",
@@ -4395,7 +4809,10 @@
       "bonbons Reese's Pieces",
       "vélos volant devant la pleine lune",
       "téléphone maison"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 12436,
+    "langue": "en"
   },
   {
     "id": "liste_de_schindler",
@@ -4427,7 +4844,10 @@
       "ghetto de Cracovie",
       "fillette au manteau rouge",
       "noir et blanc"
-    ]
+    ],
+    "note": 8.6,
+    "votes": 18202,
+    "langue": "en"
   },
   {
     "id": "il_faut_sauver_le_soldat_ryan",
@@ -4461,7 +4881,10 @@
       "sniper récitant des prières",
       "pont de Ramelle",
       "mérite cela"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 18098,
+    "langue": "en"
   },
   {
     "id": "arrete_moi_si_tu_peux",
@@ -4495,7 +4918,10 @@
       "faux avocat",
       "agent du FBI tenace",
       "appel téléphonique de Noël"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 17897,
+    "langue": "en"
   },
   {
     "id": "minority_report",
@@ -4525,7 +4951,10 @@
       "boules de bois gravées",
       "greffe clandestine des yeux",
       "araignées mécaniques"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 10144,
+    "langue": "en"
   },
   {
     "id": "rencontres_du_troisieme_type",
@@ -4556,7 +4985,10 @@
       "mélodie musicale à cinq notes",
       "boules lumineuses volantes",
       "enlèvement d'enfant"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 4920,
+    "langue": "en"
   },
   {
     "id": "psychose",
@@ -4587,7 +5019,10 @@
       "taxidermie d'oiseaux",
       "cadavre de la mère momifiée dans la cave",
       "voiture immergée dans le marais"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 11454,
+    "langue": "en"
   },
   {
     "id": "fenetre_sur_cour",
@@ -4621,7 +5056,10 @@
       "téléobjectif et jumelles",
       "soupçon de meurtre de sa femme",
       "flashs aveuglants"
-    ]
+    ],
+    "note": 8.3,
+    "votes": 7506,
+    "langue": "en"
   },
   {
     "id": "sueurs_froides",
@@ -4655,7 +5093,10 @@
       "chignon blond spirale",
       "clocher de mission espagnole",
       "femme réinventée"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 6629,
+    "langue": "en"
   },
   {
     "id": "bienvenue_a_gattaca",
@@ -4687,7 +5128,10 @@
       "échantillons d'urine et de sang frauduleux",
       "vol spatial vers Titan",
       "nage en pleine mer contre son frère"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 7284,
+    "langue": "en"
   },
   {
     "id": "12_hommes_en_colere",
@@ -4723,7 +5167,10 @@
       "doute raisonnable",
       "couteau à cran d'arrêt identique",
       "chaleur étouffante"
-    ]
+    ],
+    "note": 8.6,
+    "votes": 10607,
+    "langue": "en"
   },
   {
     "id": "vol_au_dessus_dun_nid_de_coucou",
@@ -4757,7 +5204,10 @@
       "sismothérapie électrochocs",
       "lobotomie",
       "hydrothérapie arrachée"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 11977,
+    "langue": "en"
   },
   {
     "id": "american_beauty",
@@ -4791,7 +5241,10 @@
       "sac en plastique tourbillonnant dans le vent",
       "musculation dans le garage",
       "voisin militaire violent"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 13560,
+    "langue": "en"
   },
   {
     "id": "gran_torino",
@@ -4821,7 +5274,10 @@
       "quartier de Détroit",
       "gang de rue",
       "briquet Zippo"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 11997,
+    "langue": "en"
   },
   {
     "id": "million_dollar_baby",
@@ -4852,7 +5308,10 @@
       "tétraplégie",
       "Mo Cuishle",
       "euthanasie"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 10746,
+    "langue": "en"
   },
   {
     "id": "impitoyable",
@@ -4884,7 +5343,10 @@
       "ville de Big Whiskey",
       "pluie battante et whisky",
       "saloon final"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 5223,
+    "langue": "en"
   },
   {
     "id": "bon_la_brute_et_le_truand",
@@ -4915,7 +5377,10 @@
       "duel à trois triello",
       "musique d'Ennio Morricone",
       "corde de pendu coupée au fusil"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 10159,
+    "langue": "it"
   },
   {
     "id": "il_etait_une_fois_dans_louest",
@@ -4948,7 +5413,10 @@
       "gare isolée avec mouche",
       "vengeance",
       "yeux bleus froids"
-    ]
+    ],
+    "note": 8.3,
+    "votes": 5138,
+    "langue": "it"
   },
   {
     "id": "il_etait_une_fois_en_amerique",
@@ -4982,7 +5450,10 @@
       "fumerie d'opium",
       "valise d'argent à la consigne de la gare",
       "camion benne à ordures"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 6326,
+    "langue": "en"
   },
   {
     "id": "no_country_for_old_men",
@@ -5016,7 +5487,10 @@
       "tueur avec bonbonne de gaz comprimé de boucher",
       "tirage à pile ou face pour la vie",
       "fusil avec silencieux géant"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 14093,
+    "langue": "en"
   },
   {
     "id": "fargo",
@@ -5046,7 +5520,10 @@
       "policière enceinte perspicace",
       "broyeuse à bois déchiqueteuse",
       "voiture sans plaques d'immatriculation"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 9603,
+    "langue": "en"
   },
   {
     "id": "the_big_lebowski",
@@ -5082,7 +5559,10 @@
       "peignoir de bain et lunettes de soleil",
       "shabbat et flingue",
       "nihilistes allemands au furet"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 12848,
+    "langue": "en"
   },
   {
     "id": "parasite",
@@ -5117,7 +5597,10 @@
       "bunker secret sous la cave",
       "odeur de pauvreté",
       "Palme d'or"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 21732,
+    "langue": "ko"
   },
   {
     "id": "old_boy",
@@ -5147,7 +5630,10 @@
       "parapluie violet",
       "hypnose et boîte",
       "inceste orchestré"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 10434,
+    "langue": "ko"
   },
   {
     "id": "princesse_mononoke",
@@ -5179,7 +5665,10 @@
       "forge des Forges de fer",
       "dieu-cerf dont la tête est coupée",
       "écologie"
-    ]
+    ],
+    "note": 8.3,
+    "votes": 9475,
+    "langue": "ja"
   },
   {
     "id": "le_chateau_ambulant",
@@ -5210,7 +5699,10 @@
       "flamme vivante dans la cheminée",
       "épouvantail Navet",
       "porte magique aux quatre destinations"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 11679,
+    "langue": "ja"
   },
   {
     "id": "mon_voisin_totoro",
@@ -5241,7 +5733,10 @@
       "graines de chêne germées",
       "chat-bus à douze pattes",
       "parapluie sous la pluie"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 9258,
+    "langue": "ja"
   },
   {
     "id": "le_monde_de_nemo",
@@ -5274,7 +5769,10 @@
       "Sydney Australie",
       "tortues de mer dans le courant est-australien",
       "baleine bleue"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 21238,
+    "langue": "en"
   },
   {
     "id": "wall_e",
@@ -5306,7 +5804,10 @@
       "plante dans une vieille chaussure",
       "vaisseau Axiom avec humains obèses sur fauteuils flottants",
       "extincteur dans l'espace"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 21209,
+    "langue": "en"
   },
   {
     "id": "la_haut",
@@ -5339,7 +5840,10 @@
       "jeune scout scout de la nature",
       "oiseau géant multicolore Kevin",
       "collier de traduction pour chiens"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 22415,
+    "langue": "en"
   },
   {
     "id": "ratatouille",
@@ -5370,7 +5874,10 @@
       "critique culinaire impitoyable",
       "plat de ratatouille d'enfance",
       "tout le monde peut cuisiner"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 19232,
+    "langue": "en"
   },
   {
     "id": "coco",
@@ -5402,7 +5909,10 @@
       "chanson Ne m'oublie pas Remember Me",
       "famille de cordonniers",
       "interdiction de la musique"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 21892,
+    "langue": "en"
   },
   {
     "id": "le_geant_de_fer",
@@ -5436,7 +5946,10 @@
       "fusil à canon",
       "missile nucléaire intercepté",
       "Superman"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 6465,
+    "langue": "en"
   },
   {
     "id": "shrek",
@@ -5467,7 +5980,10 @@
       "tournoi de chevaliers à Duloc",
       "sortilège de la nuit",
       "chanson Hallelujah"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 19608,
+    "langue": "en"
   },
   {
     "id": "monstres_et_cie",
@@ -5502,7 +6018,10 @@
       "cyclope vert à un seul œil",
       "petite fille déguisée en monstre",
       "énergie du rire"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 20533,
+    "langue": "en"
   },
   {
     "id": "les_indestructibles",
@@ -5534,7 +6053,10 @@
       "costumes moulants sans cape créés par Edna",
       "robot omnidroïde destructeur",
       "bébé Jack-Jack aux pouvoirs multiples"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 19554,
+    "langue": "en"
   },
   {
     "id": "la_la_land",
@@ -5564,7 +6086,10 @@
       "claquettes sur les collines d'Hollywood",
       "planétarium Griffith Observatory",
       "épilogue d'une vie rêvée"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 18746,
+    "langue": "en"
   },
   {
     "id": "whiplash",
@@ -5595,7 +6120,10 @@
       "partie de batterie de Caravan",
       "Not quite my tempo",
       "cymbale jetée"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 17415,
+    "langue": "en"
   },
   {
     "id": "the_grand_budapest_hotel",
@@ -5629,7 +6157,10 @@
       "tableau de maître volé Le Garçon à la pomme",
       "pâtisseries Mendl's",
       "évasion de prison"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 16767,
+    "langue": "en"
   },
   {
     "id": "amadeus",
@@ -5659,7 +6190,10 @@
       "messe de Requiem commandée par un homme masqué",
       "confession à l'asile",
       "bénédiction des médiocres"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 5017,
+    "langue": "en"
   },
   {
     "id": "requiem_for_a_dream",
@@ -5691,7 +6225,10 @@
       "robe rouge pour passer dans un jeu télévisé",
       "montage hip-hop ultra-rapide",
       "musique de cordes Lux Aeterna"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 11496,
+    "langue": "en"
   },
   {
     "id": "black_swan",
@@ -5722,7 +6259,10 @@
       "perfectionnisme autodestructeur",
       "mue avec plumes noires perçant le dos",
       "morceau de miroir planté dans l'abdomen"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 16076,
+    "langue": "en"
   },
   {
     "id": "the_social_network",
@@ -5756,7 +6296,10 @@
       "déposition judiciaire pour trahison",
       "fondateur de Napster",
       "rafraîchir la page pour une demande d'ami"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 13779,
+    "langue": "en"
   },
   {
     "id": "zodiac",
@@ -5785,7 +6328,10 @@
       "dessinateur de presse obsédé par l'affaire",
       "montre de plongée Zodiac",
       "enquête non résolue sur plusieurs décennies"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 12148,
+    "langue": "en"
   },
   {
     "id": "gone_girl",
@@ -5819,7 +6365,10 @@
       "journal intime truqué",
       "mise en scène machiavélique",
       "gorge tranchée au cutter"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 20697,
+    "langue": "en"
   },
   {
     "id": "birdman",
@@ -5853,7 +6402,10 @@
       "illusion d'un faux plan-séquence unique",
       "marche en caleçon sur Times Square",
       "batterie jazzy omniprésente"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 14010,
+    "langue": "en"
   },
   {
     "id": "the_revenant",
@@ -5882,7 +6434,10 @@
       "carcasse de cheval éviscérée pour dormir au chaud",
       "foie de bison cru",
       "vengeance dans les terres sauvages du Dakota"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 19951,
+    "langue": "en"
   },
   {
     "id": "dune_2021",
@@ -5919,7 +6474,10 @@
       "peuple des Fremen aux yeux bleus",
       "voix du Bene Gesserit",
       "ornithoptère mécanique"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 15990,
+    "langue": "en"
   },
   {
     "id": "premier_contact",
@@ -5952,7 +6510,10 @@
       "perception du temps non linéaire",
       "écriture circulaire",
       "fille disparue"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 20200,
+    "langue": "en"
   },
   {
     "id": "prisoners",
@@ -5986,7 +6547,10 @@
       "flic aux tics nerveux",
       "labyrinthe dessiné",
       "sifflet de secours rouge sous la terre"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 13781,
+    "langue": "en"
   },
   {
     "id": "sicario",
@@ -6016,7 +6580,10 @@
       "embouteillage armé au pont frontière",
       "tueur silencieux vengeant sa famille",
       "tunnel sous la frontière"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 10125,
+    "langue": "en"
   },
   {
     "id": "drive",
@@ -6048,7 +6615,10 @@
       "règle stricte des cinq minutes",
       "mise à mort brutale dans un ascenseur",
       "musique synthwave Nightcall"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 14260,
+    "langue": "en"
   },
   {
     "id": "nightcall",
@@ -6080,7 +6650,10 @@
       "caméra au poing",
       "manipulation des scènes de crime",
       "voiture Dodge Challenger rouge"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 12280,
+    "langue": "en"
   },
   {
     "id": "casablanca",
@@ -6110,7 +6683,10 @@
       "chanson As Time Goes By",
       "avion pour Lisbonne",
       "La Marseillaise chantée au bar"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 6341,
+    "langue": "en"
   },
   {
     "id": "ex_machina",
@@ -6142,7 +6718,10 @@
       "coupures de courant rougeoyantes",
       "peau synthétique arrachée aux modèles précédents",
       "danse disco improvisée"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 14814,
+    "langue": "en"
   },
   {
     "id": "trainspotting",
@@ -6174,7 +6753,10 @@
       "plongeon dans la cuvette des pires toilettes d'Écosse",
       "bébé rampant au plafond pendant le sevrage",
       "sac de sport rempli de billets"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 10846,
+    "langue": "en"
   },
   {
     "id": "snatch",
@@ -6207,7 +6789,10 @@
       "caravane pour sa mère",
       "cadavres donnés à manger aux cochons",
       "chien avalant un jouet qui couine"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 10480,
+    "langue": "en"
   },
   {
     "id": "monty_python_sacre_graal",
@@ -6243,7 +6828,10 @@
       "lapin tueur sanguinaire de Caerbannog",
       "Sainte Grenade d'Antioche",
       "chevaliers qui disent Ni"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 6732,
+    "langue": "en"
   },
   {
     "id": "la_vie_de_brian",
@@ -6279,7 +6867,10 @@
       "Front du peuple de Judée",
       "cours de latin pour un graffiti anti-romain",
       "chanson Always Look on the Bright Side of Life sur la croix"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 5198,
+    "langue": "en"
   },
   {
     "id": "rocky",
@@ -6313,7 +6904,10 @@
       "course gravissant les marches du Philadelphia Museum of Art",
       "quinze rounds de bravoure",
       "cri d'Adrian"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 9110,
+    "langue": "en"
   },
   {
     "id": "braveheart",
@@ -6343,7 +6937,10 @@
       "kilts soulevés devant l'ennemi",
       "torture et supplice public",
       "cri final de Freedom"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 11638,
+    "langue": "en"
   },
   {
     "id": "heat",
@@ -6375,7 +6972,10 @@
       "face-à-face au restaurant Kate Mantilini",
       "fusillade d'anthologie dans les rues de Los Angeles au fusil d'assaut",
       "règle de pouvoir tout quitter en 30 secondes chrono"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 8911,
+    "langue": "en"
   },
   {
     "id": "avengers",
@@ -6409,7 +7009,10 @@
       "cube cosmique",
       "agence secrète",
       "frère adoptif jaloux"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 40402,
+    "langue": "en"
   },
   {
     "id": "deadpool",
@@ -6439,7 +7042,10 @@
       "brise le quatrième mur",
       "vengeance",
       "cancer"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 33648,
+    "langue": "en"
   },
   {
     "id": "avengers_infinity_war",
@@ -6474,7 +7080,10 @@
       "défaite des héros",
       "sacrifice",
       "champ de bataille"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 33428,
+    "langue": "en"
   },
   {
     "id": "gardiens_de_la_galaxie",
@@ -6509,7 +7118,10 @@
       "cassette des années 1980",
       "orbe convoité",
       "espace"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 30674,
+    "langue": "en"
   },
   {
     "id": "avengers_endgame",
@@ -6544,7 +7156,10 @@
       "équipe de super-héros",
       "bataille finale",
       "sacrifice"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 29409,
+    "langue": "en"
   },
   {
     "id": "iron_man",
@@ -6577,7 +7192,10 @@
       "milliardaire",
       "réacteur dans la poitrine",
       "super-héros"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 29209,
+    "langue": "en"
   },
   {
     "id": "seigneur_des_anneaux_le_retour",
@@ -6612,7 +7230,10 @@
       "volcan",
       "royaume à reconquérir",
       "magicien"
-    ]
+    ],
+    "note": 8.5,
+    "votes": 27854,
+    "langue": "en"
   },
   {
     "id": "avengers_l_ere_d_ultron",
@@ -6647,7 +7268,10 @@
       "ville soulevée dans les airs",
       "jumeaux aux pouvoirs",
       "création qui se retourne contre son créateur"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 25369,
+    "langue": "en"
   },
   {
     "id": "dark_knight_rises",
@@ -6682,7 +7306,10 @@
       "bombe nucléaire",
       "prison souterraine",
       "révolution"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 25339,
+    "langue": "en"
   },
   {
     "id": "seigneur_des_anneaux_les_deux",
@@ -6717,7 +7344,10 @@
       "arbres vivants",
       "créature schizophrène",
       "magicien"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 25008,
+    "langue": "en"
   },
   {
     "id": "captain_america_civil_war",
@@ -6753,7 +7383,10 @@
       "bataille à l'aéroport",
       "vengeance",
       "ami d'enfance"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 24877,
+    "langue": "en"
   },
   {
     "id": "harry_potter_et_la_chambre",
@@ -6785,7 +7418,10 @@
       "serpent géant",
       "journal intime ensorcelé",
       "elfe de maison"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 24425,
+    "langue": "en"
   },
   {
     "id": "spider_man_homecoming",
@@ -6817,7 +7453,10 @@
       "bal de fin d'année",
       "mentor milliardaire",
       "identité secrète"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 24267,
+    "langue": "en"
   },
   {
     "id": "black_panther",
@@ -6850,7 +7489,10 @@
       "métal rare",
       "rivalité pour le trône",
       "technologie avancée"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 24260,
+    "langue": "en"
   },
   {
     "id": "doctor_strange",
@@ -6883,7 +7525,10 @@
       "Népal",
       "magie",
       "manipulation du temps"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 24223,
+    "langue": "en"
   },
   {
     "id": "vice_versa",
@@ -6916,7 +7561,10 @@
       "déménagement",
       "pré-adolescence",
       "esprit humain"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 24184,
+    "langue": "en"
   },
   {
     "id": "iron_man_3",
@@ -6951,7 +7599,10 @@
       "Noël",
       "Malibu",
       "milliardaire"
-    ]
+    ],
+    "note": 6.9,
+    "votes": 24176,
+    "langue": "en"
   },
   {
     "id": "hunger_games",
@@ -6983,7 +7634,10 @@
       "dystopie",
       "survie",
       "révolte"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 24048,
+    "langue": "en"
   },
   {
     "id": "harry_potter_et_le_prisonnier",
@@ -7015,7 +7669,10 @@
       "loup-garou",
       "retourneur de temps",
       "hippogriffe"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 24001,
+    "langue": "en"
   },
   {
     "id": "gardiens_de_la_galaxie_vol",
@@ -7050,7 +7707,10 @@
       "espace",
       "famille",
       "bébé arbre"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 23771,
+    "langue": "en"
   },
   {
     "id": "spider_man_no_way_home",
@@ -7085,7 +7745,10 @@
       "méchants d'autres univers",
       "sacrifice",
       "New York"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 23583,
+    "langue": "en"
   },
   {
     "id": "captain_america_first_avenger",
@@ -7120,7 +7783,10 @@
       "Brooklyn",
       "bouclier",
       "organisation nazie"
-    ]
+    ],
+    "note": 7.0,
+    "votes": 23536,
+    "langue": "en"
   },
   {
     "id": "iron_man_2",
@@ -7152,7 +7818,10 @@
       "fouets électriques",
       "Monaco",
       "rival industriel"
-    ]
+    ],
+    "note": 6.9,
+    "votes": 23252,
+    "langue": "en"
   },
   {
     "id": "pirates_des_caraibes_la_malediction",
@@ -7184,7 +7853,10 @@
       "forgeron",
       "fille du gouverneur",
       "trésor aztèque"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 23120,
+    "langue": "en"
   },
   {
     "id": "thor",
@@ -7217,7 +7889,10 @@
       "frère jaloux",
       "mythologie nordique",
       "humilité"
-    ]
+    ],
+    "note": 6.8,
+    "votes": 23086,
+    "langue": "en"
   },
   {
     "id": "harry_potter_et_la_coupe",
@@ -7249,7 +7924,10 @@
       "bal",
       "épreuves",
       "retour du mage noir"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 22954,
+    "langue": "en"
   },
   {
     "id": "thor_ragnarok",
@@ -7283,7 +7961,10 @@
       "mythologie nordique",
       "humour",
       "fin d'un monde"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 22783,
+    "langue": "en"
   },
   {
     "id": "harry_potter_et_les_reliques",
@@ -7316,7 +7997,10 @@
       "objets maudits",
       "sacrifice",
       "fin d'une saga"
-    ]
+    ],
+    "note": 8.1,
+    "votes": 22756,
+    "langue": "en"
   },
   {
     "id": "suicide_squad",
@@ -7349,7 +8033,10 @@
       "sorcière",
       "agence gouvernementale",
       "explosif implanté"
-    ]
+    ],
+    "note": 5.9,
+    "votes": 22641,
+    "langue": "en"
   },
   {
     "id": "seul_sur_mars",
@@ -7381,7 +8068,10 @@
       "survie",
       "nasa",
       "mission de sauvetage"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 22145,
+    "langue": "en"
   },
   {
     "id": "jurassic_world",
@@ -7416,7 +8106,10 @@
       "île",
       "dresseur de raptors",
       "évasion"
-    ]
+    ],
+    "note": 6.7,
+    "votes": 22124,
+    "langue": "en"
   },
   {
     "id": "spider_man",
@@ -7450,7 +8143,10 @@
       "mort de l'oncle",
       "identité secrète",
       "baiser sous la pluie"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 21804,
+    "langue": "en"
   },
   {
     "id": "john_wick",
@@ -7484,7 +8180,10 @@
       "vengeance",
       "hôtel pour assassins",
       "voiture volée"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 21637,
+    "langue": "en"
   },
   {
     "id": "harry_potter_et_l_ordre",
@@ -7517,7 +8216,10 @@
       "prophétie",
       "ministère",
       "armée d'élèves"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 21506,
+    "langue": "en"
   },
   {
     "id": "ant_man",
@@ -7550,7 +8252,10 @@
       "mentor scientifique",
       "braquage",
       "relation père-fille"
-    ]
+    ],
+    "note": 7.1,
+    "votes": 21488,
+    "langue": "en"
   },
   {
     "id": "harry_potter_et_le_prince",
@@ -7583,7 +8288,10 @@
       "trahison",
       "mort du mentor",
       "adolescence"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 21465,
+    "langue": "en"
   },
   {
     "id": "wonder_woman",
@@ -7613,7 +8321,10 @@
       "dieu de la guerre",
       "lasso",
       "femme guerrière"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 21383,
+    "langue": "en"
   },
   {
     "id": "star_wars_le_reveil_de",
@@ -7648,7 +8359,10 @@
       "sabre laser",
       "ordre maléfique",
       "planète-arme"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 21147,
+    "langue": "en"
   },
   {
     "id": "logan",
@@ -7683,7 +8397,10 @@
       "Mexique",
       "road movie",
       "crépuscule du héros"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 21094,
+    "langue": "en"
   },
   {
     "id": "captain_america_le_soldat_de",
@@ -7719,7 +8436,10 @@
       "complot",
       "agence infiltrée",
       "thriller politique"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 20752,
+    "langue": "en"
   },
   {
     "id": "hobbit_un_voyage_inattendu",
@@ -7751,7 +8471,10 @@
       "anneau",
       "énigmes",
       "royaume perdu"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 20356,
+    "langue": "en"
   },
   {
     "id": "animaux_fantastiques",
@@ -7783,7 +8506,10 @@
       "sorcier",
       "créatures évadées",
       "société secrète"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 20176,
+    "langue": "en"
   },
   {
     "id": "deadpool_2",
@@ -7816,7 +8542,10 @@
       "équipe",
       "brise le quatrième mur",
       "orphelin"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 19943,
+    "langue": "en"
   },
   {
     "id": "get_out",
@@ -7846,7 +8575,10 @@
       "week-end",
       "manipulation",
       "horreur sociale"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 19662,
+    "langue": "en"
   },
   {
     "id": "batman_v_superman_l_aube",
@@ -7881,7 +8613,10 @@
       "extraterrestre",
       "méfiance",
       "monstre"
-    ]
+    ],
+    "note": 6.0,
+    "votes": 19570,
+    "langue": "en"
   },
   {
     "id": "amazing_spider_man",
@@ -7914,7 +8649,10 @@
       "scientifique",
       "homme-reptile",
       "identité secrète"
-    ]
+    ],
+    "note": 6.8,
+    "votes": 19373,
+    "langue": "en"
   },
   {
     "id": "empire_contre_attaque",
@@ -7949,7 +8687,10 @@
       "révélation familiale",
       "champ d'astéroïdes",
       "ville dans les nuages"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 19143,
+    "langue": "en"
   },
   {
     "id": "hunger_games_l_embrasement",
@@ -7982,7 +8723,10 @@
       "propagande",
       "arc et flèches",
       "dystopie"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 19071,
+    "langue": "en"
   },
   {
     "id": "thor_le_monde_des_tenebres",
@@ -8017,7 +8761,10 @@
       "mythologie nordique",
       "deuil",
       "frère ennemi"
-    ]
+    ],
+    "note": 6.5,
+    "votes": 18986,
+    "langue": "en"
   },
   {
     "id": "split",
@@ -8047,7 +8794,10 @@
       "psychiatre",
       "Philadelphie",
       "troubles dissociatifs"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 18835,
+    "langue": "en"
   },
   {
     "id": "very_bad_trip",
@@ -8082,7 +8832,10 @@
       "tigre",
       "bébé",
       "marié disparu"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 18764,
+    "langue": "en"
   },
   {
     "id": "zootopie",
@@ -8116,7 +8869,10 @@
       "enquête",
       "préjugés",
       "disparitions"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 18749,
+    "langue": "en"
   },
   {
     "id": "imitation_game",
@@ -8146,7 +8902,10 @@
       "machine",
       "homosexualité",
       "biographie"
-    ]
+    ],
+    "note": 8.0,
+    "votes": 18673,
+    "langue": "en"
   },
   {
     "id": "labyrinthe",
@@ -8179,7 +8938,10 @@
       "adolescents",
       "créatures",
       "évasion"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 18671,
+    "langue": "en"
   },
   {
     "id": "kingsman_services_secrets",
@@ -8211,7 +8973,10 @@
       "carte SIM",
       "Londres",
       "parapluie"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 18417,
+    "langue": "en"
   },
   {
     "id": "spider_man_new_generation",
@@ -8247,7 +9012,10 @@
       "graffiti",
       "mentor fatigué",
       "style bande dessinée"
-    ]
+    ],
+    "note": 8.4,
+    "votes": 18269,
+    "langue": "en"
   },
   {
     "id": "dunkerque",
@@ -8279,7 +9047,10 @@
       "bateaux civils",
       "aviation",
       "soldats encerclés"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 18251,
+    "langue": "en"
   },
   {
     "id": "bohemian_rhapsody",
@@ -8309,7 +9080,10 @@
       "années 1970",
       "concert de charité",
       "biographie"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 18241,
+    "langue": "en"
   },
   {
     "id": "reine_des_neiges",
@@ -8343,7 +9117,10 @@
       "bonhomme de neige",
       "royaume",
       "chanson"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 18095,
+    "langue": "en"
   },
   {
     "id": "spider_man_far_from_home",
@@ -8376,7 +9153,10 @@
       "illusions",
       "deuil du mentor",
       "identité secrète"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 17920,
+    "langue": "en"
   },
   {
     "id": "pirates_des_caraibes_le_secret",
@@ -8410,7 +9190,10 @@
       "monstre marin",
       "équipage damné",
       "mariage interrompu"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 17865,
+    "langue": "en"
   },
   {
     "id": "venom",
@@ -8440,7 +9223,10 @@
       "anti-héros",
       "forme de vie extraterrestre",
       "magnat"
-    ]
+    ],
+    "note": 6.8,
+    "votes": 17820,
+    "langue": "en"
   },
   {
     "id": "ready_player_one",
@@ -8472,7 +9258,10 @@
       "culture pop",
       "dystopie",
       "multinationale"
-    ]
+    ],
+    "note": 7.6,
+    "votes": 17615,
+    "langue": "en"
   },
   {
     "id": "lucy",
@@ -8502,7 +9291,10 @@
       "télékinésie",
       "mafia",
       "évolution"
-    ]
+    ],
+    "note": 6.5,
+    "votes": 17577,
+    "langue": "en"
   },
   {
     "id": "je_suis_une_legende",
@@ -8534,7 +9326,10 @@
       "chien",
       "créatures nocturnes",
       "remède"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 17578,
+    "langue": "en"
   },
   {
     "id": "retour_du_jedi",
@@ -8569,7 +9364,10 @@
       "station spatiale",
       "père et fils",
       "lune boisée"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 17571,
+    "langue": "en"
   },
   {
     "id": "baby_driver",
@@ -8601,7 +9399,10 @@
       "serveuse",
       "Atlanta",
       "course-poursuite"
-    ]
+    ],
+    "note": 7.4,
+    "votes": 17439,
+    "langue": "en"
   },
   {
     "id": "captain_marvel",
@@ -8634,7 +9435,10 @@
       "extraterrestres métamorphes",
       "guerre galactique",
       "chat"
-    ]
+    ],
+    "note": 6.8,
+    "votes": 17370,
+    "langue": "en"
   },
   {
     "id": "insaisissables",
@@ -8666,7 +9470,10 @@
       "Paris",
       "illusion",
       "société secrète"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 17351,
+    "langue": "en"
   },
   {
     "id": "world_war_z",
@@ -8700,7 +9507,10 @@
       "Jérusalem",
       "course contre la montre",
       "famille"
-    ]
+    ],
+    "note": 6.9,
+    "votes": 17317,
+    "langue": "en"
   },
   {
     "id": "hunger_games_la_revolte_partie",
@@ -8734,7 +9544,10 @@
       "dystopie",
       "symbole",
       "arc et flèches"
-    ]
+    ],
+    "note": 6.8,
+    "votes": 17251,
+    "langue": "en"
   },
   {
     "id": "spider_man_2",
@@ -8768,7 +9581,10 @@
       "bras mécaniques",
       "doute",
       "identité secrète"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 17236,
+    "langue": "en"
   },
   {
     "id": "nouveaux_heros",
@@ -8801,7 +9617,10 @@
       "microrobots",
       "équipe de justiciers",
       "ville futuriste"
-    ]
+    ],
+    "note": 7.7,
+    "votes": 17116,
+    "langue": "en"
   },
   {
     "id": "rogue_one_a_star_wars",
@@ -8836,7 +9655,10 @@
       "équipe sacrifiée",
       "sacrifice",
       "préquelle"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 16985,
+    "langue": "en"
   },
   {
     "id": "infiltres",
@@ -8868,7 +9690,10 @@
       "mafia irlandaise",
       "double jeu",
       "remake"
-    ]
+    ],
+    "note": 8.2,
+    "votes": 16948,
+    "langue": "en"
   },
   {
     "id": "x_men_days_of_future",
@@ -8901,7 +9726,10 @@
       "robots chasseurs",
       "futur apocalyptique",
       "Paris"
-    ]
+    ],
+    "note": 7.5,
+    "votes": 16902,
+    "langue": "en"
   },
   {
     "id": "gravity",
@@ -8931,7 +9759,10 @@
       "survie",
       "isolement",
       "retour sur Terre"
-    ]
+    ],
+    "note": 7.2,
+    "votes": 16895,
+    "langue": "en"
   },
   {
     "id": "star_wars_les_derniers_jedi",
@@ -8966,7 +9797,10 @@
       "sabre laser",
       "bataille spatiale",
       "apprentissage"
-    ]
+    ],
+    "note": 6.7,
+    "votes": 16890,
+    "langue": "en"
   },
   {
     "id": "man_of_steel",
@@ -8998,7 +9832,10 @@
       "journaliste",
       "invasion",
       "origine du héros"
-    ]
+    ],
+    "note": 6.7,
+    "votes": 16827,
+    "langue": "en"
   },
   {
     "id": "skyfall",
@@ -9028,7 +9865,10 @@
       "ancien agent vengeur",
       "Écosse",
       "Aston Martin"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 16609,
+    "langue": "en"
   },
   {
     "id": "charlie_et_la_chocolaterie",
@@ -9061,7 +9901,10 @@
       "enfants gâtés",
       "petits ouvriers",
       "bonbons"
-    ]
+    ],
+    "note": 7.0,
+    "votes": 16584,
+    "langue": "en"
   },
   {
     "id": "moi_moche_et_mechant",
@@ -9096,7 +9939,10 @@
       "père adoptif",
       "petits serviteurs jaunes",
       "rayon rétrécissant"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 16584,
+    "langue": "en"
   },
   {
     "id": "toy_story_3",
@@ -9128,7 +9974,10 @@
       "évasion",
       "ours en peluche tyrannique",
       "décharge"
-    ]
+    ],
+    "note": 7.8,
+    "votes": 16458,
+    "langue": "en"
   },
   {
     "id": "star_wars_episode_i_la",
@@ -9162,7 +10011,10 @@
       "reine",
       "prophétie",
       "maître et apprenti"
-    ]
+    ],
+    "note": 6.6,
+    "votes": 16442,
+    "langue": "en"
   },
   {
     "id": "belle_et_la_bete",
@@ -9194,7 +10046,10 @@
       "France",
       "objets vivants",
       "conte de fées"
-    ]
+    ],
+    "note": 7.0,
+    "votes": 16327,
+    "langue": "en"
   },
   {
     "id": "v_pour_vendetta",
@@ -9227,7 +10082,10 @@
       "révolution",
       "5 novembre",
       "anarchiste"
-    ]
+    ],
+    "note": 7.9,
+    "votes": 16192,
+    "langue": "en"
   },
   {
     "id": "pirates_des_caraibes_jusqu_au",
@@ -9262,6 +10120,9 @@
       "trahison",
       "déesse de la mer",
       "sauvetage dans l'au-delà"
-    ]
+    ],
+    "note": 7.3,
+    "votes": 16078,
+    "langue": "en"
   }
 ]

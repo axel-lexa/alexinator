@@ -10,6 +10,12 @@ from pathlib import Path
 
 from .config import FILMS_PATH
 
+# Films tirés en partie : (note TMDB minimale, nombre de votes minimal). Les films français ont un
+# seuil de votes plus bas, car TMDB les sous-estime (« Les Tontons flingueurs » : moins de 600 votes)
+# et nous jouons en France. Les autres films restent dans la base : ils sont reconnus comme titres,
+# et servent aux campagnes et à l'entraînement.
+SEUILS_JOUABLE = {"fr": (7.0, 500), "autres": (7.5, 10_000)}
+
 
 @dataclass
 class Film:
@@ -22,6 +28,15 @@ class Film:
     personnages: list[str] = field(default_factory=list)
     genre: str = ""
     mots_cles: list[str] = field(default_factory=list)
+    note: float = 0.0  # note moyenne TMDB (sur 10)
+    votes: int = 0  # nombre de votes TMDB : mesure la notoriété (0 = pas encore mesuré)
+    langue: str = ""  # langue originale selon TMDB (« fr », « en »...)
+
+    @property
+    def jouable(self) -> bool:
+        """Le film est-il assez connu et bien noté pour être tiré en partie ? (voir SEUILS_JOUABLE)"""
+        note_min, votes_min = SEUILS_JOUABLE["fr" if self.langue == "fr" else "autres"]
+        return self.note >= note_min and self.votes >= votes_min
 
     @property
     def titres_acceptes(self) -> list[str]:
@@ -57,7 +72,7 @@ def load_films(path: Path = FILMS_PATH) -> list[Film]:
 
 # Ordre des champs dans data/films.json (différent de l'ordre de la classe, qui exige les défauts en fin).
 FIELD_ORDER = ("id", "titre", "alias", "annee", "realisateurs", "acteurs", "personnages", "genre")
-FIELD_ORDER += ("mots_cles",)
+FIELD_ORDER += ("mots_cles", "note", "votes", "langue")
 
 
 def save_films(films: list[Film], path: Path = FILMS_PATH) -> None:
@@ -68,8 +83,9 @@ def save_films(films: list[Film], path: Path = FILMS_PATH) -> None:
 
 
 def pick_film(films: list[Film], exclude: Iterable[str] = (), rng: random.Random | None = None) -> Film:
-    """Tire un film au hasard, en évitant ceux déjà joués (ids dans `exclude`) si possible."""
+    """Tire un film jouable au hasard, en évitant ceux déjà joués (ids dans `exclude`) si possible."""
     rng = rng or random
     excluded = set(exclude)
-    candidates = [f for f in films if f.id not in excluded] or films
+    playable = [f for f in films if f.jouable] or films  # base sans notes TMDB : tous les films
+    candidates = [f for f in playable if f.id not in excluded] or playable
     return rng.choice(candidates)

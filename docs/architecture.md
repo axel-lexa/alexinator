@@ -84,6 +84,13 @@ Un nom de défense inconnu provoque une erreur au chargement.
 | `realisateurs`, `acteurs`, `personnages` | listes de noms | Fiche complète et filtre |
 | `genre` | `"drame romantique"` | Fiche (complète et anonyme) |
 | `mots_cles` | `["paquebot", "iceberg"]` | Fiche (complète et anonyme), indices du gardien |
+| `note`, `votes`, `langue` | `7.9`, `26000`, `"en"` | Tirage : seuls les films « jouables » sont proposés en partie |
+
+**Films jouables.** Une partie ne tire que les films bien notés et connus (`films.SEUILS_JOUABLE`) : note TMDB
+d'au moins 7,5 et 10 000 votes, ou, pour les films français, note d'au moins 7,0 et 500 votes (TMDB sous-estime
+leur notoriété, et les classiques français doivent rester jouables). Les autres fiches restent utiles : le jeu
+les reconnaît comme titres (« Non, ce n'est pas *X* »), et les campagnes et l'entraînement les utilisent.
+Après l'ajout de fiches à la main, `python -m alexinator.tmdb --notes` remplit ces trois champs.
 
 Conseils : soigner les alias (titre original, numéro de volet), éviter les titres de moins de 4 lettres
 (le filtre les ignore pour ne pas bloquer des mots courants), ne rien mettre dans `mots_cles` qui donne le

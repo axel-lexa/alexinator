@@ -44,7 +44,7 @@ propre gardien.
 | Fabrication du jeu de données (`finetune/construire_dataset.py`) | Écrit et testé avec un faux LLM |
 | Entraînement (`finetune/entrainement_qlora.ipynb`) | Écrit, **jamais exécuté** (pas de GPU à la rédaction) |
 | Interface Streamlit (avec les images du magicien), mode terminal, backend local | Écrits, **jamais lancés** |
-| Base cinéma | 287 fiches : 200 dans la base commune (dont 40 % de films français), 87 générées depuis TMDB (mots-clés relus) |
+| Base cinéma | 287 fiches, dont 193 jouables (bien notées et connues, 55 films français) ; les autres servent aux campagnes et à l'entraînement |
 
 Les 36 tests automatiques passent, mais ils utilisent un faux LLM : aucun prompt n'a encore été
 essayé sur un vrai modèle. C'est le travail de la phase 0.
@@ -88,6 +88,9 @@ python -m alexinator.tmdb "Forrest Gump"      brouillon de fiche depuis TMDB (vo
    les plus votés de TMDB. Les mots-clés sont traduits par le LLM du `.env` ; un film est écarté s'il est
    déjà dans la base, si un de ses titres en valide un autre, ou s'il ferait échouer les contrôles des tests
    (nom propre dans les mots-clés, question honnête prise pour son titre...). Relire le diff avant de committer.
+6. `python -m alexinator.tmdb --notes` remplit la note, le nombre de votes et la langue des fiches ajoutées
+   à la main : sans eux, un film n'est jamais tiré en partie (voir « Films jouables » dans
+   [docs/architecture.md](docs/architecture.md)).
 
 *Ce produit utilise l'API TMDB mais n'est ni approuvé ni certifié par TMDB.*
 
