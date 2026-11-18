@@ -165,7 +165,38 @@ def to_film_entry(movie: dict) -> dict:
         "personnages": personnages,
         "genre": ", ".join(g["name"].lower() for g in movie.get("genres", [])),
         "mots_cles": [k for k in keywords if k.lower() not in MOTS_CLES_INUTILES][:MAX_MOTS_CLES],
+        **popularity(movie),
     }
+
+
+def popularity(movie: dict) -> dict:
+    """Note, nombre de votes et langue : les champs qui décident si un film est jouable."""
+    return {
+        "note": round(float(movie.get("vote_average") or 0), 1),
+        "votes": int(movie.get("vote_count") or 0),
+        "langue": movie.get("original_language", ""),
+    }
+
+
+def find_movie(client: TMDBClient, film: Film) -> dict | None:
+    """Retrouve le film sur TMDB : un de ses titres et son année (à un an près) doivent correspondre."""
+
+    def key(title: str) -> str:  # « Astérix & Obélix » = « Astérix et Obélix »
+        return " ".join(w for w in canonical(title).split() if w not in {"et", "and"})
+
+    names = {key(t) for t in film.titres_acceptes}
+    years = {str(film.annee + delta) for delta in (-1, 0, 1)}
+
+    def matches(result: dict) -> bool:
+        titles = {key(result.get("title", "")), key(result.get("original_title", ""))}
+        return bool(titles & names) and (result.get("release_date") or "")[:4] in years
+
+    for query in film.titres_acceptes:  # titre, puis alias (« Nightcall » est « Nightcrawler » sur TMDB)
+        for year in (film.annee, None):
+            found = [r for r in client.search(query, year=year) if matches(r)]
+            if found:
+                return max(found, key=lambda r: r.get("vote_count", 0))
+    return None
 
 
 # ----------------------------------------------------------------------------------------
@@ -271,9 +302,10 @@ def main() -> None:
     parser.add_argument("--annee", type=int, help="année de sortie, pour départager les homonymes")
     parser.add_argument("--test", action="store_true", help="vérifie seulement le jeton")
     parser.add_argument("--lot", type=int, help="ajoute N films très connus à data/films.json")
+    parser.add_argument("--notes", action="store_true", help="note et votes des fiches qui n'en ont pas")
     args = parser.parse_args()
-    if not args.test and not args.titre and not args.lot:
-        parser.error("donne un titre de film, --test ou --lot N")
+    if not args.test and not args.titre and not args.lot and not args.notes:
+        parser.error("donne un titre de film, --test, --lot N ou --notes")
 
     try:
         settings = get_settings()
@@ -290,6 +322,22 @@ def main() -> None:
             added = build_batch(client, make_llm(settings), films, args.lot, log=log)
             save_films(films + added)
             print(f"{len(added)} films ajoutés : {len(films) + len(added)} dans data/films.json.")
+            return
+        if args.notes:
+            films, missing = load_films(), []
+            for i, film in enumerate(films):
+                if film.votes:
+                    continue
+                movie = find_movie(client, film)
+                if movie is None:
+                    missing.append(film.titre)
+                    continue
+                films[i] = new = Film(**{**vars(film), **popularity(movie)})
+                print(f"  {new.titre} ({new.annee}) : {new.note}/10, {new.votes} votes", flush=True)
+            save_films(films)
+            print(f"{sum(f.jouable for f in films)} films jouables sur {len(films)}.")
+            if missing:
+                print("Introuvables (vérifier titre et année) : " + "; ".join(missing), file=sys.stderr)
             return
         results = client.search(args.titre, year=args.annee)
         if not results:

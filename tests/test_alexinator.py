@@ -47,6 +47,26 @@ def test_pick_film_avoids_excluded():
     assert pick_film(films, exclude=exclude).id == films[0].id
 
 
+def test_every_film_has_tmdb_popularity():
+    # Rempli par `python -m alexinator.tmdb --notes` : une fiche sans votes ne serait jamais tirée.
+    missing = [f.id for f in FILMS.values() if not f.votes or not f.langue]
+    assert not missing, missing
+
+
+def test_only_well_rated_films_are_drawn_french_classics_included():
+    import random
+
+    films = list(FILMS.values())
+    rng = random.Random(0)
+    assert all(pick_film(films, rng=rng).jouable for _ in range(300))
+    for classic in ("les_tontons_flingueurs", "la_grande_vadrouille", "diner_de_cons", "intouchables"):
+        assert FILMS[classic].jouable, classic
+    for low_rated in ("camping", "brice_de_nice", "suicide_squad"):
+        assert not FILMS[low_rated].jouable, low_rated
+    playable = [f for f in films if f.jouable]
+    assert len(playable) >= 100 and sum(f.langue == "fr" for f in playable) >= 40
+
+
 # --------------------------------------------------------------- validation
 def test_canonical():
     assert canonical("Le Dîner de cons !") == "diner de cons"
@@ -554,6 +574,9 @@ def test_tmdb_movie_becomes_a_valid_film():
     assert entry["realisateurs"] == ["Robert Zemeckis"] and entry["genre"] == "comédie, drame"
     assert entry["mots_cles"] == ["vietnam war", "running"]
     assert check_answer("forrest gump", Film(**entry)).correct
+    ratings = {"vote_average": 8.46, "vote_count": 28000, "original_language": "en"}
+    rated = to_film_entry({**TMDB_MOVIE, **ratings})
+    assert (rated["note"], rated["votes"], rated["langue"]) == (8.5, 28000, "en") and Film(**rated).jouable
 
 
 def test_tmdb_keeps_original_title_as_alias():
