@@ -45,29 +45,99 @@ def canonical(text: str) -> str:
 @dataclass
 class GuessResult:
     correct: bool
-    method: str  # "exacte", "approchee", "juge" ou "refusee"
+    method: str  # "exacte", "approchee", "juge", "partielle" ou "refusee"
+    matched: str = ""  # titre ou alias reconnu, bien orthographié (pour corriger le joueur)
 
 
 def check_answer(guess: str, film: Film, judge=None) -> GuessResult:
     g = canonical(guess)
     if not g:
         return GuessResult(False, "refusee")
-    targets = [canonical(t) for t in film.titres_acceptes]
+    targets = [(canonical(t), t) for t in film.titres_acceptes]
 
     # 1) Correspondance exacte avec le titre ou un alias
-    if g in targets:
-        return GuessResult(True, "exacte")
+    for target, original in targets:
+        if g == target:
+            return GuessResult(True, "exacte", original)
 
     # 2) Correspondance approchée (fautes de frappe), à nombre de mots égal
-    for target in targets:
+    for target, original in targets:
         same_word_count = len(g.split()) == len(target.split())
         if same_word_count and SequenceMatcher(None, g, target).ratio() >= SEUIL_APPROX:
-            return GuessResult(True, "approchee")
+            return GuessResult(True, "approchee", original)
 
     # 3) Juge LLM (optionnel)
     if judge is not None and _judge_says_yes(guess, film, judge):
         return GuessResult(True, "juge")
     return GuessResult(False, "refusee")
+
+
+# ----------------------------------------------------------------------------------------
+# Un seul champ de saisie : reconnaître qu'un message est une proposition de titre
+# ----------------------------------------------------------------------------------------
+# Formules que le joueur met devant un titre (« c'est Titanic ? »), sous forme normalisée.
+GUESS_PREFIXES = sorted(
+    [
+        "c est",
+        "c etait",
+        "est ce",
+        "est ce que c est",
+        "est ce que ce serait",
+        "est ce que ce n est pas",
+        "ce serait",
+        "ca serait",
+        "serait ce",
+        "ce ne serait pas",
+        "ne serait ce pas",
+        "ce n est pas",
+        "je pense que c est",
+        "je pense que",
+        "je pense a",
+        "je crois que c est",
+        "je crois que",
+        "je dirais",
+        "je propose",
+        "ma reponse",
+        "ma reponse est",
+        "reponse",
+        "le film c est",
+        "le film est",
+        "c est le film",
+        "il s agit de",
+        "tu penses a",
+        "tu parles de",
+        "alors",
+        "donc",
+        "euh",
+        "hmm",
+    ],
+    key=len,
+    reverse=True,
+)
+MIN_PARTIAL_CHARS = 7  # « Harry Potter » ou « Astérix » : oui ; « star » ou « le » : non
+
+
+def extract_title(message: str) -> str:
+    """Retire les formules d'introduction : « Est-ce que c'est Titanic ? » -> « titanic »."""
+    text = normalize(message)
+    stripped = True
+    while stripped:
+        stripped = False
+        for prefix in GUESS_PREFIXES:
+            if text == prefix:
+                return ""
+            if text.startswith(prefix + " "):
+                text, stripped = text[len(prefix) + 1 :], True
+                break
+    return text
+
+
+def is_partial_title(candidate: str, film: Film) -> bool:
+    """Le message est-il le début d'un titre du film (sa saga) ? « Star Wars » pour l'épisode IV."""
+    c = canonical(candidate)
+    if len(c) < MIN_PARTIAL_CHARS:
+        return False
+    return any(canonical(t).startswith(c + " ") for t in film.titres_acceptes)
 
 
 def _judge_says_yes(guess: str, film: Film, judge) -> bool:

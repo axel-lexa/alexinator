@@ -18,7 +18,7 @@ from . import defenses
 from .config import LEVELS_DIR
 from .films import Film
 from .journal import Journal
-from .validation import GuessResult, check_answer
+from .validation import GuessResult, check_answer, extract_title, is_partial_title
 
 KNOWN_DEFENSES = {"input_detector", "output_filter", "censor"}
 
@@ -27,8 +27,9 @@ REFUSALS = {
     "input_detector": "Tentative de manipulation détectée. Pose-moi plutôt une vraie question sur le film.",
     "output_filter": "J'allais en dire trop... Ma réponse a été interceptée. Essaie autrement.",
     "censor": "Mon censeur trouve cette réponse trop révélatrice : elle a été supprimée.",
-    "limite": "Tu as utilisé tous tes messages pour ce niveau. Propose une réponse ou recommence.",
+    "limite": "Tu as utilisé tous tes messages pour ce niveau. Clique sur « Nouveau film » pour recommencer.",
 }
+PARTIAL_GUESS = "Tu brûles ! Mais sois plus précis : quel film exactement ?"
 
 # Niveau 7 : le gardien appelle son outil en écrivant seul sur une ligne « VERIFIER: <titre> ».
 # (Protocole en texte brut : il marche avec n'importe quel modèle, même sans « tool calling » natif.)
@@ -67,6 +68,7 @@ class TurnResult:
     reply: str  # ce que le joueur voit
     blocked_by: str | None  # nom de la défense qui a bloqué, sinon None
     raw_reply: str | None  # réponse du gardien avant les défenses (None s'il n'a pas été appelé)
+    guess: GuessResult | None = None  # rempli quand le message a été lu comme une proposition de titre
 
 
 class GameSession:
@@ -79,9 +81,11 @@ class GameSession:
         journal: Journal | None = None,
         player: str = "anonyme",
         judge=None,
+        catalogue: list[Film] | None = None,
     ):
         self.level = level
         self.film = film
+        self.catalogue = catalogue or []  # tous les films : reconnaît une mauvaise proposition
         self.llm = llm  # LLM du gardien
         self.aux_llm = aux_llm or llm  # LLM des défenses (détecteur, censeur)
         self.judge = judge  # LLM juge pour la validation (optionnel)
@@ -201,12 +205,63 @@ class GameSession:
         return TurnResult(reply=reply, blocked_by=blocked_by, raw_reply=raw_reply)
 
     # ------------------------------------------------------------------
-    # Le joueur propose une réponse dans le champ dédié
+    # Point d'entrée du joueur : un seul champ pour questionner ou proposer un titre
     # ------------------------------------------------------------------
+    def play(self, message: str) -> TurnResult:
+        """Un message qui désigne un film est une proposition, validée par le code ; le reste va au gardien.
+
+        Seul le message ENTIER compte (après les formules du type « c'est ... ? ») : citer un titre au
+        milieu d'une phrase, ou coller une liste de titres, ne fait pas gagner.
+        """
+        if self.messages_left == 0:
+            return self.send(message)  # bloqué par la limite
+        candidate = extract_title(message)
+
+        result = check_answer(candidate, self.film)
+        if result.correct:
+            self.solved = True
+            reply = f"Bravo ! C'était bien « {self.film.titre} » ({self.film.annee})."
+            if result.method == "approchee":
+                reply += (
+                    f" Petite faute : tu as écrit « {message.strip()} », ça s'écrit « {result.matched} »."
+                )
+            return self._record_guess(message, result, reply)
+
+        if is_partial_title(candidate, self.film):
+            return self._record_guess(message, GuessResult(False, "partielle"), PARTIAL_GUESS)
+
+        for other in self.catalogue:
+            if other.id == self.film.id:
+                continue
+            if check_answer(candidate, other).correct:
+                return self._record_guess(
+                    message,
+                    GuessResult(False, "refusee", other.titre),
+                    f"Non, ce n'est pas « {other.titre} ».",
+                )
+            if is_partial_title(candidate, other):
+                return self._record_guess(message, GuessResult(False, "refusee"), "Non, ce n'est pas ça.")
+
+        return self.send(message)
+
+    def _record_guess(self, message: str, result: GuessResult, reply: str) -> TurnResult:
+        """Proposition de titre : coûte un message, entre dans l'historique et dans le journal."""
+        if not result.correct:
+            self.messages_used += 1
+            # Le gardien voit la proposition refusée : il ne relancera pas le joueur sur ce film.
+            self.history += [{"role": "user", "content": message}, {"role": "assistant", "content": reply}]
+        self._log_guess(message, result)
+        return TurnResult(reply=reply, blocked_by=None, raw_reply=None, guess=result)
+
     def guess(self, answer: str) -> GuessResult:
+        """Proposition explicite (commande /r du terminal) : peut aussi consulter le juge LLM."""
         result = check_answer(answer, self.film, judge=self.judge)
         if result.correct:
             self.solved = True
+        self._log_guess(answer, result)
+        return result
+
+    def _log_guess(self, answer: str, result: GuessResult) -> None:
         if self.journal:
             self.journal.log_guess(
                 session_id=self.session_id,
@@ -218,4 +273,3 @@ class GameSession:
                 methode=result.method,
                 messages_utilises=self.messages_used,
             )
-        return result

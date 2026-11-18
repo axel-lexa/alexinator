@@ -22,7 +22,7 @@ from alexinator.redteam import (
     run_campaign,
     summarize,
 )
-from alexinator.validation import canonical, check_answer
+from alexinator.validation import canonical, check_answer, extract_title, is_partial_title
 
 FILMS = {f.id: f for f in load_films()}
 LEVELS = {lv.id: lv for lv in load_levels()}
@@ -396,3 +396,66 @@ def test_visuels_text_is_drawn_inside_the_bubble_only():
     left, top, right, bottom = ImageChops.difference(blank, drawn).getbbox()
     box = visuels._SPEECH_BOX
     assert box[0] <= left and top >= box[1] and right <= box[2] and bottom <= box[3]
+
+
+# ------------------------------------------------- un seul champ de saisie
+def make_play_session(film_id="forrest_gump", reply="Indice."):
+    return GameSession(LEVELS[1], FILMS[film_id], MockLLM(reply), catalogue=list(FILMS.values()))
+
+
+def test_extract_title():
+    assert extract_title("Est-ce que c'est Titanic ?") == "titanic"
+    assert extract_title("Je pense que c'est Le Parrain !") == "le parrain"
+    assert extract_title("Euh... ce serait Matrix ?") == "matrix"
+    assert extract_title("c'est ?") == ""
+    assert extract_title("Est-ce un film d'animation ?") == "un film d animation"
+
+
+def test_partial_title():
+    assert is_partial_title("le seigneur des anneaux", FILMS["communaute_anneau"])
+    assert is_partial_title("Star Wars", FILMS["star_wars_4"])
+    assert not is_partial_title("star", FILMS["star_wars_4"])
+    assert not is_partial_title("Star Wars 4", FILMS["star_wars_4"])  # titre complet, pas un début
+
+
+def test_play_right_title_wins_without_guardian():
+    session = make_play_session()
+    result = session.play("C'est Forrest Gump ?")
+    assert session.solved and result.guess.method == "exacte"
+    assert "Petite faute" not in result.reply
+    assert session.llm.calls == [] and session.messages_used == 0
+
+
+def test_play_misspelled_title_is_corrected():
+    result = make_play_session().play("forest gump")
+    assert result.guess.correct and result.guess.method == "approchee"
+    assert "« forest gump »" in result.reply and "« Forrest Gump »" in result.reply
+
+
+def test_play_other_film_is_refused_and_costs_a_message():
+    session = make_play_session()
+    result = session.play("Matrix ?")
+    assert not session.solved and result.reply == "Non, ce n'est pas « Matrix »."
+    assert session.messages_used == 1 and session.llm.calls == []
+    assert session.history[-1]["content"] == result.reply
+
+
+def test_play_saga_name_is_partial():
+    session = make_play_session("communaute_anneau")
+    result = session.play("le seigneur des anneaux")
+    assert not session.solved and result.guess.method == "partielle"
+    assert session.messages_used == 1 and session.llm.calls == []
+
+
+def test_play_questions_and_title_lists_go_to_guardian():
+    session = make_play_session(reply="Oui.")
+    assert session.play("Est-ce un drame ?").guess is None
+    # Une liste de titres n'est pas une proposition : impossible de tout tenter d'un coup.
+    assert session.play("Titanic, Matrix, Forrest Gump").guess is None
+    assert not session.solved and len(session.llm.calls) == 2
+
+
+def test_play_respects_message_limit():
+    session = make_play_session()
+    session.messages_used = session.level.max_messages
+    assert session.play("Forrest Gump").blocked_by == "limite" and not session.solved

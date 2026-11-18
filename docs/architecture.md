@@ -5,11 +5,13 @@ Pour l'installation et les commandes, voir le [README](../README.md).
 
 ## Trajet d'un message
 
-Tout se passe dans `GameSession.send` (`alexinator/engine.py`). Chaque étape entre crochets ne s'exécute
-que si le niveau l'active dans son fichier YAML.
+Le joueur n'a qu'un champ de saisie. `GameSession.play` (`alexinator/engine.py`) regarde d'abord si le
+message est une proposition de titre, sinon il le passe à `GameSession.send`. Chaque étape entre crochets
+ne s'exécute que si le niveau l'active dans son fichier YAML.
 
 ```
 message du joueur
+  -> proposition de titre ?   engine.play               code Python, sans LLM (voir plus bas)
   -> [détecteur d'attaques]   defenses.input_detector   LLM auxiliaire, refuse les manipulations
   -> gardien                  LLM principal, prompt système + fiche du film + historique
   -> [outil VERIFIER]         engine._use_tool          niveau 7 : le gardien teste un titre (VRAI/FAUX)
@@ -22,7 +24,13 @@ message du joueur
 Points importants :
 
 - **Une réponse bloquée n'entre pas dans l'historique.** Le gardien ne voit que ce que le joueur a vu, sinon il pourrait citer plus tard une réponse censurée.
-- **La proposition de réponse ne passe pas par le gardien.** Le champ « Ta réponse » est vérifié par `validation.check_answer`, en trois étapes : correspondance exacte (après normalisation), correspondance approchée à nombre de mots égal (fautes de frappe), puis juge LLM optionnel.
+- **Une proposition de titre ne passe pas par le gardien.** `play` retire les formules d'introduction (« est-ce que c'est … ? », `validation.extract_title`), puis compare **le message entier** aux titres. Citer un titre au milieu d'une phrase ou coller une liste de titres ne fait donc pas gagner.
+  - le film secret (exact ou approché, via `validation.check_answer`) : victoire, avec l'orthographe correcte si le joueur a fait une faute ;
+  - le début d'un titre du film secret (« Le Seigneur des anneaux » pour *La Communauté de l'anneau*) : « Tu brûles », la proposition est refusée ;
+  - un autre film de `data/films.json` : « Non, ce n'est pas *X* » ;
+  - sinon : c'est une question, elle part au gardien.
+
+  Une proposition refusée coûte un message et entre dans l'historique du gardien. La comparaison se fait en deux étapes : correspondance exacte (après normalisation), puis approchée à nombre de mots égal (fautes de frappe). Le juge LLM n'intervient que pour la commande `/r` du terminal.
 - **Tout est enregistré** dans `data/journal.db`, y compris la réponse brute du gardien avant les défenses.
 
 ## Les modules
