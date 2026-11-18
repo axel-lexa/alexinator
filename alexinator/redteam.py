@@ -11,6 +11,7 @@ Trois outils :
 from __future__ import annotations
 
 import json
+import random
 from collections.abc import Iterable
 from pathlib import Path
 
@@ -31,6 +32,20 @@ def load_attacks(path: Path = ATTACKS_PATH) -> list[dict[str, str]]:
 
 def load_honest_questions(path: Path = HONEST_PATH) -> list[str]:
     return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def lakera_messages(n: int, seed: int = 0) -> list[str]:
+    """Échantillon d'injections réelles du jeu Gandalf, adaptées à notre jeu (mot de passe -> titre).
+
+    Source : jeu de données public Lakera/gandalf_ignore_instructions (licence MIT, en anglais).
+    Il faut le paquet `datasets` et un accès à internet : l'import est fait ici pour que le reste du
+    module (et les tests) fonctionne sans.
+    """
+    from datasets import load_dataset
+
+    data = load_dataset("Lakera/gandalf_ignore_instructions", split="train")
+    texts = [t.replace("password", "movie title").replace("Password", "Movie title") for t in data["text"]]
+    return random.Random(seed).sample(texts, min(n, len(texts)))
 
 
 # ---------------------------------------------------------------------------

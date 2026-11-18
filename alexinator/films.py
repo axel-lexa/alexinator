@@ -61,3 +61,16 @@ def pick_film(films: list[Film], exclude: Iterable[str] = (), rng: random.Random
     excluded = set(exclude)
     candidates = [f for f in films if f.id not in excluded] or films
     return rng.choice(candidates)
+
+
+def split_by_film(films: list[Film], val_every: int = 5) -> tuple[list[Film], list[Film]]:
+    """Sépare les films en entraînement et validation : un film sur `val_every` part en validation.
+
+    La séparation se fait par film, pas par exemple : un film de validation n'est jamais vu à
+    l'entraînement, ce qui vérifie qu'un modèle apprend un comportement et pas des fiches par cœur.
+    Elle est déterministe (elle dépend seulement de l'ordre de `data/films.json`), pour que le jeu de
+    données du gardien et le corpus du tokenizer mettent de côté les mêmes films.
+    """
+    val = [f for i, f in enumerate(films) if i % val_every == val_every - 1]
+    train = [f for f in films if f not in val]
+    return train, val

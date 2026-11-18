@@ -160,3 +160,19 @@ class Journal:
                     proposition_devineur,
                 ),
             )
+
+
+def journal_messages(path: Path = JOURNAL_PATH, max_length: int = 600) -> list[str]:
+    """Messages écrits par de vrais joueurs pendant les playtests, sans doublons.
+
+    Les parties des campagnes automatiques (pseudo en `auto:`) sont exclues. Les messages de plus de
+    `max_length` caractères sont écartés : ce sont surtout des collages de texte, peu représentatifs.
+    Renvoie une liste vide si le journal n'existe pas encore.
+    """
+    if not Path(path).exists():
+        return []
+    with sqlite3.connect(path) as conn:
+        rows = conn.execute(
+            "SELECT DISTINCT message_joueur FROM tours WHERE joueur NOT LIKE 'auto:%'"
+        ).fetchall()
+    return [r[0] for r in rows if r[0] and len(r[0]) < max_length]
