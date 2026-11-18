@@ -2,6 +2,7 @@
 
 Lancer depuis la racine du projet :  streamlit run app.py
 """
+
 import streamlit as st
 
 from alexinator import visuels
@@ -40,20 +41,27 @@ AVATAR = str(visuels.AVATAR)
 
 # --- État propre à chaque joueur (st.session_state survit aux rechargements de la page) ----
 state = st.session_state
-state.setdefault("unlocked", levels[0].id)   # plus haut niveau débloqué
-state.setdefault("played", [])               # ids des films déjà joués
-state.setdefault("game", None)               # partie en cours (GameSession)
-state.setdefault("chat", [])                 # messages affichés : {"role", "text", "pensee"}
-state.setdefault("intro", "")                # phrase du magicien en début de partie
-state.setdefault("celebrate", False)         # lancer les ballons une seule fois
-state.setdefault("win_text", "")             # message de victoire (avec correction d'orthographe)
+state.setdefault("unlocked", levels[0].id)  # plus haut niveau débloqué
+state.setdefault("played", [])  # ids des films déjà joués
+state.setdefault("game", None)  # partie en cours (GameSession)
+state.setdefault("chat", [])  # messages affichés : {"role", "text", "pensee"}
+state.setdefault("intro", "")  # phrase du magicien en début de partie
+state.setdefault("celebrate", False)  # lancer les ballons une seule fois
+state.setdefault("win_text", "")  # message de victoire (avec correction d'orthographe)
 
 
 def new_game(level_id: int, player: str) -> None:
     film = pick_film(films, exclude=state.played)
     state.played.append(film.id)
-    state.game = GameSession(levels_by_id[level_id], film, llm, aux_llm=aux_llm,
-                             journal=journal, player=player or "anonyme", catalogue=films)
+    state.game = GameSession(
+        levels_by_id[level_id],
+        film,
+        llm,
+        aux_llm=aux_llm,
+        journal=journal,
+        player=player or "anonyme",
+        catalogue=films,
+    )
     state.chat = []
     state.win_text = ""
     state.intro = visuels.phrase("debut")
@@ -68,7 +76,9 @@ with st.sidebar:
     # Ainsi, débloquer un niveau ne fait pas quitter l'écran de victoire.
     current = state.game.level.id if state.game else available[-1]
     level_id = st.selectbox(
-        "Niveau", available, index=available.index(current),
+        "Niveau",
+        available,
+        index=available.index(current),
         format_func=lambda i: f"{i}. {levels_by_id[i].name}",
         filter_mode=None,  # dropdown classique : pas de saisie au clavier
     )
@@ -85,8 +95,10 @@ game.player = player or "anonyme"
 # --- Zone principale -------------------------------------------------------------------------
 st.header(f"Niveau {game.level.id} : {game.level.name}")
 st.write(game.level.description)
-st.caption(f"Messages restants : {game.messages_left} / {game.level.max_messages}  ·  "
-           "Tu penses avoir trouvé ? Écris simplement le titre dans la discussion.")
+st.caption(
+    f"Messages restants : {game.messages_left} / {game.level.max_messages}  ·  "
+    "Tu penses avoir trouvé ? Écris simplement le titre dans la discussion."
+)
 
 # Début de partie : le magicien annonce qu'il a un film en tête.
 if not state.chat and not game.solved:
@@ -112,8 +124,9 @@ if game.solved:
         st.info("Tu as battu tous les niveaux. Clique sur « Nouveau film » pour rejouer.")
 else:
     # Un seul champ : le moteur distingue lui-même une question d'une proposition de titre.
-    message = st.chat_input("Pose une question au gardien, ou tape le titre du film...",
-                            disabled=game.messages_left == 0)
+    message = st.chat_input(
+        "Pose une question au gardien, ou tape le titre du film...", disabled=game.messages_left == 0
+    )
     if message:
         with st.chat_message("user"):
             st.write(message)
@@ -124,7 +137,9 @@ else:
             result = game.play(message)
         except Exception as error:  # LLM injoignable, mauvais nom de modèle, clé invalide...
             thinking.empty()
-            st.error(f"Impossible de joindre le LLM. Vérifie le fichier .env et que le serveur tourne.\n\n{error}")
+            st.error(
+                f"Impossible de joindre le LLM. Vérifie le fichier .env et que le serveur tourne.\n\n{error}"
+            )
         else:
             thinking.empty()
             state.chat.append({"role": "user", "text": message})

@@ -7,12 +7,12 @@ Le moteur (engine.py) les enchaîne selon la liste `defenses` du niveau :
 
 Pour ajouter une défense : écrire une fonction ici, puis la brancher dans engine.py.
 """
+
 from __future__ import annotations
 
 import json
 import re
 from dataclasses import dataclass
-from typing import List, Optional
 
 from .films import Film
 from .validation import normalize, strip_article
@@ -27,7 +27,7 @@ class Verdict:
 # ---------------------------------------------------------------------------
 # 1) Filtre de sortie : du code, pas de LLM (niveau 3 et plus)
 # ---------------------------------------------------------------------------
-def forbidden_terms(film: Film, include_entities: bool) -> List[str]:
+def forbidden_terms(film: Film, include_entities: bool) -> list[str]:
     """Liste des chaînes que la réponse du gardien ne doit pas contenir."""
     terms = list(film.titres_acceptes)
     if include_entities:
@@ -38,7 +38,7 @@ def forbidden_terms(film: Film, include_entities: bool) -> List[str]:
     return terms
 
 
-def find_leak(text: str, terms: List[str]) -> Optional[str]:
+def find_leak(text: str, terms: list[str]) -> str | None:
     """Renvoie le premier terme interdit trouvé dans `text`, sinon None.
 
     Deux contrôles :

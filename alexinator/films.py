@@ -1,11 +1,12 @@
 """Base cinéma : chargement des fiches de data/films.json."""
+
 from __future__ import annotations
 
 import json
 import random
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable, List, Optional
 
 from .config import FILMS_PATH
 
@@ -15,15 +16,15 @@ class Film:
     id: str
     titre: str
     annee: int
-    alias: List[str] = field(default_factory=list)
-    realisateurs: List[str] = field(default_factory=list)
-    acteurs: List[str] = field(default_factory=list)
-    personnages: List[str] = field(default_factory=list)
+    alias: list[str] = field(default_factory=list)
+    realisateurs: list[str] = field(default_factory=list)
+    acteurs: list[str] = field(default_factory=list)
+    personnages: list[str] = field(default_factory=list)
     genre: str = ""
-    mots_cles: List[str] = field(default_factory=list)
+    mots_cles: list[str] = field(default_factory=list)
 
     @property
-    def titres_acceptes(self) -> List[str]:
+    def titres_acceptes(self) -> list[str]:
         """Le titre et tous ses alias : les réponses considérées comme justes."""
         return [self.titre] + self.alias
 
@@ -49,12 +50,12 @@ class Film:
         return "\n".join(lines)
 
 
-def load_films(path: Path = FILMS_PATH) -> List[Film]:
+def load_films(path: Path = FILMS_PATH) -> list[Film]:
     data = json.loads(Path(path).read_text(encoding="utf-8"))
     return [Film(**entry) for entry in data]
 
 
-def pick_film(films: List[Film], exclude: Iterable[str] = (), rng: Optional[random.Random] = None) -> Film:
+def pick_film(films: list[Film], exclude: Iterable[str] = (), rng: random.Random | None = None) -> Film:
     """Tire un film au hasard, en évitant ceux déjà joués (ids dans `exclude`) si possible."""
     rng = rng or random
     excluded = set(exclude)

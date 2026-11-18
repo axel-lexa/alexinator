@@ -7,6 +7,7 @@ Dans la partie : pose tes questions ou tape directement le titre du film quand t
 /r <titre> force une proposition (avec juge LLM),  /brut montre la dernière réponse non filtrée
 (triche de développeur),  /q pour quitter.
 """
+
 import argparse
 
 from alexinator.config import get_settings
@@ -33,10 +34,13 @@ def main() -> None:
         raise SystemExit(f"Niveau inconnu : {args.niveau} (disponibles : {sorted(levels)})")
 
     game = GameSession(
-        levels[args.niveau], film,
+        levels[args.niveau],
+        film,
         llm=make_llm(settings),
         aux_llm=make_llm(settings, settings.aux_model),
-        journal=Journal(), player=args.joueur, catalogue=films,
+        journal=Journal(),
+        player=args.joueur,
+        catalogue=films,
     )
     print(f"Niveau {game.level.id} : {game.level.name} (modèle : {settings.model})")
     print(game.level.description)

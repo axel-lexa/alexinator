@@ -16,6 +16,7 @@
 1. Ne jamais travailler directement sur `main`. Créer une branche par tâche :
    `git switch -c defenses/censeur-plus-strict`.
 2. Lancer les tests avant chaque commit : `python -m pytest`. Ils tournent sans LLM, en moins d'une seconde.
+   Vérifier aussi le style avec `ruff check .` et `ruff format --check .` (configuration dans `pyproject.toml`).
 3. Ajouter un test pour chaque nouvelle fonctionnalité dans `tests/test_alexinator.py`, avec `MockLLM`
    pour remplacer le vrai modèle.
 4. Ouvrir une pull request et la faire relire par quelqu'un d'un autre chantier.
