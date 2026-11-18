@@ -68,6 +68,7 @@ with st.sidebar:
     level_id = st.selectbox(
         "Niveau", available, index=available.index(current),
         format_func=lambda i: f"{i}. {levels_by_id[i].name}",
+        filter_mode=None,  # dropdown classique : pas de saisie au clavier
     )
     if st.button("Nouveau film"):
         new_game(level_id, player)
