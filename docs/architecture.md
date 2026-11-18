@@ -108,7 +108,8 @@ de les séparer des parties humaines dans l'analyse.
 | `affiche_reflechit.png` | Barre latérale de l'interface, README |
 | `affiche_solution.png` | Écran final, quand le joueur a battu tous les niveaux ; README |
 | `avatar.png` | Avatar du gardien dans la discussion (visage découpé du dessin) |
-| `cartoon_reflechit_vierge.png` | Début de partie, attente de la réponse du LLM, réponse bloquée par une défense, mauvaise proposition |
+| `cartoon_reflechit_vierge.png` | Début de partie, réponse bloquée par une défense, mauvaise proposition |
+| `video_reflechit.mp4` | Attente de la réponse du LLM (lue en boucle, sans le son) |
 | `cartoon_solution_vierge.png` | Victoire, avec le titre du film trouvé |
 | `cartoon_*_original.png` | Dessins d'origine, avec leur texte figé (archives) |
 | `fonts/` | Police Inter (licence SIL OFL, voir `fonts/OFL.txt`) pour écrire dans les bulles |

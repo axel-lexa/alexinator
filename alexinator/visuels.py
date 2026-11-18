@@ -19,6 +19,7 @@ ASSETS = ROOT / "assets"
 AVATAR = ASSETS / "avatar.png"  # visage du magicien, pour la bulle de chat
 AFFICHE = ASSETS / "affiche_reflechit.png"  # affiche « Il lit dans vos pensées... »
 AFFICHE_VICTOIRE = ASSETS / "affiche_solution.png"  # affiche « ... et il ne se trompe jamais. »
+VIDEO_REFLECHIT = ASSETS / "video_reflechit.mp4"  # magicien qui réfléchit, pendant la réponse du LLM
 
 _FONT_BOLD = ASSETS / "fonts" / "Inter-Bold.otf"
 _FONT_BLACK = ASSETS / "fonts" / "Inter-ExtraBold.otf"
