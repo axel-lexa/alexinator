@@ -4,26 +4,26 @@ Les dessins se trouvent dans assets/. Les versions « vierge » ont une bulle vi
 on y écrit le texte du moment (titre du film, réaction...) au lieu d'un texte figé.
 Seule dépendance : Pillow (installé avec Streamlit).
 """
+
 from __future__ import annotations
 
 import random
-from functools import lru_cache
+from functools import cache
 from pathlib import Path
-from typing import List, Optional, Tuple
 
 from PIL import Image, ImageDraw, ImageFont
 
 from .config import ROOT
 
 ASSETS = ROOT / "assets"
-AVATAR = ASSETS / "avatar.png"                      # visage du magicien, pour la bulle de chat
-AFFICHE = ASSETS / "affiche_reflechit.png"          # affiche « Il lit dans vos pensées... »
+AVATAR = ASSETS / "avatar.png"  # visage du magicien, pour la bulle de chat
+AFFICHE = ASSETS / "affiche_reflechit.png"  # affiche « Il lit dans vos pensées... »
 AFFICHE_VICTOIRE = ASSETS / "affiche_solution.png"  # affiche « ... et il ne se trompe jamais. »
 
 _FONT_BOLD = ASSETS / "fonts" / "Inter-Bold.otf"
 _FONT_BLACK = ASSETS / "fonts" / "Inter-ExtraBold.otf"
-_INK = (30, 30, 46)     # texte sombre, comme les contours du dessin
-_RED = (230, 57, 70)    # rouge du dessin original (« INCEPTION ! »)
+_INK = (30, 30, 46)  # texte sombre, comme les contours du dessin
+_RED = (230, 57, 70)  # rouge du dessin original (« INCEPTION ! »)
 
 # Zone utilisable de chaque bulle, en pixels de l'image d'origine (1000 x 1250) :
 # (gauche, haut, droite, bas). L'ellipse de la bulle de pensée est plus étroite en haut et en bas.
@@ -32,18 +32,23 @@ _SPEECH_BOX = (92, 66, 570, 206)
 
 # Phrases du magicien selon le moment du jeu.
 PHRASES = {
-    "attente": ["Hmm... voyons voir...", "Laisse-moi réfléchir...", "Intéressant...", "Je consulte ma boule..."],
+    "attente": [
+        "Hmm... voyons voir...",
+        "Laisse-moi réfléchir...",
+        "Intéressant...",
+        "Je consulte ma boule...",
+    ],
     "bloque": ["Bien tenté...", "Je t'ai vu venir !", "Pas si vite...", "Ma boule a tout vu."],
     "rate": ["Raté ! Ce n'est pas ça...", "Non, non, non...", "Tu chauffes ? Même pas."],
     "debut": ["J'ai un film en tête...", "Devine à quoi je pense...", "Prêt ? Je pense à un film..."],
 }
 
 
-def phrase(moment: str, rng: Optional[random.Random] = None) -> str:
+def phrase(moment: str, rng: random.Random | None = None) -> str:
     return (rng or random).choice(PHRASES[moment])
 
 
-@lru_cache(maxsize=None)
+@cache
 def _base(name: str) -> Image.Image:
     return Image.open(ASSETS / name).convert("RGB")
 
@@ -52,7 +57,7 @@ def _font(path: Path, size: int) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(str(path), size)
 
 
-def _wrap(draw: ImageDraw.ImageDraw, text: str, font, max_width: int) -> List[str]:
+def _wrap(draw: ImageDraw.ImageDraw, text: str, font, max_width: int) -> list[str]:
     """Coupe le texte en lignes qui tiennent dans max_width pixels (sans couper les mots)."""
     lines, current = [], ""
     for word in text.split():
@@ -67,7 +72,7 @@ def _wrap(draw: ImageDraw.ImageDraw, text: str, font, max_width: int) -> List[st
     return lines
 
 
-def _fit(draw, blocks: List[Tuple[str, Path, int, tuple]], box) -> List[Tuple[List[str], object, tuple]]:
+def _fit(draw, blocks: list[tuple[str, Path, int, tuple]], box) -> list[tuple[list[str], object, tuple]]:
     """Réduit la taille des polices jusqu'à ce que tous les blocs tiennent dans la bulle.
 
     blocks : liste de (texte, police, taille maximale, couleur). Renvoie les lignes et polices retenues.
@@ -81,7 +86,7 @@ def _fit(draw, blocks: List[Tuple[str, Path, int, tuple]], box) -> List[Tuple[Li
             lines = _wrap(draw, text, font, width)
             total += len(lines) * int(font.size * 1.18)
             laid_out.append((lines, font, color))
-        too_wide = any(draw.textlength(l, font=f) > width for lines, f, _ in laid_out for l in lines)
+        too_wide = any(draw.textlength(line, font=f) > width for lines, f, _ in laid_out for line in lines)
         if (total <= height and not too_wide) or scale < 0.3:
             return laid_out
         scale *= 0.92
@@ -101,20 +106,24 @@ def _draw_centered(image: Image.Image, blocks, box) -> Image.Image:
     return image
 
 
-def magicien_reflechit(texte: str, largeur: Optional[int] = None) -> Image.Image:
+def magicien_reflechit(texte: str, largeur: int | None = None) -> Image.Image:
     """Le magicien pensif, avec `texte` dans sa bulle de pensée."""
-    image = _draw_centered(_base("cartoon_reflechit_vierge.png"), [(texte, _FONT_BOLD, 46, _INK)], _THOUGHT_BOX)
+    image = _draw_centered(
+        _base("cartoon_reflechit_vierge.png"), [(texte, _FONT_BOLD, 46, _INK)], _THOUGHT_BOX
+    )
     return _resize(image, largeur)
 
 
-def magicien_trouve(titre: str, accroche: str = "Bien joué ! C'était...", largeur: Optional[int] = None) -> Image.Image:
+def magicien_trouve(
+    titre: str, accroche: str = "Bien joué ! C'était...", largeur: int | None = None
+) -> Image.Image:
     """Le magicien triomphant, avec l'accroche et le titre du film (en rouge) dans sa bulle."""
     blocks = [(accroche, _FONT_BOLD, 40, _INK), (titre.upper() + " !", _FONT_BLACK, 66, _RED)]
     image = _draw_centered(_base("cartoon_solution_vierge.png"), blocks, _SPEECH_BOX)
     return _resize(image, largeur)
 
 
-def _resize(image: Image.Image, largeur: Optional[int]) -> Image.Image:
+def _resize(image: Image.Image, largeur: int | None) -> Image.Image:
     if not largeur:
         return image
     hauteur = round(image.height * largeur / image.width)

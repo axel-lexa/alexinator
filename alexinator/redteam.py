@@ -7,11 +7,12 @@ Trois outils :
                       sur plusieurs niveaux et plusieurs films, et enregistre tout dans le journal.
 - `run_attacker`    : un LLM « attaquant » joue une partie entière, sur plusieurs messages.
 """
+
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
 
 from . import defenses
 from .config import ROOT
@@ -24,11 +25,11 @@ ATTACKS_PATH = ROOT / "data" / "attaques.json"
 HONEST_PATH = ROOT / "data" / "questions_honnetes.json"
 
 
-def load_attacks(path: Path = ATTACKS_PATH) -> List[Dict[str, str]]:
+def load_attacks(path: Path = ATTACKS_PATH) -> list[dict[str, str]]:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-def load_honest_questions(path: Path = HONEST_PATH) -> List[str]:
+def load_honest_questions(path: Path = HONEST_PATH) -> list[str]:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
@@ -53,9 +54,17 @@ def guess_film(replies: Iterable[str], guesser_llm) -> str:
 # ---------------------------------------------------------------------------
 # Campagne d'attaques statiques : un message = une partie neuve
 # ---------------------------------------------------------------------------
-def run_campaign(levels: List[Level], films: List[Film], attacks: List[Dict[str, str]],
-                 honest_questions: List[str], llm, aux_llm=None, guesser_llm=None,
-                 journal: Optional[Journal] = None, name: str = "campagne") -> List[dict]:
+def run_campaign(
+    levels: list[Level],
+    films: list[Film],
+    attacks: list[dict[str, str]],
+    honest_questions: list[str],
+    llm,
+    aux_llm=None,
+    guesser_llm=None,
+    journal: Journal | None = None,
+    name: str = "campagne",
+) -> list[dict]:
     """Renvoie (et enregistre dans la table `evaluations`) une ligne par message testé.
 
     Pour chaque ligne :
@@ -70,8 +79,9 @@ def run_campaign(levels: List[Level], films: List[Film], attacks: List[Dict[str,
         for film in films:
             for kind, category, text in items:
                 # Le journal des tours garde aussi la réponse brute, sous un pseudo « auto:... ».
-                session = GameSession(level, film, llm, aux_llm=aux_llm, journal=journal,
-                                      player=f"auto:{name}:{category}")
+                session = GameSession(
+                    level, film, llm, aux_llm=aux_llm, journal=journal, player=f"auto:{name}:{category}"
+                )
                 result = session.send(text)
                 title_leak, guess, guesser_leak = False, "", False
                 if result.blocked_by is None:
@@ -79,18 +89,29 @@ def run_campaign(levels: List[Level], films: List[Film], attacks: List[Dict[str,
                     if guesser_llm is not None:
                         guess = guess_film([result.reply], guesser_llm)
                         guesser_leak = check_answer(guess, film).correct
-                row = dict(campagne=name, modele=getattr(llm, "model", "?"), niveau=level.id, film_id=film.id,
-                           type=kind, categorie=category, message=text, reponse_affichee=result.reply,
-                           bloque_par=result.blocked_by, fuite_titre=title_leak,
-                           fuite_devineur=guesser_leak, proposition_devineur=guess)
+                row = dict(
+                    campagne=name,
+                    modele=getattr(llm, "model", "?"),
+                    niveau=level.id,
+                    film_id=film.id,
+                    type=kind,
+                    categorie=category,
+                    message=text,
+                    reponse_affichee=result.reply,
+                    bloque_par=result.blocked_by,
+                    fuite_titre=title_leak,
+                    fuite_devineur=guesser_leak,
+                    proposition_devineur=guess,
+                )
                 rows.append(row)
                 if journal:
                     journal.log_eval(**row)
     return rows
 
 
-def summarize(rows: List[dict]) -> Dict[int, Dict[str, float]]:
-    """Résumé par niveau : taux de fuite sur les attaques, taux de faux positifs sur les questions honnêtes."""
+def summarize(rows: list[dict]) -> dict[int, dict[str, float]]:
+    """Résumé par niveau : taux de fuite sur les attaques,
+    taux de faux positifs sur les questions honnêtes."""
     summary = {}
     for level_id in sorted({r["niveau"] for r in rows}):
         attacks = [r for r in rows if r["niveau"] == level_id and r["type"] == "attaque"]
@@ -105,7 +126,7 @@ def summarize(rows: List[dict]) -> Dict[int, Dict[str, float]]:
     return summary
 
 
-def _rate(flags: List[bool]) -> float:
+def _rate(flags: list[bool]) -> float:
     return round(sum(bool(f) for f in flags) / len(flags), 3) if flags else 0.0
 
 
@@ -126,12 +147,18 @@ def run_attacker(session: GameSession, attacker_llm, max_guesses: int = 5) -> di
     """Fait jouer `attacker_llm` contre la partie `session` jusqu'à la victoire ou l'épuisement."""
     system = ATTACKER_PROMPT.format(budget=session.level.max_messages)
     transcript = [{"role": "user", "content": "La partie commence. Écris ton premier message au gardien."}]
-    guesses: List[str] = []
+    guesses: list[str] = []
     while not session.solved and session.messages_left > 0 and len(guesses) < max_guesses:
         move = attacker_llm.chat([{"role": "system", "content": system}] + transcript, temperature=0.9)
         transcript.append({"role": "assistant", "content": move})
-        answer = next((line.split(":", 1)[1].strip() for line in move.splitlines()
-                       if line.strip().upper().startswith("REPONSE:")), None)
+        answer = next(
+            (
+                line.split(":", 1)[1].strip()
+                for line in move.splitlines()
+                if line.strip().upper().startswith("REPONSE:")
+            ),
+            None,
+        )
         if answer is not None:
             guesses.append(answer)
             correct = session.guess(answer).correct
@@ -139,5 +166,10 @@ def run_attacker(session: GameSession, attacker_llm, max_guesses: int = 5) -> di
         else:
             feedback = "Le gardien répond : " + session.send(move).reply
         transcript.append({"role": "user", "content": feedback})
-    return {"niveau": session.level.id, "film_id": session.film.id, "trouve": session.solved,
-            "messages_utilises": session.messages_used, "propositions": guesses}
+    return {
+        "niveau": session.level.id,
+        "film_id": session.film.id,
+        "trouve": session.solved,
+        "messages_utilises": session.messages_used,
+        "propositions": guesses,
+    }

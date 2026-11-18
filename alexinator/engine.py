@@ -3,6 +3,7 @@
 Un niveau = un fichier YAML dans levels/ (prompt du gardien + liste des défenses actives).
 Une partie = un objet GameSession : un joueur, un niveau, un film secret, un historique.
 """
+
 from __future__ import annotations
 
 import re
@@ -10,7 +11,6 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional
 
 import yaml
 
@@ -40,17 +40,17 @@ class Level:
     id: int
     name: str
     description: str
-    guardian_prompt: str                      # contient {fiche}, remplacé par la fiche du film
-    defenses: List[str] = field(default_factory=list)
-    filter_entities: bool = True              # le filtre bloque-t-il aussi acteurs, réalisateur, personnages ?
+    guardian_prompt: str  # contient {fiche}, remplacé par la fiche du film
+    defenses: list[str] = field(default_factory=list)
+    filter_entities: bool = True  # le filtre bloque-t-il aussi acteurs, réalisateur, personnages ?
     max_messages: int = 15
     temperature: float = 0.7
-    response_mode: str = "libre"              # "libre" ou "oui_non" (niveau 6 : réponses contraintes)
-    fiche_mode: str = "complete"              # "complete" ou "anonyme" (niveau 7 : ni titre ni noms)
-    tool_calls: int = 0                       # niveau 7 : nombre d'appels à l'outil VERIFIER
+    response_mode: str = "libre"  # "libre" ou "oui_non" (niveau 6 : réponses contraintes)
+    fiche_mode: str = "complete"  # "complete" ou "anonyme" (niveau 7 : ni titre ni noms)
+    tool_calls: int = 0  # niveau 7 : nombre d'appels à l'outil VERIFIER
 
 
-def load_levels(directory: Path = LEVELS_DIR) -> List[Level]:
+def load_levels(directory: Path = LEVELS_DIR) -> list[Level]:
     levels = []
     for path in sorted(Path(directory).glob("*.yaml")):
         data = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -64,27 +64,35 @@ def load_levels(directory: Path = LEVELS_DIR) -> List[Level]:
 
 @dataclass
 class TurnResult:
-    reply: str                  # ce que le joueur voit
-    blocked_by: Optional[str]   # nom de la défense qui a bloqué, sinon None
-    raw_reply: Optional[str]    # réponse du gardien avant les défenses (None s'il n'a pas été appelé)
+    reply: str  # ce que le joueur voit
+    blocked_by: str | None  # nom de la défense qui a bloqué, sinon None
+    raw_reply: str | None  # réponse du gardien avant les défenses (None s'il n'a pas été appelé)
 
 
 class GameSession:
-    def __init__(self, level: Level, film: Film, llm, aux_llm=None,
-                 journal: Optional[Journal] = None, player: str = "anonyme", judge=None):
+    def __init__(
+        self,
+        level: Level,
+        film: Film,
+        llm,
+        aux_llm=None,
+        journal: Journal | None = None,
+        player: str = "anonyme",
+        judge=None,
+    ):
         self.level = level
         self.film = film
-        self.llm = llm                  # LLM du gardien
-        self.aux_llm = aux_llm or llm   # LLM des défenses (détecteur, censeur)
-        self.judge = judge              # LLM juge pour la validation (optionnel)
+        self.llm = llm  # LLM du gardien
+        self.aux_llm = aux_llm or llm  # LLM des défenses (détecteur, censeur)
+        self.judge = judge  # LLM juge pour la validation (optionnel)
         self.journal = journal
         self.player = player
         self.session_id = uuid.uuid4().hex
-        self.history: List[Dict[str, str]] = []  # échanges tels que le joueur les a vus
+        self.history: list[dict[str, str]] = []  # échanges tels que le joueur les a vus
         self.messages_used = 0
         self.solved = False
         self.tool_calls_left = level.tool_calls
-        self.tool_notes: List[str] = []  # résultats des vérifications déjà faites (niveau 7)
+        self.tool_notes: list[str] = []  # résultats des vérifications déjà faites (niveau 7)
 
     @property
     def messages_left(self) -> int:
@@ -92,14 +100,14 @@ class GameSession:
 
     def system_prompt(self) -> str:
         fiche = self.film.fiche(anonyme=self.level.fiche_mode == "anonyme")
-        prompt = (self.level.guardian_prompt
-                  .replace("{fiche}", fiche)
-                  .replace("{verifications}", str(self.tool_calls_left)))
+        prompt = self.level.guardian_prompt.replace("{fiche}", fiche).replace(
+            "{verifications}", str(self.tool_calls_left)
+        )
         if self.tool_notes:
             prompt += "\nVérifications déjà faites avec ton outil :\n" + "\n".join(self.tool_notes)
         return prompt
 
-    def _use_tool(self, messages: List[Dict[str, str]], raw_reply: str) -> str:
+    def _use_tool(self, messages: list[dict[str, str]], raw_reply: str) -> str:
         """Niveau 7 : exécute l'appel « VERIFIER: <titre> » du gardien, puis le laisse répondre."""
         call = TOOL_RE.search(raw_reply)
         if call:
@@ -108,13 +116,18 @@ class GameSession:
                 self.tool_calls_left -= 1
                 verdict = "VRAI" if check_answer(proposal, self.film).correct else "FAUX"
                 self.tool_notes.append(f"- « {proposal} » : {verdict}")
-                tool_result = (f"[RÉSULTAT DE L'OUTIL] « {proposal} » : {verdict}. "
-                               f"Vérifications restantes : {self.tool_calls_left}.")
+                tool_result = (
+                    f"[RÉSULTAT DE L'OUTIL] « {proposal} » : {verdict}. "
+                    f"Vérifications restantes : {self.tool_calls_left}."
+                )
             else:
                 tool_result = "[RÉSULTAT DE L'OUTIL] Refusé : tu n'as plus de vérifications."
             followup = messages + [
                 {"role": "assistant", "content": raw_reply},
-                {"role": "user", "content": tool_result + " Réponds maintenant au joueur, sans écrire de titre."},
+                {
+                    "role": "user",
+                    "content": tool_result + " Réponds maintenant au joueur, sans écrire de titre.",
+                },
             ]
             raw_reply = self.llm.chat(followup, temperature=self.level.temperature)
         # Le joueur ne voit jamais les lignes d'appel à l'outil.
@@ -140,9 +153,11 @@ class GameSession:
 
             # Étape 2 - le gardien répond (prompt système + historique + nouveau message)
             if blocked_by is None:
-                messages = ([{"role": "system", "content": self.system_prompt()}]
-                            + self.history
-                            + [{"role": "user", "content": user_message}])
+                messages = (
+                    [{"role": "system", "content": self.system_prompt()}]
+                    + self.history
+                    + [{"role": "user", "content": user_message}]
+                )
                 raw_reply = self.llm.chat(messages, temperature=self.level.temperature)
                 if self.level.tool_calls:
                     raw_reply = self._use_tool(messages, raw_reply)
@@ -164,15 +179,23 @@ class GameSession:
         # L'historique contient ce que le joueur a VU : une réponse bloquée n'y figure pas,
         # sinon le gardien pourrait la citer plus tard et contourner la défense.
         if blocked_by != "limite":
-            self.history += [{"role": "user", "content": user_message},
-                             {"role": "assistant", "content": reply}]
+            self.history += [
+                {"role": "user", "content": user_message},
+                {"role": "assistant", "content": reply},
+            ]
 
         if self.journal:
             self.journal.log_turn(
-                session_id=self.session_id, joueur=self.player, niveau=self.level.id,
-                film_id=self.film.id, modele=getattr(self.llm, "model", "?"),
-                message_joueur=user_message, reponse_brute=raw_reply, reponse_affichee=reply,
-                bloque_par=blocked_by, detail=detail,
+                session_id=self.session_id,
+                joueur=self.player,
+                niveau=self.level.id,
+                film_id=self.film.id,
+                modele=getattr(self.llm, "model", "?"),
+                message_joueur=user_message,
+                reponse_brute=raw_reply,
+                reponse_affichee=reply,
+                bloque_par=blocked_by,
+                detail=detail,
                 latence_ms=int((time.perf_counter() - start) * 1000),
             )
         return TurnResult(reply=reply, blocked_by=blocked_by, raw_reply=raw_reply)
@@ -186,8 +209,13 @@ class GameSession:
             self.solved = True
         if self.journal:
             self.journal.log_guess(
-                session_id=self.session_id, joueur=self.player, niveau=self.level.id,
-                film_id=self.film.id, proposition=answer, correcte=result.correct,
-                methode=result.method, messages_utilises=self.messages_used,
+                session_id=self.session_id,
+                joueur=self.player,
+                niveau=self.level.id,
+                film_id=self.film.id,
+                proposition=answer,
+                correcte=result.correct,
+                methode=result.method,
+                messages_utilises=self.messages_used,
             )
         return result

@@ -3,6 +3,7 @@
 Les réglages se lisent dans les variables d'environnement, ou dans un fichier `.env`
 placé à la racine du projet (voir `.env.example`). Aucun paquet externe n'est nécessaire.
 """
+
 from __future__ import annotations
 
 import os
@@ -33,13 +34,13 @@ def load_dotenv(path: Path = ROOT / ".env") -> None:
 
 @dataclass
 class Settings:
-    base_url: str   # adresse de l'API compatible OpenAI (Ollama par défaut)
-    api_key: str    # clé d'API ("ollama" suffit pour un modèle local)
-    model: str      # modèle du gardien
+    base_url: str  # adresse de l'API compatible OpenAI (Ollama par défaut)
+    api_key: str  # clé d'API ("ollama" suffit pour un modèle local)
+    model: str  # modèle du gardien
     aux_model: str  # modèle des défenses (détecteur, censeur) : peut être plus petit
-    backend: str = "api"       # "api" (serveur compatible OpenAI) ou "local" (transformers, sur GPU)
-    adapter: str = ""          # backend local : dossier de l'adaptateur LoRA entraîné (optionnel)
-    teacher_model: str = ""    # modèle « professeur » pour fabriquer le jeu de données d'entraînement
+    backend: str = "api"  # "api" (serveur compatible OpenAI) ou "local" (transformers, sur GPU)
+    adapter: str = ""  # backend local : dossier de l'adaptateur LoRA entraîné (optionnel)
+    teacher_model: str = ""  # modèle « professeur » pour fabriquer le jeu de données d'entraînement
 
 
 def get_settings() -> Settings:

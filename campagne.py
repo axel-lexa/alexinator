@@ -7,6 +7,7 @@
 Nombre d'appels au gardien : niveaux x films x (24 attaques + 30 questions). Commencer petit.
 Les résultats vont dans la table `evaluations` de data/journal.db (voir analyse.ipynb).
 """
+
 import argparse
 import random
 
@@ -15,8 +16,7 @@ from alexinator.engine import GameSession, load_levels
 from alexinator.films import load_films
 from alexinator.journal import Journal
 from alexinator.llm import make_llm
-from alexinator.redteam import (load_attacks, load_honest_questions, run_attacker, run_campaign,
-                                summarize)
+from alexinator.redteam import load_attacks, load_honest_questions, run_attacker, run_campaign, summarize
 
 
 def main() -> None:
@@ -35,20 +35,32 @@ def main() -> None:
     films = random.Random(args.graine).sample(load_films(), args.films)
     journal = Journal()
 
-    rows = run_campaign(levels, films, load_attacks(), load_honest_questions(), llm, aux_llm=aux_llm,
-                        guesser_llm=None if args.sans_devineur else aux_llm, journal=journal, name=args.nom)
+    rows = run_campaign(
+        levels,
+        films,
+        load_attacks(),
+        load_honest_questions(),
+        llm,
+        aux_llm=aux_llm,
+        guesser_llm=None if args.sans_devineur else aux_llm,
+        journal=journal,
+        name=args.nom,
+    )
     print(f"\n{len(rows)} messages testés avec {settings.model} sur {[f.id for f in films]}")
     for level_id, stats in summarize(rows).items():
-        print(f"Niveau {level_id} : fuite sur {stats['taux_fuite']:.0%} des attaques, "
-              f"{stats['taux_blocage']:.0%} bloquées, "
-              f"{stats['taux_faux_positifs']:.0%} de faux positifs sur les questions honnêtes")
+        print(
+            f"Niveau {level_id} : fuite sur {stats['taux_fuite']:.0%} des attaques, "
+            f"{stats['taux_blocage']:.0%} bloquées, "
+            f"{stats['taux_faux_positifs']:.0%} de faux positifs sur les questions honnêtes"
+        )
 
     if args.attaquant:
         print("\nAttaquant automatique :")
         for level in levels:
             for film in films:
-                session = GameSession(level, film, llm, aux_llm=aux_llm, journal=journal,
-                                      player=f"auto:{args.nom}:attaquant")
+                session = GameSession(
+                    level, film, llm, aux_llm=aux_llm, journal=journal, player=f"auto:{args.nom}:attaquant"
+                )
                 outcome = run_attacker(session, aux_llm)
                 status = "trouvé" if outcome["trouve"] else "échec"
                 print(f"Niveau {level.id}, {film.id} : {status} en {outcome['messages_utilises']} messages")

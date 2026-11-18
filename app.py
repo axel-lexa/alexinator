@@ -2,6 +2,7 @@
 
 Lancer depuis la racine du projet :  streamlit run app.py
 """
+
 import streamlit as st
 
 from alexinator import visuels
@@ -40,19 +41,20 @@ AVATAR = str(visuels.AVATAR)
 
 # --- État propre à chaque joueur (st.session_state survit aux rechargements de la page) ----
 state = st.session_state
-state.setdefault("unlocked", levels[0].id)   # plus haut niveau débloqué
-state.setdefault("played", [])               # ids des films déjà joués
-state.setdefault("game", None)               # partie en cours (GameSession)
-state.setdefault("chat", [])                 # messages affichés : {"role", "text", "pensee"}
-state.setdefault("intro", "")                # phrase du magicien en début de partie
-state.setdefault("celebrate", False)         # lancer les ballons une seule fois
+state.setdefault("unlocked", levels[0].id)  # plus haut niveau débloqué
+state.setdefault("played", [])  # ids des films déjà joués
+state.setdefault("game", None)  # partie en cours (GameSession)
+state.setdefault("chat", [])  # messages affichés : {"role", "text", "pensee"}
+state.setdefault("intro", "")  # phrase du magicien en début de partie
+state.setdefault("celebrate", False)  # lancer les ballons une seule fois
 
 
 def new_game(level_id: int, player: str) -> None:
     film = pick_film(films, exclude=state.played)
     state.played.append(film.id)
-    state.game = GameSession(levels_by_id[level_id], film, llm, aux_llm=aux_llm,
-                             journal=journal, player=player or "anonyme")
+    state.game = GameSession(
+        levels_by_id[level_id], film, llm, aux_llm=aux_llm, journal=journal, player=player or "anonyme"
+    )
     state.chat = []
     state.intro = visuels.phrase("debut")
 
@@ -66,7 +68,9 @@ with st.sidebar:
     # Ainsi, débloquer un niveau ne fait pas quitter l'écran de victoire.
     current = state.game.level.id if state.game else available[-1]
     level_id = st.selectbox(
-        "Niveau", available, index=available.index(current),
+        "Niveau",
+        available,
+        index=available.index(current),
         format_func=lambda i: f"{i}. {levels_by_id[i].name}",
         filter_mode=None,  # dropdown classique : pas de saisie au clavier
     )
@@ -134,13 +138,20 @@ else:
             result = game.send(message)
         except Exception as error:  # LLM injoignable, mauvais nom de modèle, clé invalide...
             thinking.empty()
-            st.error(f"Impossible de joindre le LLM. Vérifie le fichier .env et que le serveur tourne.\n\n{error}")
+            st.error(
+                f"Impossible de joindre le LLM. Vérifie le fichier .env et que le serveur tourne.\n\n{error}"
+            )
         else:
             thinking.empty()
             blocked = result.blocked_by not in (None, "limite")
             state.chat.append({"role": "user", "text": message})
-            state.chat.append({"role": "assistant", "text": result.reply,
-                               "pensee": visuels.phrase("bloque") if blocked else ""})
+            state.chat.append(
+                {
+                    "role": "assistant",
+                    "text": result.reply,
+                    "pensee": visuels.phrase("bloque") if blocked else "",
+                }
+            )
             st.rerun()
     if game.messages_left == 0:
         st.warning("Plus de messages : propose une réponse ou clique sur « Nouveau film ».")

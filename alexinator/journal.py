@@ -6,12 +6,12 @@ défense déclenchée, latence...). Lecture dans un notebook :
     import sqlite3, pandas as pd
     df = pd.read_sql("SELECT * FROM tours", sqlite3.connect("data/journal.db"))
 """
+
 from __future__ import annotations
 
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
 
 from .config import JOURNAL_PATH
 
@@ -61,36 +61,102 @@ class Journal:
         # Une connexion par écriture : simple et sans souci avec les threads de Streamlit.
         return sqlite3.connect(self.path)
 
-    def log_turn(self, session_id: str, joueur: str, niveau: int, film_id: str, modele: str,
-                 message_joueur: str, reponse_brute: Optional[str], reponse_affichee: str,
-                 bloque_par: Optional[str], detail: str, latence_ms: int) -> None:
+    def log_turn(
+        self,
+        session_id: str,
+        joueur: str,
+        niveau: int,
+        film_id: str,
+        modele: str,
+        message_joueur: str,
+        reponse_brute: str | None,
+        reponse_affichee: str,
+        bloque_par: str | None,
+        detail: str,
+        latence_ms: int,
+    ) -> None:
         with self._connect() as conn:
             conn.execute(
                 "INSERT INTO tours (horodatage, session_id, joueur, niveau, film_id, modele, message_joueur,"
                 " reponse_brute, reponse_affichee, bloque_par, detail, latence_ms)"
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (_now(), session_id, joueur, niveau, film_id, modele, message_joueur,
-                 reponse_brute, reponse_affichee, bloque_par, detail, latence_ms),
+                (
+                    _now(),
+                    session_id,
+                    joueur,
+                    niveau,
+                    film_id,
+                    modele,
+                    message_joueur,
+                    reponse_brute,
+                    reponse_affichee,
+                    bloque_par,
+                    detail,
+                    latence_ms,
+                ),
             )
 
-    def log_guess(self, session_id: str, joueur: str, niveau: int, film_id: str,
-                  proposition: str, correcte: bool, methode: str, messages_utilises: int) -> None:
+    def log_guess(
+        self,
+        session_id: str,
+        joueur: str,
+        niveau: int,
+        film_id: str,
+        proposition: str,
+        correcte: bool,
+        methode: str,
+        messages_utilises: int,
+    ) -> None:
         with self._connect() as conn:
             conn.execute(
                 "INSERT INTO propositions (horodatage, session_id, joueur, niveau, film_id, proposition,"
                 " correcte, methode, messages_utilises) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (_now(), session_id, joueur, niveau, film_id, proposition, int(correcte), methode,
-                 messages_utilises),
+                (
+                    _now(),
+                    session_id,
+                    joueur,
+                    niveau,
+                    film_id,
+                    proposition,
+                    int(correcte),
+                    methode,
+                    messages_utilises,
+                ),
             )
 
-    def log_eval(self, campagne: str, modele: str, niveau: int, film_id: str, type: str, categorie: str,
-                 message: str, reponse_affichee: str, bloque_par: Optional[str], fuite_titre: bool,
-                 fuite_devineur: bool, proposition_devineur: str) -> None:
+    def log_eval(
+        self,
+        campagne: str,
+        modele: str,
+        niveau: int,
+        film_id: str,
+        type: str,
+        categorie: str,
+        message: str,
+        reponse_affichee: str,
+        bloque_par: str | None,
+        fuite_titre: bool,
+        fuite_devineur: bool,
+        proposition_devineur: str,
+    ) -> None:
         with self._connect() as conn:
             conn.execute(
                 "INSERT INTO evaluations (horodatage, campagne, modele, niveau, film_id, type, categorie,"
                 " message, reponse_affichee, bloque_par, fuite_titre, fuite_devineur, proposition_devineur)"
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (_now(), campagne, modele, niveau, film_id, type, categorie, message, reponse_affichee,
-                 bloque_par, int(fuite_titre), int(fuite_devineur), proposition_devineur),
+                (
+                    _now(),
+                    campagne,
+                    modele,
+                    niveau,
+                    film_id,
+                    type,
+                    categorie,
+                    message,
+                    reponse_affichee,
+                    bloque_par,
+                    int(fuite_titre),
+                    int(fuite_devineur),
+                    proposition_devineur,
+                ),
             )

@@ -1,0 +1,19 @@
+[tool.ruff]
+# 110 colonnes : c'est la largeur déjà utilisée dans le code du projet.
+line-length = 110
+target-version = "py310"
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle (erreurs)
+    "W",   # pycodestyle (avertissements)
+    "F",   # pyflakes : imports et variables inutilisés, noms non définis
+    "I",   # tri des imports
+    "B",   # bugbear : pièges courants
+    "UP",  # pyupgrade : syntaxe Python moderne
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Dans les notebooks, les imports se font souvent au fil des cellules.
+"*.ipynb" = ["E402"]

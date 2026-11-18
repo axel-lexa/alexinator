@@ -8,13 +8,13 @@ Trois étapes, de la plus sûre à la plus souple :
 On veut accepter « star wars 4 » ou « amelie poulin », mais refuser « Star Wars » tout court
 quand le secret est l'épisode IV : c'est pourquoi l'étape 2 exige le même nombre de mots.
 """
+
 from __future__ import annotations
 
 import re
 import unicodedata
 from dataclasses import dataclass
 from difflib import SequenceMatcher
-from typing import Optional
 
 from .films import Film
 
@@ -34,7 +34,7 @@ def strip_article(normalized: str) -> str:
     """Retire un article en tête : « le parrain » -> « parrain »."""
     for article in ARTICLES:
         if normalized.startswith(article):
-            return normalized[len(article):]
+            return normalized[len(article) :]
     return normalized
 
 
@@ -73,7 +73,8 @@ def check_answer(guess: str, film: Film, judge=None) -> GuessResult:
 def _judge_says_yes(guess: str, film: Film, judge) -> bool:
     prompt = (
         "Tu arbitres un jeu de devinettes sur le cinéma.\n"
-        f"Film à trouver : {film.titre} ({film.annee}). Autres titres acceptés : {', '.join(film.alias) or 'aucun'}.\n"
+        f"Film à trouver : {film.titre} ({film.annee}). "
+        f"Autres titres acceptés : {', '.join(film.alias) or 'aucun'}.\n"
         f"Réponse du joueur : « {guess} »\n"
         "La réponse désigne-t-elle précisément ce film (et pas seulement sa saga ou un autre volet) ?\n"
         "Réponds par un seul mot : OUI ou NON."
