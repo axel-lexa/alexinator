@@ -46,14 +46,16 @@ state.setdefault("game", None)               # partie en cours (GameSession)
 state.setdefault("chat", [])                 # messages affichés : {"role", "text", "pensee"}
 state.setdefault("intro", "")                # phrase du magicien en début de partie
 state.setdefault("celebrate", False)         # lancer les ballons une seule fois
+state.setdefault("win_text", "")             # message de victoire (avec correction d'orthographe)
 
 
 def new_game(level_id: int, player: str) -> None:
     film = pick_film(films, exclude=state.played)
     state.played.append(film.id)
     state.game = GameSession(levels_by_id[level_id], film, llm, aux_llm=aux_llm,
-                             journal=journal, player=player or "anonyme")
+                             journal=journal, player=player or "anonyme", catalogue=films)
     state.chat = []
+    state.win_text = ""
     state.intro = visuels.phrase("debut")
 
 
@@ -83,7 +85,8 @@ game.player = player or "anonyme"
 # --- Zone principale -------------------------------------------------------------------------
 st.header(f"Niveau {game.level.id} : {game.level.name}")
 st.write(game.level.description)
-st.caption(f"Messages restants : {game.messages_left} / {game.level.max_messages}")
+st.caption(f"Messages restants : {game.messages_left} / {game.level.max_messages}  ·  "
+           "Tu penses avoir trouvé ? Écris simplement le titre dans la discussion.")
 
 # Début de partie : le magicien annonce qu'il a un film en tête.
 if not state.chat and not game.solved:
@@ -92,7 +95,7 @@ if not state.chat and not game.solved:
 for entry in state.chat:
     with st.chat_message(entry["role"], avatar=AVATAR if entry["role"] == "assistant" else None):
         st.write(entry["text"])
-        # Quand une défense a bloqué la réponse, le magicien prend un air entendu.
+        # Défense qui bloque ou mauvaise proposition : le magicien prend un air entendu.
         if entry.get("pensee"):
             st.image(image_reflechit(entry["pensee"]), width=220)
 
@@ -101,29 +104,16 @@ if game.solved:
     if state.celebrate:
         st.balloons()
         state.celebrate = False
-    st.success(f"Bravo ! C'était bien « {game.film.titre} » ({game.film.annee}).")
+    st.success(state.win_text or f"Bravo ! C'était bien « {game.film.titre} » ({game.film.annee}).")
     if game.level.id < levels[-1].id:
         st.info("Le niveau suivant est débloqué : choisis-le dans la barre latérale.")
     else:
         st.image(str(visuels.AFFICHE_VICTOIRE), width=320)
         st.info("Tu as battu tous les niveaux. Clique sur « Nouveau film » pour rejouer.")
 else:
-    # Proposition de réponse (ne passe pas par le gardien : validée par le code)
-    with st.form("reponse", clear_on_submit=True):
-        answer = st.text_input("Ta réponse : quel est le film ?")
-        submitted = st.form_submit_button("Valider")
-    if submitted and answer.strip():
-        result = game.guess(answer)
-        if result.correct:
-            state.unlocked = min(max(state.unlocked, game.level.id + 1), levels[-1].id)
-            state.celebrate = True
-            st.rerun()
-        else:
-            st.image(image_reflechit(visuels.phrase("rate")), width=260)
-            st.error("Ce n'est pas ça. Continue à interroger le gardien.")
-
-    # Discussion avec le gardien
-    message = st.chat_input("Parle au gardien...", disabled=game.messages_left == 0)
+    # Un seul champ : le moteur distingue lui-même une question d'une proposition de titre.
+    message = st.chat_input("Pose une question au gardien, ou tape le titre du film...",
+                            disabled=game.messages_left == 0)
     if message:
         with st.chat_message("user"):
             st.write(message)
@@ -131,16 +121,24 @@ else:
         thinking = st.empty()
         thinking.image(image_reflechit(visuels.phrase("attente")), width=260)
         try:
-            result = game.send(message)
+            result = game.play(message)
         except Exception as error:  # LLM injoignable, mauvais nom de modèle, clé invalide...
             thinking.empty()
             st.error(f"Impossible de joindre le LLM. Vérifie le fichier .env et que le serveur tourne.\n\n{error}")
         else:
             thinking.empty()
-            blocked = result.blocked_by not in (None, "limite")
             state.chat.append({"role": "user", "text": message})
-            state.chat.append({"role": "assistant", "text": result.reply,
-                               "pensee": visuels.phrase("bloque") if blocked else ""})
+            if result.guess and result.guess.correct:
+                state.unlocked = min(max(state.unlocked, game.level.id + 1), levels[-1].id)
+                state.celebrate = True
+                state.win_text = result.reply
+            else:
+                blocked = result.blocked_by not in (None, "limite")
+                missed = result.guess is not None
+                pensee = visuels.phrase("rate") if missed else visuels.phrase("bloque") if blocked else ""
+                state.chat.append({"role": "assistant", "text": result.reply, "pensee": pensee})
             st.rerun()
-    if game.messages_left == 0:
-        st.warning("Plus de messages : propose une réponse ou clique sur « Nouveau film ».")
+    if game.messages_left == 1:
+        st.warning("Dernier message : c'est le moment de proposer ton titre !")
+    elif game.messages_left == 0:
+        st.warning("Plus de messages. Clique sur « Nouveau film » pour recommencer.")
