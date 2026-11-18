@@ -239,7 +239,7 @@
     "acteurs": ["Matthew McConaughey", "Anne Hathaway", "Michael Caine", "Jessica Chastain"],
     "personnages": ["Cooper", "Brand", "Professor Brand", "Murph"],
     "genre": "aventure, drame, science-fiction",
-    "mots_cles": ["espace", "course contre le temps", "intelligence artificielle", "nasa", "tempête du temps", "dystopie"]
+    "mots_cles": ["trou de ver", "Terre mourante", "planète lointaine", "relation père-fille", "voyage spatial", "dilatation du temps"]
   },
   {
     "id": "avengers",
@@ -250,7 +250,7 @@
     "acteurs": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo", "Chris Hemsworth"],
     "personnages": ["Tony Stark", "Steve Rogers", "Bruce Banner", "Thor"],
     "genre": "science-fiction, action, aventure",
-    "mots_cles": ["new york", "super-héros", "bouclier", "invasion extraterrestre", "équipe de super-héros", "univers cinématographique de marvel (mcu)"]
+    "mots_cles": ["invasion extraterrestre", "bataille de New York", "équipe de super-héros", "cube cosmique", "agence secrète", "frère adoptif jaloux"]
   },
   {
     "id": "dark_knight_le_chevalier_noir",
@@ -261,7 +261,7 @@
     "acteurs": ["Christian Bale", "Heath Ledger", "Aaron Eckhart", "Michael Caine"],
     "personnages": ["Bruce Wayne", "Joker", "Harvey Dent", "Alfred"],
     "genre": "action, thriller, crime",
-    "mots_cles": ["sadisme", "chaos", "identité secrète", "lutte contre le crime", "super-héros", "anti-héros"]
+    "mots_cles": ["justicier masqué", "criminel anarchiste", "procureur", "dilemme moral", "braquage de banque", "chaos"]
   },
   {
     "id": "deadpool",
@@ -272,7 +272,7 @@
     "acteurs": ["Ryan Reynolds", "Morena Baccarin", "Ed Skrein", "T.J. Miller"],
     "personnages": ["Wade", "Vanessa", "Ajax", "Weasel"],
     "genre": "action, aventure, comédie",
-    "mots_cles": ["super-héros", "anti-héros", "mercenaire"]
+    "mots_cles": ["mercenaire", "défiguration", "humour irrévérencieux", "brise le quatrième mur", "vengeance", "cancer"]
   },
   {
     "id": "avengers_infinity_war",
@@ -283,7 +283,7 @@
     "acteurs": ["Robert Downey Jr.", "Chris Evans", "Chris Hemsworth", "Josh Brolin"],
     "personnages": ["Tony Stark", "Steve Rogers", "Thor", "Thanos"],
     "genre": "aventure, action, science-fiction",
-    "mots_cles": ["sacrifice", "magie", "super-héros", "espace", "champ de bataille", "génocide"]
+    "mots_cles": ["six gemmes", "moitié de l'univers", "équipe de super-héros", "défaite des héros", "sacrifice", "champ de bataille"]
   },
   {
     "id": "fight_club",
@@ -294,7 +294,7 @@
     "acteurs": ["Edward Norton", "Brad Pitt", "Helena Bonham Carter", "Meat Loaf"],
     "personnages": ["Tyler Durden", "Marla Singer", "Robert Paulson"],
     "genre": "drame, thriller",
-    "mots_cles": ["identité dual", "fureur et haine", "nihilisme", "bataille", "groupe de soutien", "dystopie"]
+    "mots_cles": ["combats clandestins", "insomnie", "double personnalité", "groupes de soutien", "anticonsumérisme", "savon"]
   },
   {
     "id": "evades",
@@ -305,7 +305,7 @@
     "acteurs": ["Tim Robbins", "Morgan Freeman", "Bob Gunton", "William Sadler"],
     "personnages": ["Andy Dufresne", "Ellis Boyd 'Red' Redding", "Warden Norton", "Heywood"],
     "genre": "drame, crime",
-    "mots_cles": ["prison", "amitié", "violence policière", "corruption", "liberté", "espoir"]
+    "mots_cles": ["prison", "condamné à perpétuité", "erreur judiciaire", "amitié", "directeur corrompu", "espoir"]
   },
   {
     "id": "gardiens_de_la_galaxie",
@@ -316,7 +316,7 @@
     "acteurs": ["Chris Pratt", "Zoe Saldaña", "Dave Bautista", "Vin Diesel"],
     "personnages": ["Peter Quill", "Gamora", "Drax", "Groot"],
     "genre": "action, science-fiction, aventure",
-    "mots_cles": ["spatiale", "espace", "orphelin", "aventurier", "univers cinématographique de marvel (mcu)"]
+    "mots_cles": ["bande de hors-la-loi", "raton laveur qui parle", "arbre humanoïde", "cassette des années 1980", "orbe convoité", "espace"]
   },
   {
     "id": "avengers_endgame",
@@ -327,7 +327,7 @@
     "acteurs": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo", "Chris Hemsworth"],
     "personnages": ["Tony Stark", "Steve Rogers", "Bruce Banner", "Thor"],
     "genre": "aventure, science-fiction, action",
-    "mots_cles": ["super-héros", "voyage dans le temps", "voyage dans l'espace", "machine à voyager dans le temps", "invasion extraterrestre", "équipe de super-héros"]
+    "mots_cles": ["voyage dans le temps", "cinq ans plus tard", "deuil", "équipe de super-héros", "bataille finale", "sacrifice"]
   },
   {
     "id": "iron_man",
@@ -338,7 +338,7 @@
     "acteurs": ["Robert Downey Jr.", "Terrence Howard", "Jeff Bridges", "Gwyneth Paltrow"],
     "personnages": ["Tony Stark", "Rhodey", "Obadiah Stane", "Pepper Potts"],
     "genre": "action, science-fiction, aventure",
-    "mots_cles": ["moyen orient", "enlèvement", "super-héros", "vendeur d'armes", "univers cinématographique de marvel (mcu)", "agressif"]
+    "mots_cles": ["marchand d'armes", "enlèvement en Afghanistan", "armure high-tech", "milliardaire", "réacteur dans la poitrine", "super-héros"]
   },
   {
     "id": "django_unchained",
@@ -349,7 +349,7 @@
     "acteurs": ["Jamie Foxx", "Christoph Waltz", "Leonardo DiCaprio", "Kerry Washington"],
     "personnages": ["Django Freeman", "Dr. King Schultz", "Calvin J. Candie", "Broomhilda von Shaft"],
     "genre": "drame, western",
-    "mots_cles": ["sauvetage", "amitié", "chasseur de primes", "ku klux klan", "texas", "esclavage"]
+    "mots_cles": ["esclavage", "chasseur de primes", "Sud des États-Unis", "plantation", "sauvetage de son épouse", "western"]
   },
   {
     "id": "joker",
@@ -360,7 +360,7 @@
     "acteurs": ["Joaquin Phoenix", "Robert De Niro", "Zazie Beetz", "Frances Conroy"],
     "personnages": ["Arthur Fleck", "Murray Franklin", "Sophie Dumond", "Penny Fleck"],
     "genre": "crime, thriller, drame",
-    "mots_cles": ["société", "commentaire social", "thriller psychologique", "maître criminel", "maladie mentale", "anarchie"]
+    "mots_cles": ["maladie mentale", "comédien raté", "rire incontrôlable", "commentaire social", "émeutes", "descente aux enfers"]
   },
   {
     "id": "seigneur_des_anneaux_le_retour",
@@ -371,7 +371,7 @@
     "acteurs": ["Elijah Wood", "Ian McKellen", "Viggo Mortensen", "Sean Astin"],
     "personnages": ["Frodo", "Gandalf", "Aragorn", "Sam"],
     "genre": "aventure, fantastique, action",
-    "mots_cles": ["armée", "elfes", "nain", "magie", "royaume", "christianisme"]
+    "mots_cles": ["dernière bataille", "elfes", "nains", "volcan", "royaume à reconquérir", "magicien"]
   },
   {
     "id": "loup_de_wall_street",
@@ -382,7 +382,7 @@
     "acteurs": ["Leonardo DiCaprio", "Jonah Hill", "Margot Robbie", "Matthew McConaughey"],
     "personnages": ["Jordan Belfort", "Donnie Azoff", "Naomi Lapaglia", "Mark Hanna"],
     "genre": "crime, drame, comédie",
-    "mots_cles": ["corruption", "addiction", "anti-héros", "con", "fraude", "Wall Street"]
+    "mots_cles": ["courtier en bourse", "fraude financière", "drogue", "excès", "années 1990", "histoire vraie"]
   },
   {
     "id": "shutter_island",
@@ -393,7 +393,7 @@
     "acteurs": ["Leonardo DiCaprio", "Mark Ruffalo", "Ben Kingsley", "Max von Sydow"],
     "personnages": ["Teddy Daniels", "Chuck Aule", "Dr. Cawley", "Dr. Naehring"],
     "genre": "drame, thriller, mystère",
-    "mots_cles": ["île", "camp de concentration", "ouragan", "enquête", "hôpital psychiatrique", "institut mental"]
+    "mots_cles": ["île", "hôpital psychiatrique", "marshal fédéral", "patiente disparue", "tempête", "années 1950"]
   },
   {
     "id": "avengers_l_ere_d_ultron",
@@ -404,7 +404,7 @@
     "acteurs": ["Robert Downey Jr.", "Chris Hemsworth", "Mark Ruffalo", "Chris Evans"],
     "personnages": ["Tony Stark", "Thor", "Bruce Banner", "Steve Rogers"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["intelligence artificielle", "sauver le monde", "super-héros", "vision", "robot", "équipe de super-héros"]
+    "mots_cles": ["intelligence artificielle", "robot", "équipe de super-héros", "ville soulevée dans les airs", "jumeaux aux pouvoirs", "création qui se retourne contre son créateur"]
   },
   {
     "id": "dark_knight_rises",
@@ -415,7 +415,7 @@
     "acteurs": ["Christian Bale", "Gary Oldman", "Tom Hardy", "Joseph Gordon-Levitt"],
     "personnages": ["Bruce Wayne", "Commissioner Gordon", "Bane", "Blake"],
     "genre": "action, crime, thriller",
-    "mots_cles": ["avion", "bataille", "voleur", "otage", "identité secrète", "combattant contre le crime"]
+    "mots_cles": ["justicier masqué", "retraite", "mercenaire masqué", "bombe nucléaire", "prison souterraine", "révolution"]
   },
   {
     "id": "inglourious_basterds",
@@ -426,7 +426,7 @@
     "acteurs": ["Brad Pitt", "Mélanie Laurent", "Christoph Waltz", "Eli Roth"],
     "personnages": ["LT. Aldo Raine", "Shosanna", "COL. Hans Landa", "SGT. Donny Donowitz"],
     "genre": "drame, thriller, guerre",
-    "mots_cles": ["guerre de guérilla", "paris", "sacrifice personnel", "seconde guerre mondiale", "pérsecution des juifs", "comédie sombre"]
+    "mots_cles": ["Seconde Guerre mondiale", "escouade juive", "France occupée", "salle de cinéma", "vengeance", "uchronie"]
   },
   {
     "id": "seigneur_des_anneaux_les_deux",
@@ -437,7 +437,7 @@
     "acteurs": ["Elijah Wood", "Ian McKellen", "Viggo Mortensen", "Sean Astin"],
     "personnages": ["Frodo", "Gandalf", "Aragorn", "Sam"],
     "genre": "aventure, fantastique, action",
-    "mots_cles": ["mission", "elfes", "dwarf", "magie", "christianisme", "obsession"]
+    "mots_cles": ["forteresse assiégée", "elfes", "nains", "arbres vivants", "créature schizophrène", "magicien"]
   },
   {
     "id": "mad_max_fury_road",
@@ -448,7 +448,7 @@
     "acteurs": ["Tom Hardy", "Charlize Theron", "Nicholas Hoult", "Hugh Keays-Byrne"],
     "personnages": ["Max Rockatansky", "Imperator Furiosa", "Nux", "Immortan Joe"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["sauvetage", "australie", "dystopie", "ouragan de sable", "futur post-apocalyptique", "survie"]
+    "mots_cles": ["désert", "course-poursuite", "camion de guerre", "tyran", "futur post-apocalyptique", "survie"]
   },
   {
     "id": "captain_america_civil_war",
@@ -459,7 +459,7 @@
     "acteurs": ["Chris Evans", "Robert Downey Jr.", "Scarlett Johansson", "Sebastian Stan"],
     "personnages": ["Steve Rogers", "Tony Stark", "Natasha Romanoff", "Bucky Barnes"],
     "genre": "aventure, action, science-fiction",
-    "mots_cles": ["super-héros", "super-soldat", "univers cinématographique marvel (mcu)", "équipe de super-héros", "bataille de combat", "contre"]
+    "mots_cles": ["super-héros divisés", "accords gouvernementaux", "super-soldat", "bataille à l'aéroport", "vengeance", "ami d'enfance"]
   },
   {
     "id": "harry_potter_et_la_chambre",
@@ -470,7 +470,7 @@
     "acteurs": ["Daniel Radcliffe", "Rupert Grint", "Emma Watson", "Kenneth Branagh"],
     "personnages": ["Harry Potter", "Ron Weasley", "Hermione Granger", "Gilderoy Lockhart"],
     "genre": "aventure, fantastique",
-    "mots_cles": ["fée", "voiture volante", "elfes", "magie", "épée", "journal"]
+    "mots_cles": ["école de sorcellerie", "deuxième année", "voiture volante", "serpent géant", "journal intime ensorcelé", "elfe de maison"]
   },
   {
     "id": "spider_man_homecoming",
@@ -481,7 +481,7 @@
     "acteurs": ["Tom Holland", "Michael Keaton", "Robert Downey Jr.", "Marisa Tomei"],
     "personnages": ["Peter Parker", "Adrian Toomes", "Tony Stark", "May Parker"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["école secondaire", "new york", "washington dc", "identité secrète", "héros", "âge devenu"]
+    "mots_cles": ["lycée", "New York", "adolescent super-héros", "bal de fin d'année", "mentor milliardaire", "identité secrète"]
   },
   {
     "id": "black_panther",
@@ -492,7 +492,7 @@
     "acteurs": ["Chadwick Boseman", "Michael B. Jordan", "Lupita Nyong'o", "Danai Gurira"],
     "personnages": ["T'Challa", "Erik Killmonger", "Nakia", "Okoye"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["afrique", "héros", "univers cinématographique de marvel"]
+    "mots_cles": ["Afrique", "royaume caché", "roi", "métal rare", "rivalité pour le trône", "technologie avancée"]
   },
   {
     "id": "seven",
@@ -503,7 +503,7 @@
     "acteurs": ["Morgan Freeman", "Brad Pitt", "Gwyneth Paltrow", "John Cassini"],
     "personnages": ["Somerset", "Mills", "Tracy", "Officer Davis"],
     "genre": "crime, mystère, thriller",
-    "mots_cles": ["fureur et haine", "police", "s.w.a.t.", "sadisme", "prophétie auto-fulfillie", "psychopathe"]
+    "mots_cles": ["tueur en série", "péchés capitaux", "duo de policiers", "pluie", "inspecteur proche de la retraite", "boîte"]
   },
   {
     "id": "doctor_strange",
@@ -514,7 +514,7 @@
     "acteurs": ["Benedict Cumberbatch", "Chiwetel Ejiofor", "Rachel McAdams", "Benedict Wong"],
     "personnages": ["Dr. Stephen Strange", "Mordo", "Dr. Christine Palmer", "Wong"],
     "genre": "fantastique, aventure, action",
-    "mots_cles": ["magie", "super-héros", "entraînement", "sorcier", "médecin", "neuro-chirurgien"]
+    "mots_cles": ["chirurgien", "accident de voiture", "arts mystiques", "Népal", "magie", "manipulation du temps"]
   },
   {
     "id": "vice_versa",
@@ -525,7 +525,7 @@
     "acteurs": ["Amy Poehler", "Phyllis Smith", "Richard Kind", "Bill Hader"],
     "personnages": ["Joy", "Sadness", "Bing Bong", "Fear"],
     "genre": "animation, familial, aventure, drame, comédie",
-    "mots_cles": ["rêves", "san francisco, california", "minnesota", "tristesse", "cartoon", "répulsion"]
+    "mots_cles": ["émotions personnifiées", "souvenirs", "tristesse", "déménagement", "pré-adolescence", "esprit humain"]
   },
   {
     "id": "iron_man_3",
@@ -536,7 +536,7 @@
     "acteurs": ["Robert Downey Jr.", "Gwyneth Paltrow", "Don Cheadle", "Guy Pearce"],
     "personnages": ["Tony Stark", "Pepper Potts", "Colonel James Rhodes", "Aldrich Killian"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["californie", "guerre contre le terrorisme", "super-héros", "malibu", "tennèse", "billionnaire"]
+    "mots_cles": ["terrorisme", "armure", "crises d'angoisse", "Noël", "Malibu", "milliardaire"]
   },
   {
     "id": "hunger_games",
@@ -547,7 +547,7 @@
     "acteurs": ["Jennifer Lawrence", "Josh Hutcherson", "Liam Hemsworth", "Woody Harrelson"],
     "personnages": ["Katniss Everdeen", "Peeta Mellark", "Gale Hawthorne", "Haymitch Abernathy"],
     "genre": "science-fiction, aventure, action, thriller",
-    "mots_cles": ["révolution", "dystopie", "monarchie", "femme principale", "mode", "arc et flèche"]
+    "mots_cles": ["jeu télévisé mortel", "arc et flèches", "districts", "dystopie", "survie", "révolte"]
   },
   {
     "id": "harry_potter_et_le_prisonnier",
@@ -558,7 +558,7 @@
     "acteurs": ["Daniel Radcliffe", "Rupert Grint", "Emma Watson", "Robbie Coltrane"],
     "personnages": ["Harry Potter", "Ron Weasley", "Hermione Granger", "Rubeus Hagrid"],
     "genre": "aventure, fantastique",
-    "mots_cles": ["fille sorcière", "amie de l'école", "amitié", "vol", "magie", "bus"]
+    "mots_cles": ["école de sorcellerie", "troisième année", "fugitif dangereux", "loup-garou", "retourneur de temps", "hippogriffe"]
   },
   {
     "id": "gardiens_de_la_galaxie_vol",
@@ -569,7 +569,7 @@
     "acteurs": ["Chris Pratt", "Zoe Saldaña", "Dave Bautista", "Vin Diesel"],
     "personnages": ["Peter Quill", "Gamora", "Drax", "Baby Groot"],
     "genre": "science-fiction, aventure, action",
-    "mots_cles": ["héros", "super-héros", "extraterrestre", "espace", "univers cinématographique de marvel (mcu)", "relation père-fils"]
+    "mots_cles": ["relation père-fils", "planète vivante", "bande de hors-la-loi", "espace", "famille", "bébé arbre"]
   },
   {
     "id": "spider_man_no_way_home",
@@ -580,7 +580,7 @@
     "acteurs": ["Tom Holland", "Zendaya", "Benedict Cumberbatch", "Jacob Batalon"],
     "personnages": ["Peter Parker", "MJ", "Doctor Strange", "Ned Leeds"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["new york", "héros", "affrontement", "magie", "perte d'un proche", "identité secrète"]
+    "mots_cles": ["multivers", "identité révélée", "sorcier", "méchants d'autres univers", "sacrifice", "New York"]
   },
   {
     "id": "batman_begins",
@@ -591,7 +591,7 @@
     "acteurs": ["Christian Bale", "Michael Caine", "Liam Neeson", "Katie Holmes"],
     "personnages": ["Bruce Wayne", "Alfred", "Ducard", "Rachel Dawes"],
     "genre": "drame, crime, action",
-    "mots_cles": ["arts martiaux", "sous couverture", "perte d'un être aimé", "identité secrète", "lutte contre le crime", "super-héros"]
+    "mots_cles": ["arts martiaux", "deuil", "justicier masqué", "ligue secrète", "toxine de la peur", "milliardaire"]
   },
   {
     "id": "captain_america_first_avenger",
@@ -602,7 +602,7 @@
     "acteurs": ["Chris Evans", "Hayley Atwell", "Sebastian Stan", "Tommy Lee Jones"],
     "personnages": ["Captain America", "Peggy Carter", "James Buchanan 'Bucky' Barnes", "Colonel Chester Phillips"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["new york city", "nazis", "super-héros", "héroïsme", "super soldat", "brooklyn, new york city"]
+    "mots_cles": ["Seconde Guerre mondiale", "sérum", "super-soldat", "Brooklyn", "bouclier", "organisation nazie"]
   },
   {
     "id": "iron_man_2",
@@ -613,7 +613,7 @@
     "acteurs": ["Robert Downey Jr.", "Gwyneth Paltrow", "Don Cheadle", "Scarlett Johansson"],
     "personnages": ["Tony Stark", "Pepper Potts", "Lt. Col. James 'Rhodey' Rhodes", "Natalie Rushman"],
     "genre": "aventure, action, science-fiction",
-    "mots_cles": ["technologie", "super-héros", "malibu", "révenge", "univers cinématique marvel (mcu)", "s'échapper"]
+    "mots_cles": ["armure", "milliardaire", "empoisonnement", "fouets électriques", "Monaco", "rival industriel"]
   },
   {
     "id": "pirates_des_caraibes_la_malediction",
@@ -624,7 +624,7 @@
     "acteurs": ["Johnny Depp", "Geoffrey Rush", "Orlando Bloom", "Keira Knightley"],
     "personnages": ["Jack Sparrow", "Barbossa", "Will Turner", "Elizabeth Swann"],
     "genre": "aventure, fantastique, action",
-    "mots_cles": ["navire", "forgeron", "or", "île exotique", "gouverneur", "squelette"]
+    "mots_cles": ["flibustiers", "sortilège", "squelettes au clair de lune", "forgeron", "fille du gouverneur", "trésor aztèque"]
   },
   {
     "id": "thor",
@@ -635,7 +635,7 @@
     "acteurs": ["Chris Hemsworth", "Natalie Portman", "Tom Hiddleston", "Anthony Hopkins"],
     "personnages": ["Thor", "Jane Foster", "Loki", "Odin"],
     "genre": "aventure, fantastique, action",
-    "mots_cles": ["nouveau mexique", "héros", "redemption", "bannissement", "frère contre frère", "mythologie nordique"]
+    "mots_cles": ["dieu banni", "Nouveau-Mexique", "marteau", "frère jaloux", "mythologie nordique", "humilité"]
   },
   {
     "id": "harry_potter_et_la_coupe",
@@ -646,7 +646,7 @@
     "acteurs": ["Daniel Radcliffe", "Rupert Grint", "Emma Watson", "Brendan Gleeson"],
     "personnages": ["Harry Potter", "Ron Weasley", "Hermione Granger", "Alastor 'Mad-Eye' Moody"],
     "genre": "aventure, fantastique",
-    "mots_cles": ["fée", "magie", "labyrinthe", "école de sorcellerie", "mauvaise magie", "tournoi"]
+    "mots_cles": ["école de sorcellerie", "tournoi", "dragon", "bal", "épreuves", "retour du mage noir"]
   },
   {
     "id": "thor_ragnarok",
@@ -657,7 +657,7 @@
     "acteurs": ["Chris Hemsworth", "Mark Ruffalo", "Tom Hiddleston", "Cate Blanchett"],
     "personnages": ["Thor", "Bruce Banner", "Loki", "Hela"],
     "genre": "action, aventure, comédie, science-fiction",
-    "mots_cles": ["super-héros", "décès du père", "planète extraterrestre", "villaine féminine", "mythologie nordique", "univers cinématographique de marvel (mcu)"]
+    "mots_cles": ["planète décharge", "combats de gladiateurs", "déesse de la mort", "mythologie nordique", "humour", "fin d'un monde"]
   },
   {
     "id": "harry_potter_et_les_reliques",
@@ -668,7 +668,7 @@
     "acteurs": ["Daniel Radcliffe", "Emma Watson", "Rupert Grint", "Ralph Fiennes"],
     "personnages": ["Harry Potter", "Hermione Granger", "Ron Weasley", "Lord Voldemort"],
     "genre": "aventure, fantastique",
-    "mots_cles": ["fée", "décès et mort", "sauver le monde", "sacrifice personnel", "magie", "école de sorcellerie"]
+    "mots_cles": ["bataille finale", "école assiégée", "banque gardée par un dragon", "objets maudits", "sacrifice", "fin d'une saga"]
   },
   {
     "id": "suicide_squad",
@@ -679,7 +679,7 @@
     "acteurs": ["Will Smith", "Jared Leto", "Margot Robbie", "Joel Kinnaman"],
     "personnages": ["Deadshot", "The Joker", "Harley Quinn", "Rick Flag"],
     "genre": "action, aventure, fantastique",
-    "mots_cles": ["mission secrète", "héros super", "anti-héros", "villain", "supervillain", "DCU"]
+    "mots_cles": ["criminels recrutés", "mission sans retour", "anti-héros", "sorcière", "agence gouvernementale", "explosif implanté"]
   },
   {
     "id": "haut",
@@ -690,7 +690,7 @@
     "acteurs": ["Ed Asner", "Christopher Plummer", "Jordan Nagai", "Bob Peterson"],
     "personnages": ["Carl Fredricksen", "Charles Muntz", "Russell", "Dug"],
     "genre": "animation, comédie, familial, aventure",
-    "mots_cles": ["amérique centrale et du sud", "différence d'âge", "villain", "ballon", "voyage", "chien"]
+    "mots_cles": ["maison volante", "ballons", "veuf", "jeune scout", "Amérique du Sud", "chien qui parle"]
   },
   {
     "id": "seul_sur_mars",
@@ -701,7 +701,7 @@
     "acteurs": ["Matt Damon", "Jessica Chastain", "Kristen Wiig", "Jeff Daniels"],
     "personnages": ["Mark Watney", "Melissa Lewis", "Annie Montrose", "Theodore \"Teddy\" Sanders"],
     "genre": "science-fiction, drame, aventure",
-    "mots_cles": ["espace", "mars", "nasa", "isolement", "botaniste", "survie"]
+    "mots_cles": ["astronaute abandonné", "botaniste", "culture de pommes de terre", "survie", "nasa", "mission de sauvetage"]
   },
   {
     "id": "jurassic_world",
@@ -712,7 +712,7 @@
     "acteurs": ["Chris Pratt", "Bryce Dallas Howard", "Irrfan Khan", "Vincent D'Onofrio"],
     "personnages": ["Owen", "Claire", "Masrani", "Hoskins"],
     "genre": "aventure, science-fiction, thriller, action",
-    "mots_cles": ["île", "peur primitive", "évasion", "tourelleur", "adn", "tyrannosaure"]
+    "mots_cles": ["parc à thème", "dinosaures", "hybride génétique", "île", "dresseur de raptors", "évasion"]
   },
   {
     "id": "coco",
@@ -723,7 +723,7 @@
     "acteurs": ["Anthony Gonzalez", "Gael García Bernal", "Benjamin Bratt", "Alanna Ubach"],
     "personnages": ["Miguel Rivera", "Héctor", "Ernesto de la Cruz", "Mamá Imelda"],
     "genre": "familial, animation, musique, aventure",
-    "mots_cles": ["osselet", "mexique", "guitare", "après-morte", "musicien", "fête"]
+    "mots_cles": ["Mexique", "fête des morts", "guitare", "musique", "royaume des morts", "famille"]
   },
   {
     "id": "spider_man",
@@ -734,7 +734,7 @@
     "acteurs": ["Tobey Maguire", "Willem Dafoe", "Kirsten Dunst", "James Franco"],
     "personnages": ["Spider-Man", "Green Goblin", "Mary Jane Watson", "Harry Osborn"],
     "genre": "action, science-fiction",
-    "mots_cles": ["new york", "adolescence", "photographe", "perte d'un proche", "photographie", "identité secrète"]
+    "mots_cles": ["New York", "lycéen", "photographe", "mort de l'oncle", "identité secrète", "baiser sous la pluie"]
   },
   {
     "id": "parasite",
@@ -745,7 +745,7 @@
     "acteurs": ["Song Kang-ho", "Sun-kyun Lee", "Cho Yeo-jeong", "Choi Woo-shik"],
     "personnages": ["Kim Ki-taek", "Park Dong-ik", "Yeon-kyo", "Ki-woo"],
     "genre": "comédie, thriller, drame",
-    "mots_cles": ["comédie sombre", "artiste de faux", "commentaire social", "classe ouvrière", "infiltration", "thriller psychologique"]
+    "mots_cles": ["Corée du Sud", "famille pauvre", "famille riche", "infiltration", "sous-sol secret", "inégalités sociales"]
   },
   {
     "id": "john_wick",
@@ -756,7 +756,7 @@
     "acteurs": ["Keanu Reeves", "Michael Nyqvist", "Alfie Allen", "Willem Dafoe"],
     "personnages": ["John Wick", "Viggo Tarasov", "Iosef Tarasov", "Marcus"],
     "genre": "action, thriller",
-    "mots_cles": ["assassin", "mafia russe", "mafieux", "organisation secrète", "vengeance", "tue-tue"]
+    "mots_cles": ["tueur à gages retraité", "chien", "mafia russe", "vengeance", "hôtel pour assassins", "voiture volée"]
   },
   {
     "id": "harry_potter_et_l_ordre",
@@ -767,7 +767,7 @@
     "acteurs": ["Daniel Radcliffe", "Rupert Grint", "Emma Watson", "Imelda Staunton"],
     "personnages": ["Harry Potter", "Ron Weasley", "Hermione Granger", "Dolores Umbridge"],
     "genre": "aventure, fantastique",
-    "mots_cles": ["fée", "décès et mort", "court", "magie", "prévision", "perte d'un proche"]
+    "mots_cles": ["école de sorcellerie", "professeure tyrannique", "société secrète", "prophétie", "ministère", "armée d'élèves"]
   },
   {
     "id": "ant_man",
@@ -778,7 +778,7 @@
     "acteurs": ["Paul Rudd", "Michael Douglas", "Evangeline Lilly", "Corey Stoll"],
     "personnages": ["Scott Lang", "Dr. Hank Pym", "Hope van Dyne", "Darren Cross"],
     "genre": "science-fiction, aventure, action",
-    "mots_cles": ["super-héros", "ennemi", "voler", "rétrécissement", "vol", "rétrécissement"]
+    "mots_cles": ["cambrioleur repenti", "rétrécissement", "costume high-tech", "mentor scientifique", "braquage", "relation père-fille"]
   },
   {
     "id": "harry_potter_et_le_prince",
@@ -789,7 +789,7 @@
     "acteurs": ["Daniel Radcliffe", "Rupert Grint", "Emma Watson", "Jim Broadbent"],
     "personnages": ["Harry Potter", "Ron Weasley", "Hermione Granger", "Horace Slughorn"],
     "genre": "aventure, fantastique",
-    "mots_cles": ["fée", "décès et mort", "londres, anglais", "magie", "école de sorcellerie", "apparition"]
+    "mots_cles": ["école de sorcellerie", "livre de potions annoté", "souvenirs", "trahison", "mort du mentor", "adolescence"]
   },
   {
     "id": "wonder_woman",
@@ -800,7 +800,7 @@
     "acteurs": ["Gal Gadot", "Chris Pine", "Connie Nielsen", "Robin Wright"],
     "personnages": ["Diana", "Steve Trevor", "Hippolyta", "Antiope"],
     "genre": "action, aventure, fantastique",
-    "mots_cles": ["île", "héros", "femme forte", "Première Guerre mondiale", "empowerment", "super-héros"]
+    "mots_cles": ["île d'amazones", "Première Guerre mondiale", "pilote espion", "dieu de la guerre", "lasso", "femme guerrière"]
   },
   {
     "id": "truman_show",
@@ -811,7 +811,7 @@
     "acteurs": ["Jim Carrey", "Ed Harris", "Laura Linney", "Noah Emmerich"],
     "personnages": ["Truman Burbank", "Christof", "Meryl", "Marlon"],
     "genre": "comédie, drame",
-    "mots_cles": ["évasion", "paranoidisme", "dystopie", "comédie noire", "suspicion", "surveillance vidéo"]
+    "mots_cles": ["téléréalité", "vie mise en scène", "caméras cachées", "ville parfaite", "évasion", "peur de l'eau"]
   },
   {
     "id": "monde_de_nemo",
@@ -822,7 +822,7 @@
     "acteurs": ["Albert Brooks", "Ellen DeGeneres", "Alexander Gould", "Willem Dafoe"],
     "personnages": ["Marlin", "Dory", "Nemo", "Gill"],
     "genre": "animation, familial, aventure",
-    "mots_cles": ["poisson", "sydney, australia", "relation parent-enfant", "anthropomorphisation", "harbour", "sous-marine"]
+    "mots_cles": ["poisson-clown", "océan", "père protecteur", "Sydney", "aquarium", "amie amnésique"]
   },
   {
     "id": "wall_e",
@@ -833,7 +833,7 @@
     "acteurs": ["Ben Burtt", "Elissa Knight", "Jeff Garlin", "Fred Willard"],
     "personnages": ["WALL·E", "EVE", "Captain", "Shelby Forthright, BnL CEO"],
     "genre": "animation, familial, science-fiction",
-    "mots_cles": ["déchet", "dystopie", "voyage spatial", "espace", "futur lointain", "solitude"]
+    "mots_cles": ["robot", "Terre abandonnée", "déchets", "vaisseau spatial", "plante", "solitude"]
   },
   {
     "id": "star_wars_le_reveil_de",
@@ -844,7 +844,7 @@
     "acteurs": ["Daisy Ridley", "John Boyega", "Oscar Isaac", "Adam Driver"],
     "personnages": ["Rey", "Finn", "Poe Dameron", "Kylo Ren"],
     "genre": "aventure, action, science-fiction",
-    "mots_cles": ["android", "vaisseau spatial", "opéra spatial", "tuwaderalit"]
+    "mots_cles": ["droïde", "pilleuse d'épaves", "désert", "sabre laser", "ordre maléfique", "planète-arme"]
   },
   {
     "id": "logan",
@@ -855,7 +855,7 @@
     "acteurs": ["Hugh Jackman", "Dafne Keen", "Patrick Stewart", "Elizabeth Rodriguez"],
     "personnages": ["Logan", "Laura", "Charles", "Gabriela"],
     "genre": "action, drame, science-fiction",
-    "mots_cles": ["avenir", "expérience", "immortalité", "déstruction de soi", "cyborgne", "dystopie"]
+    "mots_cles": ["mutant vieillissant", "griffes", "fillette", "Mexique", "road movie", "crépuscule du héros"]
   },
   {
     "id": "captain_america_le_soldat_de",
@@ -866,7 +866,7 @@
     "acteurs": ["Chris Evans", "Samuel L. Jackson", "Scarlett Johansson", "Robert Redford"],
     "personnages": ["Steve Rogers", "Nick Fury", "Natasha Romanoff", "Alexander Pierce"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["washington dc", "super-héros", "super-soldat", "univers cinématographique marvel (mcu)", "thriller politique"]
+    "mots_cles": ["Washington", "héros d'un autre temps", "ami d'enfance", "complot", "agence infiltrée", "thriller politique"]
   },
   {
     "id": "gone_girl",
@@ -877,7 +877,7 @@
     "acteurs": ["Ben Affleck", "Rosamund Pike", "Neil Patrick Harris", "Tyler Perry"],
     "personnages": ["Nick Dunne", "Amy Dunne", "Desi Collings", "Tanner Bolt"],
     "genre": "mystère, thriller, drame",
-    "mots_cles": ["infidélité", "épouse", "crise de mariage", "enquête", "disparition", "thriller psychologique"]
+    "mots_cles": ["disparition", "mariage", "épouse manipulatrice", "médias", "enquête", "journal intime"]
   },
   {
     "id": "monstres_cie",
@@ -888,7 +888,7 @@
     "acteurs": ["John Goodman", "Billy Crystal", "Mary Gibbs", "Steve Buscemi"],
     "personnages": ["Sullivan", "Mike", "Boo", "Randall"],
     "genre": "animation, comédie, familial, fantastique",
-    "mots_cles": ["monstre", "panique", "triche", "enlèvement", "porte", "enfant"]
+    "mots_cles": ["usine à cris", "petite fille", "portes de placard", "énergie", "duo d'amis", "créatures effrayantes"]
   },
   {
     "id": "hobbit_un_voyage_inattendu",
@@ -899,7 +899,7 @@
     "acteurs": ["Martin Freeman", "Ian McKellen", "Richard Armitage", "James Nesbitt"],
     "personnages": ["Bilbo Baggins", "Gandalf the Grey", "Thorin Oakenshield", "Bofur"],
     "genre": "aventure, fantastique, action",
-    "mots_cles": ["elfe", "nain", "magie", "chevauchage", "épée", "voleur"]
+    "mots_cles": ["nains", "dragon", "magicien", "anneau", "énigmes", "royaume perdu"]
   },
   {
     "id": "premier_contact",
@@ -910,7 +910,7 @@
     "acteurs": ["Amy Adams", "Jeremy Renner", "Forest Whitaker", "Michael Stuhlbarg"],
     "personnages": ["Louise Banks", "Ian Donnelly", "Colonel Weber", "Agent Halpern"],
     "genre": "drame, science-fiction, mystère",
-    "mots_cles": ["spatiale", "technologie extraterrestre", "perte", "temps", "étranger", "langage"]
+    "mots_cles": ["extraterrestres", "linguiste", "langage", "vaisseaux", "perception du temps", "deuil"]
   },
   {
     "id": "animaux_fantastiques",
@@ -921,7 +921,7 @@
     "acteurs": ["Eddie Redmayne", "Katherine Waterston", "Dan Fogler", "Alison Sudol"],
     "personnages": ["Newt", "Porpentina 'Tina' Goldstein", "Jacob Kowalski", "Queenie"],
     "genre": "fantastique, aventure",
-    "mots_cles": ["femme sorcière", "new york", "vol", "évasion", "portail", "magie"]
+    "mots_cles": ["New York", "années 1920", "valise magique", "sorcier", "créatures évadées", "société secrète"]
   },
   {
     "id": "ligne_verte",
@@ -932,7 +932,7 @@
     "acteurs": ["Tom Hanks", "David Morse", "Bonnie Hunt", "Michael Clarke Duncan"],
     "personnages": ["Paul Edgecomb", "Brutus 'Brutal' Howell", "Jan Edgecomb", "John Coffey"],
     "genre": "fantastique, drame, crime",
-    "mots_cles": ["personne handicapée mentale", "peine de mort", "sud", "psychopathe", "cellule de mort", "garde de prison"]
+    "mots_cles": ["couloir de la mort", "gardien de prison", "don de guérison", "peine de mort", "souris", "années 1930"]
   },
   {
     "id": "revenant",
@@ -943,7 +943,7 @@
     "acteurs": ["Leonardo DiCaprio", "Tom Hardy", "Domhnall Gleeson", "Will Poulter"],
     "personnages": ["Hugh Glass", "John Fitzgerald", "Captain Andrew Henry", "Jim Bridger"],
     "genre": "western, drame, aventure",
-    "mots_cles": ["viols", "relation parent enfant", "hiver", "tue un enfant", "montagne", "ours grizzly"]
+    "mots_cles": ["trappeur", "attaque d'ours", "survie", "hiver", "vengeance", "abandonné pour mort"]
   },
   {
     "id": "deadpool_2",
@@ -954,7 +954,7 @@
     "acteurs": ["Ryan Reynolds", "Josh Brolin", "Morena Baccarin", "Julian Dennison"],
     "personnages": ["Wade Wilson", "Cable", "Vanessa", "Firefist"],
     "genre": "action, comédie, aventure",
-    "mots_cles": ["héros", "super-héros", "mutant", "mercenaire", "rompre le quatrième mur", "joieuse"]
+    "mots_cles": ["mercenaire", "mutant", "voyageur du temps", "équipe", "brise le quatrième mur", "orphelin"]
   },
   {
     "id": "kill_bill_volume_1",
@@ -965,7 +965,7 @@
     "acteurs": ["Uma Thurman", "Lucy Liu", "Vivica A. Fox", "Daryl Hannah"],
     "personnages": ["The Bride", "O-Ren Ishii", "Vernita Green", "Elle Driver"],
     "genre": "action, crime",
-    "mots_cles": ["arts martiaux", "japon", "kung fu", "épée", "yakuza", "katana"]
+    "mots_cles": ["vengeance", "sabre japonais", "yakuza", "mariée", "liste noire", "Japon"]
   },
   {
     "id": "shining",
@@ -976,7 +976,7 @@
     "acteurs": ["Jack Nicholson", "Shelley Duvall", "Danny Lloyd", "Scatman Crothers"],
     "personnages": ["Jack Torrance", "Wendy Torrance", "Danny", "Hallorann"],
     "genre": "horreur, thriller",
-    "mots_cles": ["hôtel", "abus d'enfants", "isolement", "télépathie", "délusion", "ouragan de neige"]
+    "mots_cles": ["hôtel isolé", "hiver", "écrivain", "folie", "télépathie", "labyrinthe"]
   },
   {
     "id": "get_out",
@@ -987,7 +987,7 @@
     "acteurs": ["Daniel Kaluuya", "Allison Williams", "Catherine Keener", "Bradley Whitford"],
     "personnages": ["Chris Washington", "Rose Armitage", "Missy Armitage", "Dean Armitage"],
     "genre": "mystère, thriller, horreur",
-    "mots_cles": ["enlèvement", "action contrôlée extérieure", "manipulation", "comédie noire", "hypnose", "parents-mère-fille"]
+    "mots_cles": ["belle-famille", "hypnose", "racisme", "week-end", "manipulation", "horreur sociale"]
   },
   {
     "id": "shrek",
@@ -998,7 +998,7 @@
     "acteurs": ["Mike Myers", "Eddie Murphy", "Cameron Diaz", "John Lithgow"],
     "personnages": ["Shrek", "Donkey", "Princess Fiona", "Lord Farquaad"],
     "genre": "animation, comédie, fantastique, aventure, familial",
-    "mots_cles": ["princesse", "magie", "fable", "âne", "libération", "seigneurie"]
+    "mots_cles": ["ogre", "âne", "princesse", "conte de fées parodié", "dragon", "marais"]
   },
   {
     "id": "batman_v_superman_l_aube",
@@ -1009,7 +1009,7 @@
     "acteurs": ["Ben Affleck", "Henry Cavill", "Jesse Eisenberg", "Gal Gadot"],
     "personnages": ["Bruce Wayne", "Clark Kent", "Lex Luthor", "Diana Prince"],
     "genre": "action, aventure, fantastique",
-    "mots_cles": ["super-héros", "révenge", "vigilante", "pouvoir super", "supervillain", "univers extended dc (dceu)"]
+    "mots_cles": ["affrontement de super-héros", "justicier", "milliardaire", "extraterrestre", "méfiance", "monstre"]
   },
   {
     "id": "indestructibles",
@@ -1020,7 +1020,7 @@
     "acteurs": ["Craig T. Nelson", "Holly Hunter", "Sarah Vowell", "Spencer Fox"],
     "personnages": ["Bob Parr", "Helen Parr", "Violet Parr", "Dashiell 'Dash' Parr"],
     "genre": "action, aventure, animation, familial",
-    "mots_cles": ["héros", "identité secrète", "super-héros", "villain", "relations familiales", "pouvoir supérieur"]
+    "mots_cles": ["famille de super-héros", "retraite forcée", "île secrète", "identité secrète", "super-pouvoirs", "fan devenu ennemi"]
   },
   {
     "id": "amazing_spider_man",
@@ -1031,7 +1031,7 @@
     "acteurs": ["Andrew Garfield", "Emma Stone", "Rhys Ifans", "Denis Leary"],
     "personnages": ["Spider-Man", "Gwen Stacy", "The Lizard", "Captain Stacy"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["new york", "expérience", "perte d'un proche", "super-héros", "vigilante", "fille adolescente"]
+    "mots_cles": ["lycéen", "New York", "parents disparus", "scientifique", "homme-reptile", "identité secrète"]
   },
   {
     "id": "ratatouille",
@@ -1042,7 +1042,7 @@
     "acteurs": ["Patton Oswalt", "Lou Romano", "Ian Holm", "Brian Dennehy"],
     "personnages": ["Remy", "Linguini", "Skinner", "Django"],
     "genre": "animation, comédie, familial, fantastique",
-    "mots_cles": ["relation fraternelle", "paris", "confiance", "cuisine", "départ de la famille", "restaurant"]
+    "mots_cles": ["rat", "cuisine", "Paris", "restaurant", "critique gastronomique", "commis"]
   },
   {
     "id": "empire_contre_attaque",
@@ -1053,7 +1053,7 @@
     "acteurs": ["Mark Hamill", "Harrison Ford", "Carrie Fisher", "Billy Dee Williams"],
     "personnages": ["Luke Skywalker", "Han Solo", "Princess Leia", "Lando Calrissian"],
     "genre": "aventure, action, science-fiction",
-    "mots_cles": ["rébellion", "androide", "vaisseau spatial", "astéroïde", "révolté", "bataille spatiale"]
+    "mots_cles": ["planète glacée", "rébellion", "maître dans un marais", "révélation familiale", "champ d'astéroïdes", "ville dans les nuages"]
   },
   {
     "id": "hunger_games_l_embrasement",
@@ -1064,7 +1064,7 @@
     "acteurs": ["Jennifer Lawrence", "Josh Hutcherson", "Liam Hemsworth", "Woody Harrelson"],
     "personnages": ["Katniss Everdeen", "Peeta Mellark", "Gale Hawthorne", "Haymitch Abernathy"],
     "genre": "aventure, action, science-fiction",
-    "mots_cles": ["rébellion", "propagande", "dystopie", "soulevement", "président", "survie"]
+    "mots_cles": ["jeux mortels", "anciens vainqueurs", "révolte", "propagande", "arc et flèches", "dystopie"]
   },
   {
     "id": "thor_le_monde_des_tenebres",
@@ -1075,7 +1075,7 @@
     "acteurs": ["Chris Hemsworth", "Natalie Portman", "Tom Hiddleston", "Christopher Eccleston"],
     "personnages": ["Thor", "Jane Foster", "Loki", "Malekith"],
     "genre": "action, aventure, fantastique",
-    "mots_cles": ["super-héros", "prise de pouvoir hostile", "mythologie nordique", "univers cinématographique marvel (mcu)", "lieu mythique"]
+    "mots_cles": ["elfes noirs", "Londres", "alignement des mondes", "mythologie nordique", "deuil", "frère ennemi"]
   },
   {
     "id": "silence_des_agneaux",
@@ -1086,7 +1086,7 @@
     "acteurs": ["Jodie Foster", "Anthony Hopkins", "Scott Glenn", "Ted Levine"],
     "personnages": ["Clarice Starling", "Dr. Hannibal Lecter", "Jack Crawford", "Jame Gumb"],
     "genre": "crime, thriller, drame",
-    "mots_cles": ["prison", "enlèvement", "psychopathe", "fbi", "étude scientifique", "meurtre"]
+    "mots_cles": ["stagiaire du FBI", "tueur en série", "psychiatre cannibale", "prison", "enlèvement", "profilage"]
   },
   {
     "id": "split",
@@ -1097,7 +1097,7 @@
     "acteurs": ["James McAvoy", "Anya Taylor-Joy", "Haley Lu Richardson", "Jessica Sula"],
     "personnages": ["Dennis", "Casey Cooke", "Claire Benoit", "Marcia"],
     "genre": "horreur, thriller",
-    "mots_cles": ["abus d'enfants", "philadelphie", "enlèvement", "gore", "suivi", "fille adolescente"]
+    "mots_cles": ["personnalités multiples", "enlèvement", "adolescentes captives", "psychiatre", "Philadelphie", "troubles dissociatifs"]
   },
   {
     "id": "very_bad_trip",
@@ -1108,7 +1108,7 @@
     "acteurs": ["Bradley Cooper", "Ed Helms", "Zach Galifianakis", "Justin Bartha"],
     "personnages": ["Phil Wenneck", "Stu Price", "Alan Garner", "Doug Billings"],
     "genre": "comédie",
-    "mots_cles": ["amnésie", "blackjack", "soirée de stag", "semaine perdue", "cathédrale", "frappé avec une hache"]
+    "mots_cles": ["enterrement de vie de garçon", "Las Vegas", "amnésie", "tigre", "bébé", "marié disparu"]
   },
   {
     "id": "zootopie",
@@ -1119,7 +1119,7 @@
     "acteurs": ["Ginnifer Goodwin", "Jason Bateman", "Idris Elba", "Jenny Slate"],
     "personnages": ["Judy Hopps", "Nick Wilde", "Chief Bogo", "Bellwether"],
     "genre": "animation, aventure, familial, comédie",
-    "mots_cles": ["moutons", "allegorie", "lion", "hippopotame", "cartoon", "villain"]
+    "mots_cles": ["ville d'animaux", "lapine policière", "renard", "enquête", "préjugés", "disparitions"]
   },
   {
     "id": "la_land",
@@ -1130,7 +1130,7 @@
     "acteurs": ["Ryan Gosling", "Emma Stone", "John Legend", "Rosemarie DeWitt"],
     "personnages": ["Sebastian", "Mia", "Keith", "Laura"],
     "genre": "comédie, drame, romance",
-    "mots_cles": ["danse", "danse", "jazz", "musical", "ambition", "casting"]
+    "mots_cles": ["Los Angeles", "jazz", "actrice en devenir", "comédie musicale", "rêves", "amour"]
   },
   {
     "id": "imitation_game",
@@ -1141,7 +1141,7 @@
     "acteurs": ["Benedict Cumberbatch", "Keira Knightley", "Matthew Goode", "Rory Kinnear"],
     "personnages": ["Alan Turing", "Joan Clarke", "Hugh Alexander", "Detective Robert Nock"],
     "genre": "histoire, drame, thriller, guerre",
-    "mots_cles": ["Angleterre", "homo-phobie", "Seconde Guerre mondiale", "mathématicien", "génie", "biographie"]
+    "mots_cles": ["Seconde Guerre mondiale", "mathématicien", "code secret", "machine", "homosexualité", "biographie"]
   },
   {
     "id": "labyrinthe",
@@ -1152,7 +1152,7 @@
     "acteurs": ["Dylan O'Brien", "Kaya Scodelario", "Thomas Brodie-Sangster", "Ki Hong Lee"],
     "personnages": ["Thomas", "Teresa Agnes", "Newt", "Minho"],
     "genre": "action, mystère, science-fiction, thriller",
-    "mots_cles": ["évasion", "dystopie", "avenir apocalyptique", "perte de mémoire", "piégé"]
+    "mots_cles": ["clairière", "amnésie", "murs mouvants", "adolescents", "créatures", "évasion"]
   },
   {
     "id": "prestige",
@@ -1163,7 +1163,7 @@
     "acteurs": ["Hugh Jackman", "Christian Bale", "Michael Caine", "Piper Perabo"],
     "personnages": ["Robert Angier", "Alfred Borden", "Cutter", "Julia McCullough"],
     "genre": "drame, mystère, science-fiction",
-    "mots_cles": ["morte et mort", "suicide", "société de classes", "londres, angleterre", "magie", "concours"]
+    "mots_cles": ["magiciens rivaux", "Londres", "illusion", "obsession", "secret", "XIXe siècle"]
   },
   {
     "id": "kingsman_services_secrets",
@@ -1174,7 +1174,7 @@
     "acteurs": ["Taron Egerton", "Colin Firth", "Samuel L. Jackson", "Mark Strong"],
     "personnages": ["Gary 'Eggsy' Unwin", "Harry Hart", "Valentine", "Merlin"],
     "genre": "crime, comédie, action",
-    "mots_cles": ["grande-bretagne", "espion", "organisation secrète", "microchip", "agent secret", "formation"]
+    "mots_cles": ["agence d'espionnage", "gentleman", "jeune recrue", "carte SIM", "Londres", "parapluie"]
   },
   {
     "id": "spider_man_new_generation",
@@ -1185,7 +1185,7 @@
     "acteurs": ["Shameik Moore", "Jake Johnson", "Hailee Steinfeld", "Mahershala Ali"],
     "personnages": ["Miles Morales", "Peter B. Parker", "Gwen Stacy", "Uncle Aaron"],
     "genre": "animation, action, aventure, science-fiction",
-    "mots_cles": ["super-héros", "univers universel alternatif"]
+    "mots_cles": ["multivers", "adolescent", "Brooklyn", "graffiti", "mentor fatigué", "style bande dessinée"]
   },
   {
     "id": "dunkerque",
@@ -1196,7 +1196,7 @@
     "acteurs": ["Fionn Whitehead", "Tom Hardy", "Mark Rylance", "Kenneth Branagh"],
     "personnages": ["Tommy", "Farrier", "Mr. Dawson", "Commander Bolton"],
     "genre": "guerre, action, histoire",
-    "mots_cles": ["armée", "plage", "france", "alliés", "raf", "officier militaire"]
+    "mots_cles": ["évacuation", "plage", "Seconde Guerre mondiale", "bateaux civils", "aviation", "soldats encerclés"]
   },
   {
     "id": "bohemian_rhapsody",
@@ -1207,7 +1207,7 @@
     "acteurs": ["Rami Malek", "Gwilym Lee", "Ben Hardy", "Joseph Mazzello"],
     "personnages": ["Freddie Mercury", "Brian May", "Roger Taylor", "John Deacon"],
     "genre": "musique, drame",
-    "mots_cles": ["londres, anglais", "sida", "musicien", "années 1970", "biographie", "basé sur une histoire vraie"]
+    "mots_cles": ["groupe de rock", "chanteur", "Londres", "années 1970", "concert de charité", "biographie"]
   },
   {
     "id": "liste_de_schindler",
@@ -1218,7 +1218,7 @@
     "acteurs": ["Liam Neeson", "Ben Kingsley", "Ralph Fiennes", "Caroline Goodall"],
     "personnages": ["Oskar Schindler", "Itzhak Stern", "Amon Goeth", "Emilie Schindler"],
     "genre": "drame, histoire, guerre",
-    "mots_cles": ["usine", "héros", "nazis", "camp de concentration", "ss", "holocauste"]
+    "mots_cles": ["industriel", "Seconde Guerre mondiale", "Shoah", "usine", "noir et blanc", "sauvetage"]
   },
   {
     "id": "il_faut_sauver_le_soldat",
@@ -1229,7 +1229,7 @@
     "acteurs": ["Tom Hanks", "Tom Sizemore", "Edward Burns", "Barry Pepper"],
     "personnages": ["Captain Miller", "Sergeant Horvath", "Private Reiben", "Private Jackson"],
     "genre": "guerre, drame, histoire",
-    "mots_cles": ["décès et mort", "sacrifice personnel", "héroïsme", "seconde guerre mondiale", "devoir", "normandie, france"]
+    "mots_cles": ["débarquement", "Normandie", "Seconde Guerre mondiale", "mission de sauvetage", "frères", "escouade"]
   },
   {
     "id": "reine_des_neiges",
@@ -1240,7 +1240,7 @@
     "acteurs": ["Kristen Bell", "Idina Menzel", "Jonathan Groff", "Josh Gad"],
     "personnages": ["Anna", "Elsa", "Kristoff", "Olaf"],
     "genre": "animation, familial, aventure, fantastique",
-    "mots_cles": ["princesse", "magie", "erreur personnelle", "reine", "cartoon", "villain"]
+    "mots_cles": ["princesses sœurs", "pouvoirs de glace", "hiver éternel", "bonhomme de neige", "royaume", "chanson"]
   },
   {
     "id": "spider_man_far_from_home",
@@ -1251,7 +1251,7 @@
     "acteurs": ["Tom Holland", "Jake Gyllenhaal", "Samuel L. Jackson", "Marisa Tomei"],
     "personnages": ["Peter Parker", "Quentin Beck", "Nick Fury", "May Parker"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["venise", "identité secrète", "super-héros", "voyage scolaire", "europe", "déplacement"]
+    "mots_cles": ["voyage scolaire", "Europe", "Venise", "illusions", "deuil du mentor", "identité secrète"]
   },
   {
     "id": "arrete_moi_si_tu_peux",
@@ -1262,7 +1262,7 @@
     "acteurs": ["Leonardo DiCaprio", "Tom Hanks", "Christopher Walken", "Martin Sheen"],
     "personnages": ["Frank Abagnale Jr.", "Carl Hanratty", "Frank Abagnale", "Roger Strong"],
     "genre": "drame, crime",
-    "mots_cles": ["fbi", "con man", "fraude", "redemption", "biographie", "base sur une histoire vraie"]
+    "mots_cles": ["faussaire", "agent du FBI", "faux pilote de ligne", "chèques", "années 1960", "histoire vraie"]
   },
   {
     "id": "pirates_des_caraibes_le_secret",
@@ -1273,7 +1273,7 @@
     "acteurs": ["Johnny Depp", "Orlando Bloom", "Keira Knightley", "Jack Davenport"],
     "personnages": ["Jack Sparrow", "Will Turner", "Elizabeth Swann", "Norrington"],
     "genre": "aventure, fantastique, action",
-    "mots_cles": ["femme sorcière", "fille", "bateau", "île exotique", "monstre", "vierge de la fortune"]
+    "mots_cles": ["flibustiers", "cœur enfermé", "dette de sang", "monstre marin", "équipage damné", "mariage interrompu"]
   },
   {
     "id": "venom",
@@ -1284,7 +1284,7 @@
     "acteurs": ["Tom Hardy", "Michelle Williams", "Riz Ahmed", "Scott Haze"],
     "personnages": ["Eddie Brock", "Anne Weying", "Carlton Drake", "Security Chief Roland Treece"],
     "genre": "science-fiction, action",
-    "mots_cles": ["espace", "san francisco", "super-héros", "anti-héros", "forme de vie extraterrestre", "magnat d'affaires"]
+    "mots_cles": ["symbiote", "journaliste", "San Francisco", "anti-héros", "forme de vie extraterrestre", "magnat"]
   },
   {
     "id": "ready_player_one",
@@ -1295,7 +1295,7 @@
     "acteurs": ["Tye Sheridan", "Olivia Cooke", "Ben Mendelsohn", "Lena Waithe"],
     "personnages": ["Parzival", "Art3mis", "Sorrento", "Aech"],
     "genre": "aventure, action, science-fiction",
-    "mots_cles": ["avenir", "jeu vidéo", "réalité virtuelle", "concours", "dystopie", "nostalgie"]
+    "mots_cles": ["réalité virtuelle", "chasse au trésor", "jeu vidéo", "culture pop", "dystopie", "multinationale"]
   },
   {
     "id": "lucy",
@@ -1306,7 +1306,7 @@
     "acteurs": ["Scarlett Johansson", "Morgan Freeman", "Choi Min-sik", "عمرو واكد"],
     "personnages": ["Lucy", "Professor Norman", "Mr. Jang", "Pierre Del Rio"],
     "genre": "action, science-fiction",
-    "mots_cles": ["intelligence artificielle", "télépathie", "intelligence", "mulet de drogue", "voyage dans le temps", "télékinésie"]
+    "mots_cles": ["drogue", "capacités cérébrales", "Taïwan", "télékinésie", "mafia", "évolution"]
   },
   {
     "id": "je_suis_une_legende",
@@ -1317,7 +1317,7 @@
     "acteurs": ["Will Smith", "Alice Braga", "Charlie Tahan", "Dash Mihok"],
     "personnages": ["Robert Neville", "Anna Montez", "Ethan", "Alpha Male"],
     "genre": "drame, science-fiction, thriller",
-    "mots_cles": ["new york", "sauver le monde", "dystopie", "avenir apocalyptique", "infection", "affaire de vie et de mort"]
+    "mots_cles": ["dernier survivant", "New York", "virus", "chien", "créatures nocturnes", "remède"]
   },
   {
     "id": "retour_du_jedi",
@@ -1328,7 +1328,7 @@
     "acteurs": ["Mark Hamill", "Harrison Ford", "Carrie Fisher", "Billy Dee Williams"],
     "personnages": ["Luke Skywalker", "Han Solo", "Princess Leia", "Lando Calrissian"],
     "genre": "aventure, action, science-fiction",
-    "mots_cles": ["espace", "relation de frère", "révolté", "empereur", "bataille d'espace", "affaire de vie ou de mort"]
+    "mots_cles": ["rébellion", "petits êtres de la forêt", "empereur", "station spatiale", "père et fils", "lune boisée"]
   },
   {
     "id": "baby_driver",
@@ -1339,7 +1339,7 @@
     "acteurs": ["Ansel Elgort", "Kevin Spacey", "Lily James", "Jon Hamm"],
     "personnages": ["Baby", "Doc", "Debora", "Buddy"],
     "genre": "action, crime",
-    "mots_cles": ["vol", "serveuse", "atlanta", "boss criminel", "romance", "vol"]
+    "mots_cles": ["as du volant pour braqueurs", "acouphènes", "musique", "serveuse", "Atlanta", "course-poursuite"]
   },
   {
     "id": "whiplash",
@@ -1350,7 +1350,7 @@
     "acteurs": ["Miles Teller", "J.K. Simmons", "Paul Reiser", "Melissa Benoist"],
     "personnages": ["Andrew", "Fletcher", "Jim", "Nicole"],
     "genre": "drame, musique, thriller",
-    "mots_cles": ["new york", "jazz", "musicien", "obsession", "enseignant de musique", "conservatoire"]
+    "mots_cles": ["batteur", "conservatoire", "jazz", "professeur tyrannique", "obsession", "New York"]
   },
   {
     "id": "captain_marvel",
@@ -1361,7 +1361,7 @@
     "acteurs": ["Brie Larson", "Samuel L. Jackson", "Ben Mendelsohn", "Jude Law"],
     "personnages": ["Carol Danvers", "Nick Fury", "Talos", "Yon-Rogg"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["super-héros", "extraterrestre", "femme principale", "invasion extraterrestre", "puissance", "femme héroïne"]
+    "mots_cles": ["années 1990", "pilote", "amnésie", "extraterrestres métamorphes", "guerre galactique", "chat"]
   },
   {
     "id": "insaisissables",
@@ -1372,7 +1372,7 @@
     "acteurs": ["Jesse Eisenberg", "Woody Harrelson", "Isla Fisher", "Dave Franco"],
     "personnages": ["J. Daniel Atlas", "Merritt McKinney", "Henley Reeves", "Jack Wilder"],
     "genre": "thriller, crime",
-    "mots_cles": ["nyc", "paris", "évasion", "magie", "banque", "fbi"]
+    "mots_cles": ["magiciens", "braquages", "FBI", "Paris", "illusion", "société secrète"]
   },
   {
     "id": "world_war_z",
@@ -1383,7 +1383,7 @@
     "acteurs": ["Brad Pitt", "Mireille Enos", "דניאלה קרטס‎", "James Badge Dale"],
     "personnages": ["Gerry Lane", "Karen Lane", "Segen", "Captain Speke"],
     "genre": "action, horreur, science-fiction",
-    "mots_cles": ["philadelphie", "new jersey", "dystopie", "jérusalem", "fin du monde", "apocalypse"]
+    "mots_cles": ["pandémie", "zombies", "enquêteur de l'ONU", "Jérusalem", "course contre la montre", "famille"]
   },
   {
     "id": "hunger_games_la_revolte_partie",
@@ -1394,7 +1394,7 @@
     "acteurs": ["Jennifer Lawrence", "Josh Hutcherson", "Liam Hemsworth", "Woody Harrelson"],
     "personnages": ["Katniss Everdeen", "Peeta Mellark", "Gale Hawthorne", "Haymitch Abernathy"],
     "genre": "science-fiction, aventure, thriller",
-    "mots_cles": ["resistance", "dystopie", "avenir apocalyptique", "femme protagonist", "arc et flèche", "jeu"]
+    "mots_cles": ["rébellion", "propagande", "bunker", "dystopie", "symbole", "arc et flèches"]
   },
   {
     "id": "spider_man_2",
@@ -1405,7 +1405,7 @@
     "acteurs": ["Tobey Maguire", "Kirsten Dunst", "James Franco", "Alfred Molina"],
     "personnages": ["Spider-Man", "Mary Jane Watson", "Harry Osborn", "Doc Ock"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["new york", "identité", "amour", "identité secrète", "super-héros", "garçon de pizza"]
+    "mots_cles": ["New York", "livreur de pizzas", "train", "bras mécaniques", "doute", "identité secrète"]
   },
   {
     "id": "alien_le_huitieme_passager",
@@ -1416,7 +1416,7 @@
     "acteurs": ["Tom Skerritt", "Sigourney Weaver", "Veronica Cartwright", "Harry Dean Stanton"],
     "personnages": ["Dallas", "Ripley", "Lambert", "Brett"],
     "genre": "horreur, science-fiction",
-    "mots_cles": ["androide", "vaisseau spatial", "marine spatiale", "biologie", "dystopie", "compte à rebours"]
+    "mots_cles": ["vaisseau spatial", "créature", "équipage", "androïde", "survie", "signal de détresse"]
   },
   {
     "id": "nouveaux_heros",
@@ -1427,7 +1427,7 @@
     "acteurs": ["Scott Adsit", "Ryan Potter", "Daniel Henney", "T.J. Miller"],
     "personnages": ["Baymax", "Hiro Hamada", "Tadashi Hamada", "Fred"],
     "genre": "aventure, familial, animation, action, comédie",
-    "mots_cles": ["amitié", "arts martiaux", "héros", "relation fraternelle", "san francisco, california", "super-héros"]
+    "mots_cles": ["robot gonflable", "adolescent génie", "deuil", "microrobots", "équipe de justiciers", "ville futuriste"]
   },
   {
     "id": "memento",
@@ -1438,7 +1438,7 @@
     "acteurs": ["Guy Pearce", "Carrie-Anne Moss", "Joe Pantoliano", "Mark Boone Junior"],
     "personnages": ["Leonard", "Natalie", "Teddy", "Burt"],
     "genre": "mystère, thriller",
-    "mots_cles": ["vendeur de drogue", "amnésie", "insuline", "tatouage", "serveuse", "motel"]
+    "mots_cles": ["amnésie", "tatouages", "photos polaroid", "vengeance", "récit à rebours", "motel"]
   },
   {
     "id": "eternal_sunshine_of_the_spotless",
@@ -1449,7 +1449,7 @@
     "acteurs": ["Jim Carrey", "Kate Winslet", "Kirsten Dunst", "Mark Ruffalo"],
     "personnages": ["Joel Barish", "Clementine Kruczynski", "Mary", "Stan"],
     "genre": "science-fiction, drame, romance",
-    "mots_cles": ["new york", "régret", "jalousie", "déjà vu", "amnésie", "rêves"]
+    "mots_cles": ["effacement de souvenirs", "rupture", "amour", "rêves", "Saint-Valentin", "plage en hiver"]
   },
   {
     "id": "rogue_one_a_star_wars",
@@ -1460,7 +1460,7 @@
     "acteurs": ["Felicity Jones", "Diego Luna", "Alan Tudyk", "Donnie Yen"],
     "personnages": ["Jyn Erso", "Cassian Andor", "K-2SO", "Chirrut Imwe"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["rébellion", "vaisseau spatial", "révolté", "bataille spatiale", "voyage spatial", "préquel"]
+    "mots_cles": ["insurgés", "plans volés", "station de combat", "équipe sacrifiée", "sacrifice", "préquelle"]
   },
   {
     "id": "infiltres",
@@ -1471,7 +1471,7 @@
     "acteurs": ["Leonardo DiCaprio", "Matt Damon", "Jack Nicholson", "Mark Wahlberg"],
     "personnages": ["Billy", "Colin", "Costello", "Dignam"],
     "genre": "drame, thriller, crime",
-    "mots_cles": ["police", "undercover", "boston", "gangster", "irish-american", "crime boss"]
+    "mots_cles": ["Boston", "taupe", "police", "mafia irlandaise", "double jeu", "remake"]
   },
   {
     "id": "x_men_days_of_future",
@@ -1482,7 +1482,7 @@
     "acteurs": ["Hugh Jackman", "James McAvoy", "Michael Fassbender", "Patrick Stewart"],
     "personnages": ["Logan", "Charles Xavier", "Erik Lehnsherr", "Professor X"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["années 1970", "super-héros", "mutant", "voyage dans le temps", "supérieur humain", "tempête"]
+    "mots_cles": ["voyage dans le temps", "années 1970", "mutants", "robots chasseurs", "futur apocalyptique", "Paris"]
   },
   {
     "id": "gravity",
@@ -1493,7 +1493,7 @@
     "acteurs": ["Sandra Bullock", "George Clooney", "Ed Harris", "Orto Ignatiussen"],
     "personnages": ["Ryan Stone", "Matt Kowalski", "Mission Control", "Aningaaq"],
     "genre": "science-fiction, thriller, drame",
-    "mots_cles": ["mission spatiale", "perte", "espace", "astronaute", "station spatiale", "piégé dans l'espace"]
+    "mots_cles": ["astronaute", "débris spatiaux", "station spatiale", "survie", "isolement", "retour sur Terre"]
   },
   {
     "id": "star_wars_les_derniers_jedi",
@@ -1504,7 +1504,7 @@
     "acteurs": ["Mark Hamill", "Carrie Fisher", "Adam Driver", "Daisy Ridley"],
     "personnages": ["Luke Skywalker", "Leia Organa", "Kylo Ren", "Rey"],
     "genre": "aventure, action, science-fiction",
-    "mots_cles": ["bunker", "bataille spatiale", "défaite", "échec", "opéra spatial", "opération militaire"]
+    "mots_cles": ["île isolée", "maître déchu", "rébellion", "sabre laser", "bataille spatiale", "apprentissage"]
   },
   {
     "id": "man_of_steel",
@@ -1515,7 +1515,7 @@
     "acteurs": ["Henry Cavill", "Amy Adams", "Michael Shannon", "Diane Lane"],
     "personnages": ["Clark Kent", "Lois Lane", "General Zod", "Martha Kent"],
     "genre": "action, aventure, science-fiction",
-    "mots_cles": ["sauver le monde", "voler", "espoir", "super-héros", "planète extraterrestre", "super-homme"]
+    "mots_cles": ["extraterrestre", "planète détruite", "Kansas", "journaliste", "invasion", "origine du héros"]
   },
   {
     "id": "leon",
@@ -1526,7 +1526,7 @@
     "acteurs": ["Jean Reno", "Natalie Portman", "Gary Oldman", "Danny Aiello"],
     "personnages": ["Léon Montana", "Mathilda Lando", "Norman Stansfield", "Old Tony"],
     "genre": "crime, drame, action",
-    "mots_cles": ["chambre d'hôtel", "new york", "immigré", "tueur", "brutalité policière", "corruption"]
+    "mots_cles": ["tueur à gages", "fillette", "New York", "policier corrompu", "plante verte", "vengeance"]
   },
   {
     "id": "grand_budapest_hotel",
@@ -1537,7 +1537,7 @@
     "acteurs": ["Ralph Fiennes", "F. Murray Abraham", "Tony Revolori", "Adrien Brody"],
     "personnages": ["M. Gustave", "Mr. Moustafa", "Zero", "Dmitri"],
     "genre": "comédie, drame",
-    "mots_cles": ["hôtel", "peinture", "guerre", "Europe de l'est", "auteur", "affrontement"]
+    "mots_cles": ["concierge", "groom", "tableau volé", "Europe de l'Est", "années 1930", "héritage"]
   },
   {
     "id": "skyfall",
@@ -1548,7 +1548,7 @@
     "acteurs": ["Daniel Craig", "Judi Dench", "Javier Bardem", "Ralph Fiennes"],
     "personnages": ["James Bond", "M", "Silva", "Gareth Mallory"],
     "genre": "action, aventure, thriller",
-    "mots_cles": ["espion", "aston martin", "agent secret", "sociopathe", "imposteur de police", "hacking"]
+    "mots_cles": ["espion", "MI6", "agent secret", "ancien agent vengeur", "Écosse", "Aston Martin"]
   },
   {
     "id": "charlie_et_la_chocolaterie",
@@ -1559,7 +1559,7 @@
     "acteurs": ["Johnny Depp", "Freddie Highmore", "David Kelly", "Helena Bonham Carter"],
     "personnages": ["Willy Wonka", "Charlie Bucket", "Grandpa Joe", "Mrs. Bucket"],
     "genre": "aventure, comédie, familial, fantastique",
-    "mots_cles": ["ouvrier de usine", "usine", "londres, angleterre", "chocolat", "candy", "enfant obèse"]
+    "mots_cles": ["usine", "confiseur excentrique", "ticket d'or", "enfants gâtés", "petits ouvriers", "bonbons"]
   },
   {
     "id": "moi_moche_et_mechant",
@@ -1570,7 +1570,7 @@
     "acteurs": ["Steve Carell", "Jason Segel", "Russell Brand", "Miranda Cosgrove"],
     "personnages": ["Gru", "Vector", "Dr Nefario", "Margo"],
     "genre": "animation, comédie, crime, science-fiction, familial",
-    "mots_cles": ["lune", "relation parent-enfant", "orphelinat", "baddie", "père adoptif", "satire"]
+    "mots_cles": ["génie du mal", "vol de la Lune", "trois orphelines", "père adoptif", "petits serviteurs jaunes", "rayon rétrécissant"]
   },
   {
     "id": "toy_story_3",
@@ -1581,7 +1581,7 @@
     "acteurs": ["Tom Hanks", "Tim Allen", "Joan Cusack", "Don Rickles"],
     "personnages": ["Woody", "Buzz Lightyear", "Jessie", "Mr. Potato Head"],
     "genre": "animation, familial, comédie",
-    "mots_cles": ["évasion", "otage", "école", "villain", "ami", "crèche"]
+    "mots_cles": ["jouets", "crèche", "départ pour l'université", "évasion", "ours en peluche tyrannique", "décharge"]
   },
   {
     "id": "star_wars_episode_i_la",
@@ -1592,7 +1592,7 @@
     "acteurs": ["Liam Neeson", "Ewan McGregor", "Natalie Portman", "Jake Lloyd"],
     "personnages": ["Qui-Gon Jinn", "Obi-Wan Kenobi", "Padmé Amidala", "Anakin Skywalker"],
     "genre": "aventure, action, science-fiction",
-    "mots_cles": ["galaxie", "sénat", "taskmaster", "prophétie", "reine", "apprenti"]
+    "mots_cles": ["jeune esclave", "course de modules", "sénat", "reine", "prophétie", "maître et apprenti"]
   },
   {
     "id": "belle_et_la_bete",
@@ -1603,7 +1603,7 @@
     "acteurs": ["Emma Watson", "Dan Stevens", "Luke Evans", "Josh Gad"],
     "personnages": ["Belle", "Beast", "Gaston", "LeFou"],
     "genre": "familial, fantastique, romance",
-    "mots_cles": ["france", "magie", "conte de fée", "transformation", "cartoon", "château"]
+    "mots_cles": ["château enchanté", "malédiction", "rose", "France", "objets vivants", "conte de fées"]
   },
   {
     "id": "v_pour_vendetta",
@@ -1614,7 +1614,7 @@
     "acteurs": ["Natalie Portman", "Hugo Weaving", "Stephen Rea", "Stephen Fry"],
     "personnages": ["Evey", "V", "Finch", "Deitrich"],
     "genre": "action, thriller, science-fiction",
-    "mots_cles": ["gouvernement", "détective", "révolution", "dystopie", "fascisme", "fasciste"]
+    "mots_cles": ["masque", "dictature", "Londres", "révolution", "5 novembre", "anarchiste"]
   },
   {
     "id": "black_swan",
@@ -1625,7 +1625,7 @@
     "acteurs": ["Natalie Portman", "Mila Kunis", "Vincent Cassel", "Barbara Hershey"],
     "personnages": ["Nina Sayers", "Lily", "Thomas Leroy", "Erica Sayers"],
     "genre": "drame, thriller, horreur",
-    "mots_cles": ["new york", "danse", "cauchemar", "obsession", "folie", "paranoid"]
+    "mots_cles": ["ballet", "danseuse", "perfectionnisme", "folie", "double", "New York"]
   },
   {
     "id": "pirates_des_caraibes_jusqu_au",
@@ -1636,7 +1636,7 @@
     "acteurs": ["Johnny Depp", "Geoffrey Rush", "Orlando Bloom", "Keira Knightley"],
     "personnages": ["Jack Sparrow", "Barbossa", "Will Turner", "Elizabeth Swann"],
     "genre": "aventure, fantastique, action",
-    "mots_cles": ["île exotique", "femme forte", "amour de sa vie", "après la vie", "trahison", "singapour"]
+    "mots_cles": ["flibustiers", "Singapour", "conseil des capitaines", "trahison", "déesse de la mer", "sauvetage dans l'au-delà"]
   },
   {
     "id": "reservoir_dogs",
@@ -1647,7 +1647,7 @@
     "acteurs": ["Harvey Keitel", "Tim Roth", "Michael Madsen", "Chris Penn"],
     "personnages": ["Mr. White", "Mr. Orange", "Mr. Blonde", "\"Nice Guy\" Eddie Cabot"],
     "genre": "crime, thriller",
-    "mots_cles": ["évasion", "bijoux", "psychopathe", "trahison", "oreille", "vol"]
+    "mots_cles": ["braquage raté", "entrepôt", "traître", "costumes noirs", "diamants", "oreille coupée"]
   },
   {
     "id": "blade_runner_2049",
@@ -1658,6 +1658,6 @@
     "acteurs": ["Ryan Gosling", "Harrison Ford", "Ana de Armas", "Dave Bautista"],
     "personnages": ["'K'", "Rick Deckard", "Joi", "Sapper Morton"],
     "genre": "science-fiction, drame",
-    "mots_cles": ["futur", "androide", "chasseur de primes", "intelligence artificielle (a.i.)", "dystopie", "cyberpunk"]
+    "mots_cles": ["androïdes", "chasseur", "futur", "Los Angeles", "enfant secret", "dystopie"]
   }
 ]
