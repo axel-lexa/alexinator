@@ -1,5 +1,10 @@
 # Alexinator
 
+<p align="center">
+  <img src="assets/affiche_reflechit.png" alt="Affiche : Alexinator, il lit dans vos pensées" width="300">
+  <img src="assets/affiche_solution.png" alt="Affiche : et il ne se trompe jamais" width="300">
+</p>
+
 Un LLM « gardien » cache un film. Le joueur discute avec lui pour le deviner, en jouant le jeu
 ou en le piratant. Chaque niveau ajoute une défense.
 
@@ -38,10 +43,10 @@ propre gardien.
 | Analyse (`analyse.ipynb`) | Écrit, exécuté sur un journal factice |
 | Fabrication du jeu de données (`finetune/construire_dataset.py`) | Écrit et testé avec un faux LLM |
 | Entraînement (`finetune/entrainement_qlora.ipynb`) | Écrit, **jamais exécuté** (pas de GPU à la rédaction) |
-| Interface Streamlit, mode terminal, backend local | Écrits, **jamais lancés** |
+| Interface Streamlit (avec les images du magicien), mode terminal, backend local | Écrits, **jamais lancés** |
 | Base cinéma | 21 fiches : à porter à une centaine avant l'entraînement |
 
-Les 34 tests automatiques passent, mais ils utilisent un faux LLM : aucun prompt n'a encore été
+Les 36 tests automatiques passent, mais ils utilisent un faux LLM : aucun prompt n'a encore été
 essayé sur un vrai modèle. C'est le travail de la phase 0.
 
 ## Installation
@@ -80,10 +85,12 @@ alexinator/
   llm.py                LLMClient (API), TransformersLLM (modèle local entraîné), MockLLM (tests)
   films.py              chargement des fiches, tirage d'un film
   validation.py         la réponse du joueur est-elle juste ?
+  visuels.py            images du magicien et texte de ses bulles
   defenses.py           filtre de sortie, censeur, détecteur d'attaques, réponses oui/non
   engine.py             niveaux, partie en cours, chaîne de défenses, outil du niveau 7
   redteam.py            devineur, campagne d'attaques, attaquant automatique
   journal.py            enregistrement SQLite
+assets/                 affiches, dessins du magicien (bulles vides), avatar, police Inter
 levels/*.yaml           un fichier par niveau : prompt du gardien + défenses actives
 data/films.json         les fiches des films
 data/attaques.json      24 attaques classées en 8 catégories

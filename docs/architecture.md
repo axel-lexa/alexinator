@@ -35,6 +35,7 @@ Points importants :
 | `alexinator/validation.py` | Normalisation et vérification de la réponse du joueur |
 | `alexinator/defenses.py` | Les quatre défenses |
 | `alexinator/engine.py` | Chargement des niveaux, classe `GameSession` |
+| `alexinator/visuels.py` | Images du magicien : bulle de pensée ou de victoire remplie avec le texte du moment |
 | `alexinator/redteam.py` | Devineur, campagne d'attaques, attaquant automatique |
 | `alexinator/journal.py` | Écriture dans SQLite |
 | `app.py` | Interface Streamlit |
@@ -89,3 +90,19 @@ niveau 7, qui ne doit pas pouvoir trahir le film).
 
 Les parties jouées par les campagnes automatiques ont un pseudo qui commence par `auto:`, ce qui permet
 de les séparer des parties humaines dans l'analyse.
+
+## Les images du magicien (`assets/`)
+
+| Fichier | Où il apparaît |
+| --- | --- |
+| `affiche_reflechit.png` | Barre latérale de l'interface, README |
+| `affiche_solution.png` | Écran final, quand le joueur a battu tous les niveaux ; README |
+| `avatar.png` | Avatar du gardien dans la discussion (visage découpé du dessin) |
+| `cartoon_reflechit_vierge.png` | Début de partie, attente de la réponse du LLM, réponse bloquée par une défense, mauvaise proposition |
+| `cartoon_solution_vierge.png` | Victoire, avec le titre du film trouvé |
+| `cartoon_*_original.png` | Dessins d'origine, avec leur texte figé (archives) |
+| `fonts/` | Police Inter (licence SIL OFL, voir `fonts/OFL.txt`) pour écrire dans les bulles |
+
+Les versions « vierge » ont une bulle vide. `visuels.magicien_reflechit(texte)` et
+`visuels.magicien_trouve(titre)` y écrivent le texte en ajustant la taille de la police, ce qui permet
+d'afficher n'importe quel titre, même long. Les phrases du magicien se changent dans `visuels.PHRASES`.

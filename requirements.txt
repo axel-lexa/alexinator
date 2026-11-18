@@ -1,6 +1,7 @@
 openai>=1.0
 pyyaml
 streamlit
+pillow
 pytest
 pandas
 matplotlib

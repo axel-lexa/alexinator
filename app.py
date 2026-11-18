@@ -4,13 +4,14 @@ Lancer depuis la racine du projet :  streamlit run app.py
 """
 import streamlit as st
 
+from alexinator import visuels
 from alexinator.config import get_settings
 from alexinator.engine import GameSession, load_levels
 from alexinator.films import load_films, pick_film
 from alexinator.journal import Journal
 from alexinator.llm import make_llm
 
-st.set_page_config(page_title="Alexinator", page_icon="🎬")
+st.set_page_config(page_title="Alexinator", page_icon=str(visuels.AVATAR))
 
 
 # --- Ressources partagées par tous les joueurs (créées une seule fois) ---------------------
@@ -22,15 +23,29 @@ def get_resources():
     return load_levels(), load_films(), Journal(), llm, aux_llm
 
 
+# Les images avec bulle sont fabriquées une fois par texte, puis gardées en cache.
+@st.cache_data(show_spinner=False)
+def image_reflechit(texte: str):
+    return visuels.magicien_reflechit(texte, largeur=500)
+
+
+@st.cache_data(show_spinner=False)
+def image_trouve(titre: str):
+    return visuels.magicien_trouve(titre, largeur=600)
+
+
 levels, films, journal, llm, aux_llm = get_resources()
 levels_by_id = {lv.id: lv for lv in levels}
+AVATAR = str(visuels.AVATAR)
 
 # --- État propre à chaque joueur (st.session_state survit aux rechargements de la page) ----
 state = st.session_state
 state.setdefault("unlocked", levels[0].id)   # plus haut niveau débloqué
 state.setdefault("played", [])               # ids des films déjà joués
 state.setdefault("game", None)               # partie en cours (GameSession)
-state.setdefault("chat", [])                 # messages affichés : (rôle, texte)
+state.setdefault("chat", [])                 # messages affichés : {"role", "text", "pensee"}
+state.setdefault("intro", "")                # phrase du magicien en début de partie
+state.setdefault("celebrate", False)         # lancer les ballons une seule fois
 
 
 def new_game(level_id: int, player: str) -> None:
@@ -39,11 +54,12 @@ def new_game(level_id: int, player: str) -> None:
     state.game = GameSession(levels_by_id[level_id], film, llm, aux_llm=aux_llm,
                              journal=journal, player=player or "anonyme")
     state.chat = []
+    state.intro = visuels.phrase("debut")
 
 
-# --- Barre latérale : pseudo, niveau, nouvelle partie --------------------------------------
+# --- Barre latérale : affiche, pseudo, niveau, nouvelle partie ------------------------------
 with st.sidebar:
-    st.title("🎬 Alexinator")
+    st.image(str(visuels.AFFICHE), width=260)
     player = st.text_input("Ton pseudo", value="anonyme", max_chars=30)
     available = [lv.id for lv in levels if lv.id <= state.unlocked]
     # Par défaut : le niveau de la partie en cours (sinon le plus haut niveau débloqué).
@@ -68,15 +84,27 @@ st.header(f"Niveau {game.level.id} : {game.level.name}")
 st.write(game.level.description)
 st.caption(f"Messages restants : {game.messages_left} / {game.level.max_messages}")
 
-for role, text in state.chat:
-    with st.chat_message(role):
-        st.write(text)
+# Début de partie : le magicien annonce qu'il a un film en tête.
+if not state.chat and not game.solved:
+    st.image(image_reflechit(state.intro), width=320)
+
+for entry in state.chat:
+    with st.chat_message(entry["role"], avatar=AVATAR if entry["role"] == "assistant" else None):
+        st.write(entry["text"])
+        # Quand une défense a bloqué la réponse, le magicien prend un air entendu.
+        if entry.get("pensee"):
+            st.image(image_reflechit(entry["pensee"]), width=220)
 
 if game.solved:
+    st.image(image_trouve(game.film.titre), width=420)
+    if state.celebrate:
+        st.balloons()
+        state.celebrate = False
     st.success(f"Bravo ! C'était bien « {game.film.titre} » ({game.film.annee}).")
     if game.level.id < levels[-1].id:
         st.info("Le niveau suivant est débloqué : choisis-le dans la barre latérale.")
     else:
+        st.image(str(visuels.AFFICHE_VICTOIRE), width=320)
         st.info("Tu as battu tous les niveaux. Clique sur « Nouveau film » pour rejouer.")
 else:
     # Proposition de réponse (ne passe pas par le gardien : validée par le code)
@@ -87,22 +115,31 @@ else:
         result = game.guess(answer)
         if result.correct:
             state.unlocked = min(max(state.unlocked, game.level.id + 1), levels[-1].id)
-            st.balloons()
+            state.celebrate = True
             st.rerun()
         else:
+            st.image(image_reflechit(visuels.phrase("rate")), width=260)
             st.error("Ce n'est pas ça. Continue à interroger le gardien.")
 
     # Discussion avec le gardien
     message = st.chat_input("Parle au gardien...", disabled=game.messages_left == 0)
     if message:
+        with st.chat_message("user"):
+            st.write(message)
+        # Pendant que le LLM répond, le magicien réfléchit (l'image disparaît ensuite).
+        thinking = st.empty()
+        thinking.image(image_reflechit(visuels.phrase("attente")), width=260)
         try:
-            with st.spinner("Alexinator réfléchit..."):
-                result = game.send(message)
+            result = game.send(message)
         except Exception as error:  # LLM injoignable, mauvais nom de modèle, clé invalide...
+            thinking.empty()
             st.error(f"Impossible de joindre le LLM. Vérifie le fichier .env et que le serveur tourne.\n\n{error}")
         else:
-            state.chat.append(("user", message))
-            state.chat.append(("assistant", result.reply))
+            thinking.empty()
+            blocked = result.blocked_by not in (None, "limite")
+            state.chat.append({"role": "user", "text": message})
+            state.chat.append({"role": "assistant", "text": result.reply,
+                               "pensee": visuels.phrase("bloque") if blocked else ""})
             st.rerun()
     if game.messages_left == 0:
         st.warning("Plus de messages : propose une réponse ou clique sur « Nouveau film ».")

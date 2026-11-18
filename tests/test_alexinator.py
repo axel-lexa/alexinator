@@ -331,3 +331,27 @@ def test_dataset_builder_keeps_only_safe_answers():
     # Professeur qui fuit toujours : l'exemple est abandonné.
     examples, skipped = cd.build_examples([FILMS["titanic"]], LEVELS[2], items[:1], MockLLM("C'est Titanic."))
     assert examples == [] and skipped == 1
+
+
+# ---------------------------------------------------------------- visuels
+def test_visuels_every_title_fits_in_the_bubble():
+    from alexinator import visuels
+
+    for film in FILMS.values():
+        image = visuels.magicien_trouve(film.titre)
+        assert image.size == (1000, 1250)
+    small = visuels.magicien_reflechit(visuels.phrase("attente"), largeur=250)
+    assert small.size == (250, 312)
+    for path in (visuels.AVATAR, visuels.AFFICHE, visuels.AFFICHE_VICTOIRE):
+        assert path.exists()
+
+
+def test_visuels_text_is_drawn_inside_the_bubble_only():
+    from PIL import ImageChops
+    from alexinator import visuels
+
+    blank = visuels._base("cartoon_solution_vierge.png")
+    drawn = visuels.magicien_trouve("Le Seigneur des anneaux : La Communauté de l'anneau")
+    left, top, right, bottom = ImageChops.difference(blank, drawn).getbbox()
+    box = visuels._SPEECH_BOX
+    assert box[0] <= left and top >= box[1] and right <= box[2] and bottom <= box[3]
