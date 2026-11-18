@@ -27,10 +27,12 @@ Points importants :
 - **Une proposition de titre ne passe pas par le gardien.** `play` retire les formules d'introduction (« est-ce que c'est … ? », `validation.extract_title`), puis compare **le message entier** aux titres. Citer un titre au milieu d'une phrase ou coller une liste de titres ne fait donc pas gagner.
   - le film secret (exact ou approché, via `validation.check_answer`) : victoire, avec l'orthographe correcte si le joueur a fait une faute ;
   - le début d'un titre du film secret (« Le Seigneur des anneaux » pour *La Communauté de l'anneau*) : « Tu brûles », la proposition est refusée ;
-  - un autre film de `data/films.json` : « Non, ce n'est pas *X* » ;
+  - un titre très proche sans être correct (« Retour vers le passé ») : « Tu chauffes » (`validation.is_near_miss`) ;
+  - un autre film de `data/films.json` (titre exact, début ou titre proche) : « Non, ce n'est pas *X* » ou « Non, ce n'est pas ça » ;
   - sinon : c'est une question, elle part au gardien.
 
-  Une proposition refusée coûte un message et entre dans l'historique du gardien. La comparaison se fait en deux étapes : correspondance exacte (après normalisation), puis approchée à nombre de mots égal (fautes de frappe). Le juge LLM n'intervient que pour la commande `/r` du terminal.
+  Une proposition refusée coûte un message et entre dans l'historique du gardien. La comparaison se fait en deux étapes : correspondance exacte (après normalisation), puis approchée à nombre de mots égal, mot à mot (fautes de frappe : « forest gump » oui, « star wars 1 » pour l'épisode IV non). Le juge LLM n'intervient que pour la commande `/r` du terminal. Un test vérifie qu'aucune question honnête ni aucune attaque de `data/` n'est prise pour une proposition.
+- **Le gardien ne valide jamais un titre.** `engine.GUARDIAN_NO_VERDICT` est ajouté au prompt de chaque niveau : sans cette règle, un petit modèle félicitait le joueur pour un titre faux qui lui était parvenu.
 - **Tout est enregistré** dans `data/journal.db`, y compris la réponse brute du gardien avant les défenses.
 
 ## Les modules

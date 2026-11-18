@@ -18,7 +18,7 @@ from . import defenses
 from .config import LEVELS_DIR
 from .films import Film
 from .journal import Journal
-from .validation import GuessResult, check_answer, extract_title, is_partial_title
+from .validation import GuessResult, check_answer, extract_title, is_near_miss, is_partial_title, normalize
 
 KNOWN_DEFENSES = {"input_detector", "output_filter", "censor"}
 
@@ -30,6 +30,13 @@ REFUSALS = {
     "limite": "Tu as utilisé tous tes messages pour ce niveau. Clique sur « Nouveau film » pour recommencer.",
 }
 PARTIAL_GUESS = "Tu brûles ! Mais sois plus précis : quel film exactement ?"
+NEAR_GUESS = "Tu chauffes ! Ce n'est pas tout à fait ça : vérifie le titre."
+# Ajouté à tous les prompts du gardien : sans cette règle, un petit modèle félicite le joueur
+# pour un titre faux (« Retour vers le passé »). Les propositions sont validées par le code.
+GUARDIAN_NO_VERDICT = (
+    "- Ce n'est jamais toi qui valides une proposition de titre : le jeu s'en charge. "
+    "Ne dis jamais au joueur qu'il a trouvé, gagné ou deviné le film."
+)
 
 # Niveau 7 : le gardien appelle son outil en écrivant seul sur une ligne « VERIFIER: <titre> ».
 # (Protocole en texte brut : il marche avec n'importe quel modèle, même sans « tool calling » natif.)
@@ -107,6 +114,7 @@ class GameSession:
         prompt = self.level.guardian_prompt.replace("{fiche}", fiche).replace(
             "{verifications}", str(self.tool_calls_left)
         )
+        prompt = prompt.rstrip() + "\n" + GUARDIAN_NO_VERDICT + "\n"
         if self.tool_notes:
             prompt += "\nVérifications déjà faites avec ton outil :\n" + "\n".join(self.tool_notes)
         return prompt
@@ -222,24 +230,26 @@ class GameSession:
             self.solved = True
             reply = f"Bravo ! C'était bien « {self.film.titre} » ({self.film.annee})."
             if result.method == "approchee":
-                reply += (
-                    f" Petite faute : tu as écrit « {message.strip()} », ça s'écrit « {result.matched} »."
-                )
+                # Montre ce que le joueur a écrit, sans les formules autour (« c'est ... ? »).
+                typed = message.strip() if normalize(message) == candidate else candidate
+                reply += f" Petite faute : tu as écrit « {typed} », ça s'écrit « {result.matched} »."
             return self._record_guess(message, result, reply)
 
         if is_partial_title(candidate, self.film):
             return self._record_guess(message, GuessResult(False, "partielle"), PARTIAL_GUESS)
+        if is_near_miss(candidate, self.film):
+            return self._record_guess(message, GuessResult(False, "proche"), NEAR_GUESS)
 
-        for other in self.catalogue:
-            if other.id == self.film.id:
-                continue
+        others = [f for f in self.catalogue if f.id != self.film.id]
+        for other in others:  # d'abord les titres exacts, pour nommer le bon film
             if check_answer(candidate, other).correct:
                 return self._record_guess(
                     message,
                     GuessResult(False, "refusee", other.titre),
                     f"Non, ce n'est pas « {other.titre} ».",
                 )
-            if is_partial_title(candidate, other):
+        for other in others:
+            if is_partial_title(candidate, other) or is_near_miss(candidate, other):
                 return self._record_guess(message, GuessResult(False, "refusee"), "Non, ce n'est pas ça.")
 
         return self.send(message)

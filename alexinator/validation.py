@@ -6,7 +6,8 @@ Trois étapes, de la plus sûre à la plus souple :
 3. juge LLM  : en dernier recours et seulement si un LLM est fourni.
 
 On veut accepter « star wars 4 » ou « amelie poulin », mais refuser « Star Wars » tout court
-quand le secret est l'épisode IV : c'est pourquoi l'étape 2 exige le même nombre de mots.
+quand le secret est l'épisode IV, ou « star wars 1 » : c'est pourquoi l'étape 2 exige le même
+nombre de mots et compare aussi les mots un à un.
 """
 
 from __future__ import annotations
@@ -19,7 +20,9 @@ from difflib import SequenceMatcher
 from .films import Film
 
 ARTICLES = ("le ", "la ", "les ", "l ", "un ", "une ", "the ", "a ")
-SEUIL_APPROX = 0.85
+SEUIL_APPROX = 0.85  # ressemblance de la phrase entière
+SEUIL_MOT = 0.5  # ressemblance minimale de chaque mot avec le mot à la même place
+SEUIL_PROCHE = 0.7  # en dessous de SEUIL_APPROX mais au-dessus : « tu chauffes »
 
 
 def normalize(text: str) -> str:
@@ -62,8 +65,7 @@ def check_answer(guess: str, film: Film, judge=None) -> GuessResult:
 
     # 2) Correspondance approchée (fautes de frappe), à nombre de mots égal
     for target, original in targets:
-        same_word_count = len(g.split()) == len(target.split())
-        if same_word_count and SequenceMatcher(None, g, target).ratio() >= SEUIL_APPROX:
+        if _is_typo_of(g, target):
             return GuessResult(True, "approchee", original)
 
     # 3) Juge LLM (optionnel)
@@ -110,6 +112,50 @@ GUESS_PREFIXES = sorted(
         "donc",
         "euh",
         "hmm",
+        # tournures négatives ou hésitantes : « c'est pas Titanic ? » propose bien Titanic
+        "c est pas",
+        "c etait pas",
+        "ce serait pas",
+        "ca serait pas",
+        "ca ne serait pas",
+        "ce n etait pas",
+        "est ce pas",
+        "c est peut etre",
+        "peut etre",
+        "ca doit etre",
+        "c est surement",
+        "surement",
+        "je parie sur",
+        "je parie que c est",
+        "et si c etait",
+        "j ai trouve",
+        "je sais",
+        "ok",
+        "oui",
+        "bon",
+        "ah",
+    ],
+    key=len,
+    reverse=True,
+)
+# Ce que le joueur ajoute après le titre (« Titanic, non ? »), sous forme normalisée.
+GUESS_SUFFIXES = sorted(
+    [
+        "non",
+        "nan",
+        "peut etre",
+        "alors",
+        "du coup",
+        "hein",
+        "ou pas",
+        "je pense",
+        "je crois",
+        "j imagine",
+        "c est ca",
+        "c est bien ca",
+        "non peut etre",
+        "lol",
+        "mdr",
     ],
     key=len,
     reverse=True,
@@ -118,16 +164,20 @@ MIN_PARTIAL_CHARS = 7  # « Harry Potter » ou « Astérix » : oui ; « star »
 
 
 def extract_title(message: str) -> str:
-    """Retire les formules d'introduction : « Est-ce que c'est Titanic ? » -> « titanic »."""
+    """Retire les formules autour du titre : « Est-ce que c'est pas Titanic, non ? » -> « titanic »."""
     text = normalize(message)
     stripped = True
-    while stripped:
+    while stripped and text:
         stripped = False
         for prefix in GUESS_PREFIXES:
             if text == prefix:
                 return ""
             if text.startswith(prefix + " "):
                 text, stripped = text[len(prefix) + 1 :], True
+                break
+        for suffix in GUESS_SUFFIXES:
+            if text.endswith(" " + suffix):
+                text, stripped = text[: -len(suffix) - 1], True
                 break
     return text
 
@@ -138,6 +188,31 @@ def is_partial_title(candidate: str, film: Film) -> bool:
     if len(c) < MIN_PARTIAL_CHARS:
         return False
     return any(canonical(t).startswith(c + " ") for t in film.titres_acceptes)
+
+
+def _is_typo_of(g: str, target: str) -> bool:
+    """Fautes de frappe seulement : même nombre de mots, et chaque mot ressemble à celui d'en face.
+
+    La comparaison mot à mot empêche un mot en trop et un mot en moins de se compenser :
+    « pas retour vers le futur » n'est pas « retour vers le futur 1 », ni « star wars 1 » « star wars 4 ».
+    """
+    words, target_words = g.split(), target.split()
+    if len(words) != len(target_words) or SequenceMatcher(None, g, target).ratio() < SEUIL_APPROX:
+        return False
+    pairs = zip(words, target_words, strict=True)  # longueurs égales, vérifiées juste au-dessus
+    return all(SequenceMatcher(None, w, t).ratio() >= SEUIL_MOT for w, t in pairs)
+
+
+def is_near_miss(candidate: str, film: Film) -> bool:
+    """Le message ressemble fortement à un titre du film sans être correct : « Retour vers le passé »."""
+    c = canonical(candidate)
+    if len(c) < MIN_PARTIAL_CHARS:
+        return False
+    for target in (canonical(t) for t in film.titres_acceptes):
+        close_length = abs(len(c.split()) - len(target.split())) <= 1
+        if close_length and SequenceMatcher(None, c, target).ratio() >= SEUIL_PROCHE:
+            return True
+    return False
 
 
 def _judge_says_yes(guess: str, film: Film, judge) -> bool:
