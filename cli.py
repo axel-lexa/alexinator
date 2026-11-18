@@ -3,8 +3,9 @@
     python cli.py --niveau 2
     python cli.py --niveau 3 --film titanic     (film imposé, pour comparer des modèles)
 
-Dans la partie :  /r <titre> pour proposer une réponse,  /brut pour voir la dernière réponse
-non filtrée (triche de développeur),  /q pour quitter.
+Dans la partie : pose tes questions ou tape directement le titre du film quand tu l'as trouvé.
+/r <titre> force une proposition (avec juge LLM),  /brut montre la dernière réponse non filtrée
+(triche de développeur),  /q pour quitter.
 """
 import argparse
 
@@ -35,11 +36,11 @@ def main() -> None:
         levels[args.niveau], film,
         llm=make_llm(settings),
         aux_llm=make_llm(settings, settings.aux_model),
-        journal=Journal(), player=args.joueur,
+        journal=Journal(), player=args.joueur, catalogue=films,
     )
     print(f"Niveau {game.level.id} : {game.level.name} (modèle : {settings.model})")
     print(game.level.description)
-    print("Commandes : /r <titre> pour répondre, /brut, /q pour quitter.\n")
+    print("Pose tes questions, ou tape le titre quand tu l'as trouvé. Commandes : /r <titre>, /brut, /q.\n")
 
     last = None
     while not game.solved:
@@ -56,9 +57,11 @@ def main() -> None:
             else:
                 print("Ce n'est pas ça.\n")
         else:
-            last = game.send(text)
-            tag = f" [bloqué par {last.blocked_by}]" if last.blocked_by else ""
-            print(f"Alexinator{tag} > {last.reply}\n")
+            result = game.play(text)
+            if result.guess is None:
+                last = result
+            tag = f" [bloqué par {result.blocked_by}]" if result.blocked_by else ""
+            print(f"Alexinator{tag} > {result.reply}\n")
 
 
 if __name__ == "__main__":
