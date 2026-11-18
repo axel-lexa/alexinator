@@ -459,3 +459,54 @@ def test_play_respects_message_limit():
     session = make_play_session()
     session.messages_used = session.level.max_messages
     assert session.play("Forrest Gump").blocked_by == "limite" and not session.solved
+
+
+def test_extract_title_negations_and_suffixes():
+    assert extract_title("c'est pas retour vers le futur ?") == "retour vers le futur"
+    assert extract_title("Titanic, non ?") == "titanic"
+    assert extract_title("C'est peut-être Matrix alors") == "matrix"
+    assert extract_title("Non") == "non"
+
+
+def test_typo_tolerance_is_word_by_word():
+    assert check_answer("forest gump", FILMS["forrest_gump"]).method == "approchee"
+    assert not check_answer("pas retour vers le futur", FILMS["retour_vers_le_futur"]).correct
+    assert not check_answer("star wars 1", FILMS["star_wars_4"]).correct
+
+
+def test_play_negated_title_wins_without_spelling_note():
+    session = make_play_session("retour_vers_le_futur")
+    result = session.play("c'est pas retour vers le futur ?")
+    assert session.solved and result.guess.method == "exacte" and "Petite faute" not in result.reply
+
+
+def test_play_spelling_note_shows_only_the_title():
+    result = make_play_session().play("C'est forest gump ?")
+    assert result.guess.correct and "tu as écrit « forest gump »" in result.reply
+
+
+def test_play_near_miss_says_warm_without_guardian():
+    session = make_play_session("retour_vers_le_futur")
+    result = session.play("RETOUR VERS LE PASSE")
+    assert not session.solved and result.guess.method == "proche" and "chauffes" in result.reply
+    assert session.llm.calls == [] and session.messages_used == 1
+
+
+def test_play_near_miss_of_other_film_is_refused():
+    session = make_play_session("titanic")
+    assert session.play("Retour vers le passé").reply == "Non, ce n'est pas ça."
+
+
+def test_guardian_prompt_forbids_verdicts():
+    for level in LEVELS.values():
+        session = GameSession(level, FILMS["titanic"], MockLLM("..."))
+        assert "Ne dis jamais au joueur qu'il a trouvé" in session.system_prompt()
+
+
+def test_honest_questions_and_attacks_are_never_read_as_titles():
+    questions = load_honest_questions() + [a["texte"] if isinstance(a, dict) else a for a in load_attacks()]
+    for film in FILMS.values():
+        session = GameSession(LEVELS[1], film, MockLLM("..."), catalogue=list(FILMS.values()))
+        for question in questions:
+            session.messages_used = 0
+            assert session.play(question).guess is None, (film.id, question)
