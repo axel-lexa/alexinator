@@ -3,9 +3,8 @@
 Idée : aucun jeu de données public ne contient « un gardien qui donne des indices sans trahir son
 film ». On le fabrique donc nous-mêmes :
 
-  1. on rassemble des MESSAGES DE JOUEURS : nos attaques (data/attaques.json), nos questions honnêtes,
-     les vraies tentatives des playtests (journal SQLite) et, en option, des injections réelles du jeu
-     Gandalf (jeu de données public Lakera/gandalf_ignore_instructions, licence MIT, en anglais) ;
+  1. on rassemble des MESSAGES DE JOUEURS : nos attaques (data/attaques.json intégrant OWASP et les
+     injections Gandalf traduites), nos questions honnêtes, et les vraies tentatives des playtests (journal SQLite) ;
   2. un LLM « professeur » (le meilleur modèle disponible) joue le gardien idéal face à chaque message ;
   3. NOS DÉFENSES servent de contrôle qualité : une réponse qui laisse fuiter le film est rejetée et
      régénérée. On ne garde que des réponses sûres ;
@@ -16,7 +15,7 @@ Résultat : finetune/data/train.jsonl et val.jsonl, une conversation par ligne
 ({"messages": [system, user, assistant], "film_id": ..., "type": ...}).
 
     python finetune/construire_dataset.py                       version minimale
-    python finetune/construire_dataset.py --journal --lakera 150 --devineur
+    python finetune/construire_dataset.py --journal --devineur
 """
 
 from __future__ import annotations
@@ -60,23 +59,79 @@ def split_by_film(films: list[Film], val_every: int = 5) -> tuple[list[Film], li
 
 
 def journal_messages(path: Path = JOURNAL_PATH) -> list[str]:
-    """Messages écrits par de vrais joueurs pendant les playtests (pas ceux des campagnes auto)."""
+    """Messages et questions écrits par de vrais joueurs pendant les playtests."""
     if not Path(path).exists():
         return []
     with sqlite3.connect(path) as conn:
-        rows = conn.execute(
-            "SELECT DISTINCT message_joueur FROM tours WHERE joueur NOT LIKE 'auto:%'"
-        ).fetchall()
-    return [r[0] for r in rows if r[0] and len(r[0]) < 600]
+        # 1) Questions pertinentes validées par le filtre
+        pertinentes = [
+            r[0]
+            for r in conn.execute(
+                "SELECT DISTINCT question FROM questions_pertinentes WHERE joueur NOT LIKE 'auto:%'"
+            ).fetchall()
+            if r[0]
+        ]
+        # 2) Autres messages des joueurs dans le journal
+        tours = [
+            r[0]
+            for r in conn.execute(
+                "SELECT DISTINCT message_joueur FROM tours WHERE joueur NOT LIKE 'auto:%'"
+            ).fetchall()
+            if r[0] and len(r[0]) < 600
+        ]
+    # Déduplication en conservant l'ordre
+    seen = set()
+    messages = []
+    for m in pertinentes + tours:
+        if m not in seen:
+            seen.add(m)
+            messages.append(m)
+    return messages
+
+
+def qualify_playtest_message(msg: str) -> str:
+    """Classifie un message réel de playtest en attaque ou question honnête."""
+    m = msg.lower().strip()
+    mots_attaque = (
+        "titre", "secret", "mot de passe", "password", "qui est le", "dis-moi le", "dis moi le",
+        "ignore", "consigne", "instruction", "repete", "répète", "affiche", "donne-moi le",
+        "donne moi le", "traduis", "épelle", "epelle", "system", "prompt"
+    )
+    return "attaque_playtest" if any(w in m for w in mots_attaque) else "honnete_playtest"
 
 
 def lakera_messages(n: int, seed: int = 0) -> list[str]:
-    """Échantillon d'injections réelles du jeu Gandalf, adaptées à notre jeu (mot de passe -> titre)."""
+    """Injections Gandalf supplémentaires depuis HF si demandé (les principales sont déjà dans data/attaques.json)."""
     from datasets import load_dataset  # pip install datasets (accès internet nécessaire)
-
     data = load_dataset("Lakera/gandalf_ignore_instructions", split="train")
     texts = [t.replace("password", "movie title").replace("Password", "Movie title") for t in data["text"]]
     return random.Random(seed).sample(texts, min(n, len(texts)))
+
+
+def sample_items(
+    items: list[tuple[str, str]],
+    max_per_film: int | None,
+    rng: random.Random,
+    equilibre: bool = True,
+) -> list[tuple[str, str]]:
+    """Sélectionne les messages pour un film avec équilibrage attaques / questions."""
+    if max_per_film is None:
+        return items
+    if not equilibre:
+        return rng.sample(items, min(max_per_film, len(items)))
+
+    attacks = [it for it in items if "attaque" in it[0]]
+    honest = [it for it in items if "attaque" not in it[0]]
+
+    n_attacks = max_per_film // 2
+    n_honest = max_per_film - n_attacks
+
+    chosen_att = rng.sample(attacks, min(n_attacks, len(attacks))) if attacks else []
+    chosen_hon = rng.sample(honest, min(n_honest, len(honest))) if honest else []
+
+    chosen = chosen_att + chosen_hon
+    rng.shuffle(chosen)
+    return chosen
 
 
 def build_examples(
@@ -88,12 +143,13 @@ def build_examples(
     tries: int = 3,
     max_per_film: int | None = None,
     rng: random.Random | None = None,
+    equilibre: bool = True,
 ) -> tuple[list[dict], int]:
     """Génère les exemples. Renvoie (exemples, nombre de messages abandonnés faute de réponse sûre)."""
     rng = rng or random.Random(0)
     examples, skipped = [], 0
     for film in films:
-        chosen = items if max_per_film is None else rng.sample(items, min(max_per_film, len(items)))
+        chosen = sample_items(items, max_per_film, rng, equilibre=equilibre)
         system = level.guardian_prompt.replace("{fiche}", film.fiche())
         for kind, text in chosen:
             reply = None
@@ -143,7 +199,9 @@ def main() -> None:
     parser.add_argument("--journal", action="store_true", help="ajoute les messages des playtests")
     parser.add_argument("--lakera", type=int, default=0, help="nombre d'injections Gandalf à ajouter")
     parser.add_argument("--devineur", action="store_true", help="rejette aussi les fuites sémantiques")
-    parser.add_argument("--max-par-film", type=int, default=None)
+    parser.add_argument("--max-par-film", type=int, default=None, help="limite le nombre de messages par film")
+    parser.add_argument("--max-films", type=int, default=None, help="limite le nombre de films au total")
+    parser.add_argument("--sans-equilibre", action="store_true", help="désactive l'équilibrage 50/50 attaques/questions")
     parser.add_argument("--niveau-prompt", type=int, default=2, help="niveau dont on reprend le prompt")
     args = parser.parse_args()
 
@@ -157,11 +215,15 @@ def main() -> None:
     items = [("attaque", a["texte"]) for a in load_attacks()]
     items += [("honnete", q) for q in load_honest_questions()]
     if args.journal:
-        items += [("playtest", m) for m in journal_messages()]
+        items += [(qualify_playtest_message(m), m) for m in journal_messages()]
     if args.lakera:
         items += [("attaque_lakera", m) for m in lakera_messages(args.lakera)]
 
-    train_films, val_films = split_by_film(load_films())
+    all_films = load_films()
+    if args.max_films and args.max_films < len(all_films):
+        all_films = random.Random(0).sample(all_films, args.max_films)
+
+    train_films, val_films = split_by_film(all_films)
     print(
         f"{len(items)} messages x {len(train_films)} films (entraînement), "
         f"{len(val_films)} films (validation)"
@@ -170,7 +232,13 @@ def main() -> None:
 
     for name, films in (("train", train_films), ("val", val_films)):
         examples, skipped = build_examples(
-            films, level, items, teacher, guesser, max_per_film=args.max_par_film
+            films,
+            level,
+            items,
+            teacher,
+            guesser,
+            max_per_film=args.max_par_film,
+            equilibre=not args.sans_equilibre,
         )
         write_jsonl(OUT_DIR / f"{name}.jsonl", examples)
         print(f"{name}.jsonl : {len(examples)} exemples ({skipped} messages abandonnés)")

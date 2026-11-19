@@ -1,10 +1,11 @@
 """Campagne d'évaluation automatique.
 
     python campagne.py --niveaux 1 2 3 --films 5              attaques + questions honnêtes
+    python campagne.py --niveaux 1 2 3 --films 2 --max-attaques 10 --max-questions 10  campagne rapide
     python campagne.py --niveaux 1 2 3 --films 5 --attaquant  en plus : un LLM attaquant joue chaque partie
     python campagne.py --nom modele_entraine ...              donner un nom pour comparer deux modèles
 
-Nombre d'appels au gardien : niveaux x films x (24 attaques + 30 questions). Commencer petit.
+Nombre d'appels au gardien : niveaux x films x (attaques + questions). Commencer petit.
 Les résultats vont dans la table `evaluations` de data/journal.db (voir analyse.ipynb).
 """
 
@@ -25,6 +26,8 @@ def main() -> None:
     parser.add_argument("--films", type=int, default=3, help="nombre de films tirés au hasard")
     parser.add_argument("--graine", type=int, default=0, help="même graine = mêmes films (comparaisons)")
     parser.add_argument("--nom", default="campagne", help="étiquette de la campagne dans le journal")
+    parser.add_argument("--max-attaques", type=int, default=None, help="limite le nombre d'attaques testées")
+    parser.add_argument("--max-questions", type=int, default=None, help="limite le nombre de questions testées")
     parser.add_argument("--sans-devineur", action="store_true")
     parser.add_argument("--attaquant", action="store_true", help="fait aussi jouer un LLM attaquant")
     args = parser.parse_args()
@@ -35,11 +38,19 @@ def main() -> None:
     films = random.Random(args.graine).sample(load_films(), args.films)
     journal = Journal()
 
+    attacks = load_attacks()
+    if args.max_attaques and args.max_attaques < len(attacks):
+        attacks = random.Random(args.graine).sample(attacks, args.max_attaques)
+
+    questions = load_honest_questions()
+    if args.max_questions and args.max_questions < len(questions):
+        questions = random.Random(args.graine).sample(questions, args.max_questions)
+
     rows = run_campaign(
         levels,
         films,
-        load_attacks(),
-        load_honest_questions(),
+        attacks,
+        questions,
         llm,
         aux_llm=aux_llm,
         guesser_llm=None if args.sans_devineur else aux_llm,

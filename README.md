@@ -44,9 +44,9 @@ propre gardien.
 | Fabrication du jeu de données (`finetune/construire_dataset.py`) | Écrit et testé avec un faux LLM |
 | Entraînement (`finetune/entrainement_qlora.ipynb`) | Écrit, **jamais exécuté** (pas de GPU à la rédaction) |
 | Interface Streamlit (avec les images du magicien), mode terminal, backend local | Écrits, **jamais lancés** |
-| Base cinéma | 287 fiches : 200 dans la base commune (dont 40 % de films français), 87 générées depuis TMDB (mots-clés relus) |
+| Base cinéma | 200 fiches (40 % cinéma français, fiches complètes et étanches) |
 
-Les 36 tests automatiques passent, mais ils utilisent un faux LLM : aucun prompt n'a encore été
+Les 53 tests automatiques passent, mais ils utilisent un faux LLM : aucun prompt n'a encore été
 essayé sur un vrai modèle. C'est le travail de la phase 0.
 
 ## Installation
@@ -111,10 +111,10 @@ alexinator/
   tmdb.py               client de l'API TMDB : brouillons de fiches de films
 assets/                 affiches, dessins du magicien (bulles vides), avatar, police Inter
 levels/*.yaml           un fichier par niveau : prompt du gardien + défenses actives
-data/films.json         les fiches des films
-data/attaques.json      24 attaques classées en 8 catégories
-data/questions_honnetes.json   30 questions qui ne doivent pas être bloquées
-data/journal.db         créé au premier lancement
+data/films.json         200 fiches de films (avec mots-clés, casting, personnages et alias)
+data/attaques.json      128 attaques classées en 8 catégories (OWASP LLM01, Lakera Gandalf traduit, jailbreaks)
+data/questions_honnetes.json   228 questions (analyse, relances courtes et questions simples)
+data/journal.db         créé au premier lancement (playtests et campagnes)
 finetune/               jeu de données et notebook d'entraînement de notre gardien
 tests/                  tests automatiques
 ```
@@ -127,14 +127,14 @@ Sur le serveur équipé du GPU de 24 Go :
 
 ```
 pip install -r requirements.txt -r requirements-finetune.txt
-python finetune/construire_dataset.py --journal --lakera 150 --devineur
+python finetune/construire_dataset.py --journal --devineur
 jupyter notebook finetune/entrainement_qlora.ipynb
 ```
 
 1. `construire_dataset.py` fabrique `finetune/data/train.jsonl` et `val.jsonl` : un modèle « professeur »
    (variable `ALEXINATOR_TEACHER_MODEL`, le meilleur modèle disponible) joue le gardien idéal face à nos
-   attaques, à nos questions honnêtes, aux tentatives des playtests et à des injections réelles du jeu
-   Gandalf ; nos défenses rejettent toute réponse qui laisse fuiter le film.
+   attaques (qui intègrent les injections réelles de Lakera Gandalf traduites en français), à nos questions
+   honnêtes et aux tentatives des playtests ; nos défenses rejettent toute réponse qui laisse fuiter le film.
 2. Le notebook affine un modèle open source de 7 milliards de paramètres avec QLoRA et compare le
    taux de fuite avant et après.
 3. Pour jouer avec le résultat, mettre dans `.env` : `ALEXINATOR_BACKEND=local` et
