@@ -37,7 +37,7 @@ def main() -> None:
         levels[args.niveau],
         film,
         llm=make_llm(settings),
-        aux_llm=make_llm(settings, settings.aux_model),
+        aux_llm=make_llm(settings, settings.aux_model, aux=True),
         journal=Journal(),
         player=args.joueur,
         catalogue=films,

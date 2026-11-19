@@ -22,7 +22,7 @@ st.set_page_config(page_title="Alexinator", page_icon=str(visuels.AVATAR))
 def get_resources():
     settings = get_settings()
     llm = make_llm(settings)
-    aux_llm = make_llm(settings, settings.aux_model)
+    aux_llm = make_llm(settings, settings.aux_model, aux=True)
     return load_levels(), load_films(), Journal(), llm, aux_llm
 
 

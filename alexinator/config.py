@@ -38,7 +38,11 @@ class Settings:
     api_key: str  # clé d'API ("ollama" suffit pour un modèle local)
     model: str  # modèle du gardien
     aux_model: str  # modèle des défenses (détecteur, censeur) : peut être plus petit
-    backend: str = "api"  # "api" (serveur compatible OpenAI) ou "local" (transformers, sur GPU)
+    # gardien : "api" (compatible OpenAI), "local" (transformers + LoRA) ou "alexinator" (notre GPT)
+    backend: str = "api"
+    # défenses, devineur, professeur : par défaut comme le gardien, sauf "alexinator" -> "api"
+    aux_backend: str = "api"
+    checkpoint: str = ""  # backend "alexinator" : chemin du gardien.pt produit par entrainement/sft.py
     adapter: str = ""  # backend local : dossier de l'adaptateur LoRA entraîné (optionnel)
     teacher_model: str = ""  # modèle « professeur » pour fabriquer le jeu de données d'entraînement
     tmdb_token: str = ""  # jeton TMDB (« API Read Access Token ») pour enrichir la base cinéma
@@ -47,12 +51,15 @@ class Settings:
 def get_settings() -> Settings:
     load_dotenv()
     model = os.environ.get("ALEXINATOR_MODEL", "llama3.1:8b")
+    backend = os.environ.get("ALEXINATOR_BACKEND", "api")
     return Settings(
         base_url=os.environ.get("ALEXINATOR_BASE_URL", "http://localhost:11434/v1"),
         api_key=os.environ.get("ALEXINATOR_API_KEY", "ollama"),
         model=model,
         aux_model=os.environ.get("ALEXINATOR_AUX_MODEL", model),
-        backend=os.environ.get("ALEXINATOR_BACKEND", "api"),
+        backend=backend,
+        aux_backend=os.environ.get("ALEXINATOR_AUX_BACKEND", "api" if backend == "alexinator" else backend),
+        checkpoint=os.environ.get("ALEXINATOR_CHECKPOINT", ""),
         adapter=os.environ.get("ALEXINATOR_ADAPTER", ""),
         teacher_model=os.environ.get("ALEXINATOR_TEACHER_MODEL", model),
         tmdb_token=os.environ.get("ALEXINATOR_TMDB_TOKEN", ""),

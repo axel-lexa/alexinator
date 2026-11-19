@@ -33,7 +33,7 @@ def main() -> None:
     args = parser.parse_args()
 
     settings = get_settings()
-    llm, aux_llm = make_llm(settings), make_llm(settings, settings.aux_model)
+    llm, aux_llm = make_llm(settings), make_llm(settings, settings.aux_model, aux=True)
     levels = [lv for lv in load_levels() if lv.id in args.niveaux]
     films = random.Random(args.graine).sample(load_films(), args.films)
     journal = Journal()

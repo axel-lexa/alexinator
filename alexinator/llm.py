@@ -83,15 +83,53 @@ class TransformersLLM:
         return self._tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
 
 
+class AlexinatorLLM:
+    """Notre propre modèle (Alexinator-110M, entraîné avec entrainement/pretrain.py puis sft.py)."""
+
+    def __init__(self, checkpoint: str):
+        import torch
+        from tokenizers import Tokenizer
+
+        from .gpt import FIN, encode_conversation, load_checkpoint
+
+        self._torch = torch
+        self._encode = encode_conversation
+        self._device = "cuda" if torch.cuda.is_available() else "cpu"
+        self._model, ckpt = load_checkpoint(checkpoint, self._device)
+        self._model.eval()
+        self._tokenizer = Tokenizer.from_file(ckpt["tokenizer"])
+        self._fin = self._tokenizer.token_to_id(FIN)
+        self.model = f"alexinator-110m:{checkpoint}"
+
+    def chat(self, messages: list[Message], temperature: float = 0.7, max_tokens: int = 400) -> str:
+        # Le gardien répond en 3 phrases : on garde de la place pour le prompt.
+        max_tokens = min(max_tokens, 160)
+        ids, _ = self._encode(self._tokenizer, messages, add_generation_prompt=True)
+        block = self._model.cfg.block_size
+        # On garde la fin si la conversation dépasse la fenêtre (le prompt système est alors tronqué).
+        idx = self._torch.tensor([ids[-(block - max_tokens):] if len(ids) > block - max_tokens else ids],
+                                 device=self._device)
+        out = self._model.generate(idx, max_tokens, temperature=temperature, top_k=50, stop_id=self._fin)
+        return self._tokenizer.decode(out[0, idx.size(1):].tolist(), skip_special_tokens=True).strip()
+
+
 _CACHE: dict = {}
 
 
-def make_llm(settings, model: str = ""):
-    """Crée le LLM décrit par la configuration (.env). Un même modèle n'est chargé qu'une fois."""
+def make_llm(settings, model: str = "", aux: bool = False):
+    """Crée le LLM décrit par la configuration (.env). Un même modèle n'est chargé qu'une fois.
+
+    aux=True pour les rôles auxiliaires (censeur, détecteur, devineur, professeur) : ils suivent
+    ALEXINATOR_AUX_BACKEND, ce qui permet d'avoir notre petit modèle en gardien et un modèle plus
+    gros pour le reste.
+    """
     model = model or settings.model
-    key = (settings.backend, model, settings.adapter)
+    backend = settings.aux_backend if aux else settings.backend
+    key = (backend, model, settings.adapter, settings.checkpoint)
     if key not in _CACHE:
-        if settings.backend == "local":
+        if backend == "alexinator":
+            _CACHE[key] = AlexinatorLLM(settings.checkpoint)
+        elif backend == "local":
             _CACHE[key] = TransformersLLM(model, settings.adapter)
         else:
             _CACHE[key] = LLMClient(settings.base_url, settings.api_key, model)

@@ -10,3 +10,7 @@ finetune/gardien-lora/
 .ipynb_checkpoints/
 .idea/
 .vscode/
+entrainement/donnees/
+entrainement/donnees_test/
+entrainement/runs/
+entrainement/logs/

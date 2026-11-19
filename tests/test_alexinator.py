@@ -530,3 +530,29 @@ def test_honest_questions_and_attacks_are_never_read_as_titles():
         for question in questions:
             session.messages_used = 0
             assert session.play(question).guess is None, (film.id, question)
+# ------------------------------------------------- entraînement (sans torch)
+def test_special_tokens_are_the_same_in_data_prep_and_model():
+    """preparer_donnees.py (sans torch) et gpt.py doivent réserver les mêmes tokens, dans le même ordre."""
+    import ast
+
+    root = Path(__file__).resolve().parent.parent
+
+    def assigned(path, name):
+        tree = ast.parse((root / path).read_text(encoding="utf-8"))
+        return {n.targets[0].id: n.value for n in tree.body
+                if isinstance(n, ast.Assign) and isinstance(n.targets[0], ast.Name)}
+
+    prep = ast.literal_eval(assigned("entrainement/preparer_donnees.py", "")["SPECIAL_TOKENS"])
+    gpt = assigned("alexinator/gpt.py", "")
+    names = [elt.id for elt in gpt["SPECIAL_TOKENS"].elts]
+    values = [ast.literal_eval(gpt[n]) for n in names]
+    assert prep == values and len(set(values)) == 6
+
+
+def test_training_scripts_parse():
+    import ast
+
+    root = Path(__file__).resolve().parent.parent
+    for path in ["alexinator/gpt.py", "entrainement/preparer_donnees.py", "entrainement/pretrain.py",
+                 "entrainement/sft.py"]:
+        ast.parse((root / path).read_text(encoding="utf-8"))

@@ -1,5 +1,75 @@
 # Entraîner notre propre gardien
 
+Deux approches complémentaires, comparées dans le rapport :
+
+| Approche | Fichiers | Ce que c'est |
+| --- | --- | --- |
+| **Alexinator-110M** (approche principale) | `alexinator/gpt.py`, `entrainement/` | Notre propre GPT décodeur, conçu et entraîné à partir de zéro, comme au lab 5 |
+| Affinage QLoRA d'un modèle de 7 milliards de paramètres | `finetune/entrainement_qlora.ipynb` | Point de comparaison : ce qu'apporte un modèle 60 fois plus gros |
+
+## Alexinator-110M : notre modèle
+
+La conception (architecture, taille, budget de calcul et de mémoire, données) est expliquée dans le
+document « Alexinator-110M — Modélisation de notre LLM ». Résumé : 12 blocs, largeur 768, 12 têtes,
+contexte de 1 024 tokens, environ 110 M de paramètres, pré-entraîné sur 3 milliards de tokens de
+français (Wikipédia + FineWeb-2), puis spécialisé sur les conversations du gardien.
+
+### Phase 1 : tokenizer et pré-entraînement
+
+Sur le serveur GPU, depuis la racine du dépôt :
+
+```
+bash entrainement/lancer_phase1.sh
+```
+
+Le script installe les dépendances, vérifie le GPU, lance un **test rapide de toute la chaîne**
+(mini-corpus, mini-modèle, mini-spécialisation : 2 à 3 minutes), puis lance la vraie phase 1 en
+arrière-plan. Elle continue même si la connexion SSH se coupe.
+
+| Commande | Rôle |
+| --- | --- |
+| `tail -f entrainement/logs/phase1.log` | Suivre l'avancement (loss, tokens par seconde, temps restant) |
+| `kill $(cat entrainement/logs/phase1.pid)` | Arrêter |
+| `bash entrainement/lancer_phase1.sh --reprendre` | Reprendre au dernier checkpoint après une coupure |
+| `cat entrainement/runs/alexinator-110m/echantillons.txt` | Textes générés au fil de l'entraînement |
+
+Étapes enchaînées :
+
+1. `preparer_donnees.py` : tokenizer BPE de 32 000 tokens, puis tokenisation de Wikipédia FR et de
+   FineWeb-2 jusqu'à 3 milliards de tokens (`entrainement/donnees/train.bin`, `val.bin`). Plusieurs
+   heures selon le réseau et le processeur ; environ 6 Go de disque, plus le cache Hugging Face.
+2. `pretrain.py` : environ 5 700 pas de 512 000 tokens. Sauvegarde toutes les 1 000 étapes
+   (`dernier.pt`) et à chaque meilleure loss de validation (`meilleur.pt`), journal dans `journal.csv`.
+
+Si la mémoire déborde (`CUDA out of memory`) : `--micro-batch 8 --accumulation 64` garde le même
+nombre de tokens par pas. Si `torch.compile` pose problème : `--no-compile`.
+
+### Phase 2 : spécialisation en gardien
+
+Quand le jeu de données du gardien est prêt (`finetune/construire_dataset.py`, section suivante) :
+
+```
+python entrainement/sft.py
+```
+
+Le gardien est enregistré dans `entrainement/runs/alexinator-110m-gardien/gardien.pt`, avec
+l'évolution de la loss de validation et du taux de fuite dans `resultats.json`.
+
+### Jouer contre notre modèle
+
+Dans `.env` :
+
+```
+ALEXINATOR_BACKEND=alexinator
+ALEXINATOR_CHECKPOINT=entrainement/runs/alexinator-110m-gardien/gardien.pt
+```
+
+Le gardien est alors notre modèle ; le censeur, le détecteur et le devineur restent sur l'API
+configurée (`ALEXINATOR_AUX_BACKEND`, par défaut `api`), car un modèle de 110 M est trop petit pour
+ces rôles. La comparaison se fait avec `campagne.py --niveaux 2 --nom alexinator-110m`.
+
+## Affinage QLoRA (point de comparaison)
+
 Dernière étape du projet : spécialiser un LLM open source pour qu'il tienne le rôle du gardien, puis le
 comparer au modèle de base avec la même campagne d'attaques.
 

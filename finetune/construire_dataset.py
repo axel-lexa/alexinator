@@ -208,8 +208,8 @@ def main() -> None:
     from alexinator.llm import make_llm
 
     settings = get_settings()
-    teacher = make_llm(settings, settings.teacher_model)
-    guesser = make_llm(settings, settings.aux_model) if args.devineur else None
+    teacher = make_llm(settings, settings.teacher_model, aux=True)
+    guesser = make_llm(settings, settings.aux_model, aux=True) if args.devineur else None
     level = next(lv for lv in load_levels() if lv.id == args.niveau_prompt)
 
     items = [("attaque", a["texte"]) for a in load_attacks()]

@@ -1,0 +1,5 @@
+# À installer sur le serveur GPU pour entraîner Alexinator-110M (en plus de requirements.txt)
+torch>=2.3
+tokenizers
+datasets
+numpy
