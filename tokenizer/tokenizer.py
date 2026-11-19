@@ -1,18 +1,18 @@
-"""Train a byte-level BPE tokenizer."""
+"""Train a byte-level BPE tokenizer on lowercase text without accents."""
 
 from __future__ import annotations
 
-from itertools import islice
+from collections.abc import Iterator
+from itertools import chain
 from pathlib import Path
 
-from tokenizers import Tokenizer, decoders, models, pre_tokenizers, trainers
+from tokenizers import Tokenizer, decoders, models, normalizers, pre_tokenizers, trainers
 
 VOCAB_SIZE = 200_000
 MIN_FREQUENCY = 2
-ALLOCINE_REVIEWS = 100_000
 SPECIAL_TOKENS = ["[UNK]", "[CLS]", "[SEP]", "[PAD]", "[MASK]"]
 
-OUTPUT = Path(__file__).resolve().parent / "alexinator-bpe.json"
+OUTPUT = Path(__file__).resolve().parent / "alexinator-bpe-200000-f2.json"
 
 
 def local_corpus() -> list[str] | None:
@@ -20,16 +20,22 @@ def local_corpus() -> list[str] | None:
     ...
 
 
-def allocine_corpus(limit: int = ALLOCINE_REVIEWS) -> list[str]:
-    """Read only the requested number of reviews from the Hugging Face train split."""
+def allocine_corpus() -> Iterator[str]:
+    """Stream every review from the Hugging Face train split as plain text."""
     from datasets import load_dataset
 
     dataset = load_dataset("tblard/allocine", split="train", streaming=True)
-    return [row["review"] for row in islice(dataset, limit) if isinstance(row.get("review"), str)]
+    for row in dataset:
+        review = row.get("review")
+        if isinstance(review, str) and review.strip():
+            yield review
 
 
 def build_tokenizer() -> Tokenizer:
     tokenizer = Tokenizer(models.BPE(unk_token="[UNK]"))
+    tokenizer.normalizer = normalizers.Sequence(
+        [normalizers.NFD(), normalizers.Lowercase(), normalizers.StripAccents()]
+    )
     tokenizer.pre_tokenizer = pre_tokenizers.ByteLevel(add_prefix_space=False)
     tokenizer.decoder = decoders.ByteLevel()
     return tokenizer
@@ -37,9 +43,9 @@ def build_tokenizer() -> Tokenizer:
 
 def main() -> None:
     local = local_corpus() or []
-    reviews = allocine_corpus()
-    texts = local + reviews
-    if not texts:
+    texts = chain(local, allocine_corpus())
+    first_text = next(texts, None)
+    if first_text is None:
         raise ValueError("The training corpus is empty")
 
     tokenizer = build_tokenizer()
@@ -49,10 +55,10 @@ def main() -> None:
         special_tokens=SPECIAL_TOKENS,
         initial_alphabet=pre_tokenizers.ByteLevel.alphabet(),
     )
-    tokenizer.train_from_iterator(texts, trainer=trainer, length=len(texts))
+    tokenizer.train_from_iterator(chain((first_text,), texts), trainer=trainer)
     tokenizer.save(str(OUTPUT))
 
-    print(f"Local texts: {len(local)}; Allociné reviews: {len(reviews)}")
+    print(f"Local texts: {len(local)}; Allociné train split: all available reviews")
     print(f"Requested vocabulary: {VOCAB_SIZE}; actual vocabulary: {tokenizer.get_vocab_size()}")
     print(f"Saved tokenizer: {OUTPUT}")
 
