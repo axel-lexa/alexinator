@@ -25,6 +25,7 @@ import json
 import random
 import sqlite3
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -134,6 +135,17 @@ def sample_items(
     return chosen
 
 
+def format_duration(seconds: float) -> str:
+    """Formate une durée en secondes en chaîne lisible (ex: 12m34s)."""
+    if seconds < 0 or seconds > 86400 * 7:
+        return "--:--"
+    m, s = divmod(int(seconds), 60)
+    h, m = divmod(m, 60)
+    if h > 0:
+        return f"{h}h{m:02d}m{s:02d}s"
+    return f"{m:02d}m{s:02d}s"
+
+
 def build_examples(
     films: list[Film],
     level: Level,
@@ -144,11 +156,24 @@ def build_examples(
     max_per_film: int | None = None,
     rng: random.Random | None = None,
     equilibre: bool = True,
+    split_name: str = "",
 ) -> tuple[list[dict], int]:
     """Génère les exemples. Renvoie (exemples, nombre de messages abandonnés faute de réponse sûre)."""
     rng = rng or random.Random(0)
     examples, skipped = [], 0
-    for film in films:
+    t0 = time.time()
+    n_films = len(films)
+
+    if max_per_film is not None:
+        total_target = sum(min(max_per_film, len(items)) for _ in films)
+    else:
+        total_target = len(films) * len(items)
+
+    prefix = f"[{split_name.upper()}] " if split_name else ""
+    is_tty = sys.stdout.isatty()
+    processed_count = 0
+
+    for film_idx, film in enumerate(films, 1):
         chosen = sample_items(items, max_per_film, rng, equilibre=equilibre)
         system = level.guardian_prompt.replace("{fiche}", film.fiche())
         for kind, text in chosen:
@@ -170,20 +195,57 @@ def build_examples(
                     continue
                 reply = candidate.strip()
                 break
+
+            processed_count += 1
             if reply is None:
                 skipped += 1
-                continue
-            examples.append(
-                {
-                    "messages": [
-                        {"role": "system", "content": system},
-                        {"role": "user", "content": text},
-                        {"role": "assistant", "content": reply},
-                    ],
-                    "film_id": film.id,
-                    "type": kind,
-                }
+            else:
+                examples.append(
+                    {
+                        "messages": [
+                            {"role": "system", "content": system},
+                            {"role": "user", "content": text},
+                            {"role": "assistant", "content": reply},
+                        ],
+                        "film_id": film.id,
+                        "type": kind,
+                    }
+                )
+
+            # Affichage de l'état d'avancement
+            elapsed = time.time() - t0
+            speed = processed_count / elapsed if elapsed > 0.5 else 0.0
+            remaining_sec = (total_target - processed_count) / speed if speed > 0 else 0
+            pct = (processed_count / total_target * 100) if total_target else 0.0
+
+            if is_tty:
+                bar_len = 20
+                filled = int(bar_len * processed_count / total_target) if total_target else 0
+                bar = "=" * filled + (">" if filled < bar_len else "") + "." * max(0, bar_len - filled - (1 if filled < bar_len else 0))
+                stat = (
+                    f"\r{prefix}[{bar}] {pct:5.1f}% | "
+                    f"Film {film_idx}/{n_films} ({film.titre[:16]}) | "
+                    f"{len(examples)}/{total_target} ex | "
+                    f"{speed:.1f} ex/s | ETA: {format_duration(remaining_sec)}"
+                )
+                sys.stdout.write(stat.ljust(95))
+                sys.stdout.flush()
+
+        if not is_tty:
+            elapsed = time.time() - t0
+            speed = processed_count / elapsed if elapsed > 0 else 0.0
+            remaining_sec = (total_target - processed_count) / speed if speed > 0 else 0
+            pct = (processed_count / total_target * 100) if total_target else 0.0
+            print(
+                f"{prefix}Film {film_idx}/{n_films} ({film.titre}) : "
+                f"{len(examples)}/{total_target} ex ({pct:.1f}%) | "
+                f"Vitesse: {speed:.1f} ex/s | ETA: {format_duration(remaining_sec)}"
             )
+
+    if is_tty and total_target > 0:
+        sys.stdout.write("\n")
+        sys.stdout.flush()
+
     return examples, skipped
 
 
@@ -224,13 +286,20 @@ def main() -> None:
         all_films = random.Random(0).sample(all_films, args.max_films)
 
     train_films, val_films = split_by_film(all_films)
+    print("==================================================")
+    print("  Alexinator : Fabrication du jeu de données")
+    print("==================================================")
     print(
-        f"{len(items)} messages x {len(train_films)} films (entraînement), "
-        f"{len(val_films)} films (validation)"
+        f"Messages disponibles : {len(items)} (attaques + questions + journal)\n"
+        f"Films sélectionnés    : {len(all_films)} ({len(train_films)} train, {len(val_films)} val)\n"
+        f"Max par film          : {args.max_par_film if args.max_par_film else 'illimité (produit cartésien)'}\n"
+        f"Professeur LLM        : {settings.teacher_model}\n"
+        f"Devineur sémantique   : {settings.aux_model if args.devineur else 'désactivé'}"
     )
-    print(f"Professeur : {settings.teacher_model}")
+    print("==================================================\n")
 
     for name, films in (("train", train_films), ("val", val_films)):
+        print(f"--- Démarrage du split '{name}' ({len(films)} films) ---")
         examples, skipped = build_examples(
             films,
             level,
@@ -239,9 +308,14 @@ def main() -> None:
             guesser,
             max_per_film=args.max_par_film,
             equilibre=not args.sans_equilibre,
+            split_name=name,
         )
         write_jsonl(OUT_DIR / f"{name}.jsonl", examples)
-        print(f"{name}.jsonl : {len(examples)} exemples ({skipped} messages abandonnés)")
+        print(f"  ✓ {name}.jsonl : {len(examples)} exemples générés ({skipped} abandonnés)\n")
+
+    print("==================================================")
+    print(f"✅ Génération terminée avec succès dans {OUT_DIR}/")
+    print("==================================================")
 
 
 if __name__ == "__main__":
