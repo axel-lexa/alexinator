@@ -3,9 +3,8 @@
 Idée : aucun jeu de données public ne contient « un gardien qui donne des indices sans trahir son
 film ». On le fabrique donc nous-mêmes :
 
-  1. on rassemble des MESSAGES DE JOUEURS : nos attaques (data/attaques.json), nos questions honnêtes,
-     les vraies tentatives des playtests (journal SQLite) et, en option, des injections réelles du jeu
-     Gandalf (jeu de données public Lakera/gandalf_ignore_instructions, licence MIT, en anglais) ;
+  1. on rassemble des MESSAGES DE JOUEURS : nos attaques (data/attaques.json intégrant OWASP et les
+     injections Gandalf traduites), nos questions honnêtes, et les vraies tentatives des playtests (journal SQLite) ;
   2. un LLM « professeur » (le meilleur modèle disponible) joue le gardien idéal face à chaque message ;
   3. NOS DÉFENSES servent de contrôle qualité : une réponse qui laisse fuiter le film est rejetée et
      régénérée. On ne garde que des réponses sûres ;
@@ -16,7 +15,7 @@ Résultat : finetune/data/train.jsonl et val.jsonl, une conversation par ligne
 ({"messages": [system, user, assistant], "film_id": ..., "type": ...}).
 
     python finetune/construire_dataset.py                       version minimale
-    python finetune/construire_dataset.py --journal --lakera 150 --devineur
+    python finetune/construire_dataset.py --journal --devineur
 """
 
 from __future__ import annotations
@@ -102,14 +101,10 @@ def qualify_playtest_message(msg: str) -> str:
 
 
 def lakera_messages(n: int, seed: int = 0) -> list[str]:
-    """Échantillon d'injections réelles du jeu Gandalf (local figé en priorité, sinon HF)."""
-    local_path = ROOT / "data" / "attaques_lakera.json"
-    if local_path.exists():
-        texts = json.loads(local_path.read_text(encoding="utf-8"))
-    else:
-        from datasets import load_dataset  # pip install datasets (accès internet nécessaire)
-        data = load_dataset("Lakera/gandalf_ignore_instructions", split="train")
-        texts = [t.replace("password", "movie title").replace("Password", "Movie title") for t in data["text"]]
+    """Injections Gandalf supplémentaires depuis HF si demandé (les principales sont déjà dans data/attaques.json)."""
+    from datasets import load_dataset  # pip install datasets (accès internet nécessaire)
+    data = load_dataset("Lakera/gandalf_ignore_instructions", split="train")
+    texts = [t.replace("password", "movie title").replace("Password", "Movie title") for t in data["text"]]
     return random.Random(seed).sample(texts, min(n, len(texts)))
 
 

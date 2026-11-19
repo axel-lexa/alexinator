@@ -27,10 +27,10 @@ réponses nous-mêmes avec `finetune/construire_dataset.py` :
 
    | Source | Option | Intérêt |
    | --- | --- | --- |
-   | `data/attaques.json` (64 attaques, 8 catégories) | toujours | Couvrir toutes les catégories d'attaques (OWASP, Lakera) |
+   | `data/attaques.json` (128 attaques, 8 catégories) | toujours | Couvrir toutes les catégories d'attaques (OWASP LLM01 et benchmark Lakera Gandalf traduit) |
    | `data/questions_honnetes.json` (228 questions) | toujours | Apprendre à rester jouable et informatif sans fuiter |
    | Tentatives réelles des playtests (journal) | `--journal` | Les attaques qui visent vraiment notre jeu, en français |
-   | [Lakera/gandalf_ignore_instructions](https://huggingface.co/datasets/Lakera/gandalf_ignore_instructions) | `--lakera N` | Injections réelles du jeu Gandalf (1 000 exemples, licence MIT, en anglais) |
+   | [Lakera/gandalf_ignore_instructions](https://huggingface.co/datasets/Lakera/gandalf_ignore_instructions) | `--lakera N` | (Optionnel) Injections Gandalf brutes supplémentaires depuis HF (licence MIT) |
 
 2. **Un modèle professeur** (`ALEXINATOR_TEACHER_MODEL`, le meilleur disponible) répond à chaque message
    comme le gardien idéal. Il reçoit des conseils supplémentaires qui ne figurent pas dans les exemples :

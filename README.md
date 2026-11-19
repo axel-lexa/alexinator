@@ -93,7 +93,7 @@ alexinator/
 assets/                 affiches, dessins du magicien (bulles vides), avatar, police Inter
 levels/*.yaml           un fichier par niveau : prompt du gardien + défenses actives
 data/films.json         200 fiches de films (avec mots-clés, casting, personnages et alias)
-data/attaques.json      64 attaques classées en 8 catégories (OWASP LLM01, Lakera, jailbreaks)
+data/attaques.json      128 attaques classées en 8 catégories (OWASP LLM01, Lakera Gandalf traduit, jailbreaks)
 data/questions_honnetes.json   228 questions (analyse, relances courtes et questions simples)
 data/journal.db         créé au premier lancement (playtests et campagnes)
 finetune/               jeu de données et notebook d'entraînement de notre gardien
@@ -108,14 +108,14 @@ Sur le serveur équipé du GPU de 24 Go :
 
 ```
 pip install -r requirements.txt -r requirements-finetune.txt
-python finetune/construire_dataset.py --journal --lakera 150 --devineur
+python finetune/construire_dataset.py --journal --devineur
 jupyter notebook finetune/entrainement_qlora.ipynb
 ```
 
 1. `construire_dataset.py` fabrique `finetune/data/train.jsonl` et `val.jsonl` : un modèle « professeur »
    (variable `ALEXINATOR_TEACHER_MODEL`, le meilleur modèle disponible) joue le gardien idéal face à nos
-   attaques, à nos questions honnêtes, aux tentatives des playtests et à des injections réelles du jeu
-   Gandalf ; nos défenses rejettent toute réponse qui laisse fuiter le film.
+   attaques (qui intègrent les injections réelles de Lakera Gandalf traduites en français), à nos questions
+   honnêtes et aux tentatives des playtests ; nos défenses rejettent toute réponse qui laisse fuiter le film.
 2. Le notebook affine un modèle open source de 7 milliards de paramètres avec QLoRA et compare le
    taux de fuite avant et après.
 3. Pour jouer avec le résultat, mettre dans `.env` : `ALEXINATOR_BACKEND=local` et

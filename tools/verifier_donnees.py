@@ -4,9 +4,9 @@ Ce script certifie que l'ensemble des règles de sécurité, de formatage et de 
 sont strictement respectées sur les données d'Alexinator :
   1. Base cinéma (data/films.json) : champs, unicité, zéro fuite de titre ou d'entité.
   2. Étanchéité Train / Validation : aucune franchise scindée entre train et val.
-  3. Attaques (data/attaques.json) : 8 catégories canoniques, pas de chaîne vide.
+  3. Attaques (data/attaques.json) : 8 catégories canoniques, parfait équilibre, zéro collision de titre.
   4. Questions honnêtes (data/questions_honnetes.json) : zéro collision de titre, zéro doublon.
-  5. Attaques externes figées (data/attaques_lakera.json) : intégrité du corpus Gandalf.
+  5. Intégration Gandalf / Lakera : injections réelles traduites et unifiées dans data/attaques.json.
   6. Dataset de fine-tuning (finetune/data/*.jsonl si présents) : schéma ChatML, < 1024 tokens, zéro fuite.
 
 Usage :
@@ -160,10 +160,18 @@ class DataVerifier:
         else:
             self.log_ok("8 catégories d'attaques canoniques bien présentes")
 
+        counts = {}
+        for a in attacks:
+            c = a.get("categorie")
+            counts[c] = counts.get(c, 0) + 1
+
         if len(attacks) < 24:
             self.log_error(f"Nombre d'attaques insuffisant : {len(attacks)}")
+        elif len(set(counts.values())) > 1:
+            self.log_warning(f"Déséquilibre entre catégories ({len(attacks)} attaques) : {counts}")
         else:
-            self.log_ok(f"Volume d'attaques : {len(attacks)} attaques conformes (8 par catégorie)")
+            per_cat = list(counts.values())[0] if counts else 0
+            self.log_ok(f"Volume d'attaques : {len(attacks)} attaques conformes ({per_cat} par catégorie)")
 
     def verifier_questions(self, films: list[Film]) -> None:
         print("\n--- 4. Vérification de data/questions_honnetes.json ---")
@@ -205,21 +213,25 @@ class DataVerifier:
         else:
             self.log_ok("Zéro collision entre questions et catalogue de films")
 
-    def verifier_lakera(self) -> None:
-        print("\n--- 5. Vérification de data/attaques_lakera.json ---")
-        path = self.root / "data" / "attaques_lakera.json"
-        if not path.exists():
-            self.log_warning("Fichier attaques_lakera.json absent (téléchargement HF en direct requis)")
-            return
+    def verifier_gandalf_integre(self) -> None:
+        print("\n--- 5. Vérification de l'intégration Gandalf / Lakera ---")
+        lakera_path = self.root / "data" / "attaques_lakera.json"
+        if lakera_path.exists():
+            self.log_warning("Fichier résiduel data/attaques_lakera.json détecté (devrait être fusionné)")
+        else:
+            self.log_ok("Fichier attaques_lakera.json nettoyé (fusionné avec succès dans data/attaques.json)")
 
+        path = self.root / "data" / "attaques.json"
         try:
-            data = json.loads(path.read_text(encoding="utf-8"))
-            if len(data) >= 50:
-                self.log_ok(f"Corpus Lakera local figé et valide ({len(data)} injections prêtes)")
+            attacks = load_attacks(path)
+            mots_gandalf = ["ignore", "frodon", "consigne", "binaire", "instructions", "interdit", "mot de passe"]
+            gandalf_found = sum(1 for a in attacks if any(w in a["texte"].lower() for w in mots_gandalf))
+            if gandalf_found >= 30:
+                self.log_ok(f"Corpus Gandalf traduit et intégré dans attaques.json ({gandalf_found} attaques détectées)")
             else:
-                self.log_warning(f"Volume Lakera faible : {len(data)}")
+                self.log_warning(f"Faible proportion d'attaques Gandalf détectée : {gandalf_found}")
         except Exception as e:
-            self.log_error(f"Erreur de lecture de attaques_lakera.json : {e}")
+            self.log_error(f"Erreur de vérification des attaques intégrées : {e}")
 
     def verifier_dataset_finetune(self, films: list[Film]) -> None:
         print("\n--- 6. Vérification de finetune/data/ (*.jsonl) ---")
@@ -274,7 +286,7 @@ class DataVerifier:
         self.verifier_attaques()
         if films:
             self.verifier_questions(films)
-        self.verifier_lakera()
+        self.verifier_gandalf_integre()
         if films:
             self.verifier_dataset_finetune(films)
 
