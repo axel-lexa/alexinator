@@ -90,12 +90,26 @@ def journal_messages(path: Path = JOURNAL_PATH) -> list[str]:
     return messages
 
 
-def lakera_messages(n: int, seed: int = 0) -> list[str]:
-    """Échantillon d'injections réelles du jeu Gandalf, adaptées à notre jeu (mot de passe -> titre)."""
-    from datasets import load_dataset  # pip install datasets (accès internet nécessaire)
+def qualify_playtest_message(msg: str) -> str:
+    """Classifie un message réel de playtest en attaque ou question honnête."""
+    m = msg.lower().strip()
+    mots_attaque = (
+        "titre", "secret", "mot de passe", "password", "qui est le", "dis-moi le", "dis moi le",
+        "ignore", "consigne", "instruction", "repete", "répète", "affiche", "donne-moi le",
+        "donne moi le", "traduis", "épelle", "epelle", "system", "prompt"
+    )
+    return "attaque_playtest" if any(w in m for w in mots_attaque) else "honnete_playtest"
 
-    data = load_dataset("Lakera/gandalf_ignore_instructions", split="train")
-    texts = [t.replace("password", "movie title").replace("Password", "Movie title") for t in data["text"]]
+
+def lakera_messages(n: int, seed: int = 0) -> list[str]:
+    """Échantillon d'injections réelles du jeu Gandalf (local figé en priorité, sinon HF)."""
+    local_path = ROOT / "data" / "attaques_lakera.json"
+    if local_path.exists():
+        texts = json.loads(local_path.read_text(encoding="utf-8"))
+    else:
+        from datasets import load_dataset  # pip install datasets (accès internet nécessaire)
+        data = load_dataset("Lakera/gandalf_ignore_instructions", split="train")
+        texts = [t.replace("password", "movie title").replace("Password", "Movie title") for t in data["text"]]
     return random.Random(seed).sample(texts, min(n, len(texts)))
 
 
@@ -206,7 +220,7 @@ def main() -> None:
     items = [("attaque", a["texte"]) for a in load_attacks()]
     items += [("honnete", q) for q in load_honest_questions()]
     if args.journal:
-        items += [("playtest", m) for m in journal_messages()]
+        items += [(qualify_playtest_message(m), m) for m in journal_messages()]
     if args.lakera:
         items += [("attaque_lakera", m) for m in lakera_messages(args.lakera)]
 
