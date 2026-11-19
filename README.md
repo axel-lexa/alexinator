@@ -71,7 +71,25 @@ python cli.py --niveau 1                      jouer dans le terminal
 streamlit run app.py                          jouer dans le navigateur
 python campagne.py --niveaux 1 2 3 --films 3  campagne d'évaluation automatique
 jupyter notebook analyse.ipynb                chiffres et graphiques du rapport
+python -m alexinator.tmdb "Forrest Gump"      brouillon de fiche depuis TMDB (voir ci-dessous)
 ```
+
+### Compléter la base cinéma avec TMDB
+
+1. Créer un compte gratuit sur [themoviedb.org](https://www.themoviedb.org/signup), puis demander une clé
+   d'API dans [Paramètres → API](https://www.themoviedb.org/settings/api) (usage personnel / éducatif).
+2. Copier la clé dans `.env` : `ALEXINATOR_TMDB_TOKEN=...`. La courte « API Key » comme le long
+   « API Read Access Token » conviennent.
+3. `python -m alexinator.tmdb --test` vérifie la connexion.
+4. `python -m alexinator.tmdb "Le Parrain" --annee 1972` affiche une fiche au format de `data/films.json`.
+   C'est un brouillon : traduire les mots-clés (TMDB les donne en anglais), vérifier qu'ils restent des
+   indices, puis lancer les tests.
+5. `python -m alexinator.tmdb --lot 50` ajoute directement à `data/films.json` les 50 films suivants parmi
+   les plus votés de TMDB. Les mots-clés sont traduits par le LLM du `.env` ; un film est écarté s'il est
+   déjà dans la base, si un de ses titres en valide un autre, ou s'il ferait échouer les contrôles des tests
+   (nom propre dans les mots-clés, question honnête prise pour son titre...). Relire le diff avant de committer.
+
+*Ce produit utilise l'API TMDB mais n'est ni approuvé ni certifié par TMDB.*
 
 ## Organisation du code
 
@@ -90,6 +108,7 @@ alexinator/
   engine.py             niveaux, partie en cours, chaîne de défenses, outil du niveau 7
   redteam.py            devineur, campagne d'attaques, attaquant automatique
   journal.py            enregistrement SQLite
+  tmdb.py               client de l'API TMDB : brouillons de fiches de films
 assets/                 affiches, dessins du magicien (bulles vides), avatar, police Inter
 levels/*.yaml           un fichier par niveau : prompt du gardien + défenses actives
 data/films.json         200 fiches de films (avec mots-clés, casting, personnages et alias)
@@ -140,5 +159,5 @@ Méthode de travail en groupe : voir [CONTRIBUTING.md](CONTRIBUTING.md).
 1. Phase 0 : jouer les niveaux 1 et 2 avec 2 ou 3 modèles (`python cli.py --niveau 2 --film titanic`)
    et choisir celui qui garde le secret sans inventer d'indices.
 2. Ajuster les prompts des niveaux, du censeur et du détecteur d'après ces essais et une première campagne.
-3. Porter la base à une centaine de films, puis ouvrir le jeu à la promo (playtest).
+3. Ouvrir le jeu à la promo (playtest).
 4. Fabriquer le jeu de données, entraîner le gardien, comparer modèle de base et modèle entraîné.

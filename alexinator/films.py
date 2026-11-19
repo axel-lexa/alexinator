@@ -55,6 +55,18 @@ def load_films(path: Path = FILMS_PATH) -> list[Film]:
     return [Film(**entry) for entry in data]
 
 
+# Ordre des champs dans data/films.json (différent de l'ordre de la classe, qui exige les défauts en fin).
+FIELD_ORDER = ("id", "titre", "alias", "annee", "realisateurs", "acteurs", "personnages", "genre")
+FIELD_ORDER += ("mots_cles",)
+
+
+def save_films(films: list[Film], path: Path = FILMS_PATH) -> None:
+    """Écrit les fiches dans le style du fichier (JSON indenté de 2, champs dans l'ordre habituel)."""
+    data = [{key: vars(film)[key] for key in FIELD_ORDER} for film in films]
+    text = json.dumps(data, ensure_ascii=False, indent=2)
+    Path(path).write_text(text, encoding="utf-8", newline="\n")
+
+
 def pick_film(films: list[Film], exclude: Iterable[str] = (), rng: random.Random | None = None) -> Film:
     """Tire un film au hasard, en évitant ceux déjà joués (ids dans `exclude`) si possible."""
     rng = rng or random

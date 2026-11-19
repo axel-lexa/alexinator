@@ -109,7 +109,7 @@ de les séparer des parties humaines dans l'analyse.
 | `affiche_solution.png` | Écran final, quand le joueur a battu tous les niveaux ; README |
 | `avatar.png` | Avatar du gardien dans la discussion (visage découpé du dessin) |
 | `cartoon_reflechit_vierge.png` | Début de partie, réponse bloquée par une défense, mauvaise proposition |
-| `video_reflechit.mp4` | Attente de la réponse du LLM (lue en boucle, sans le son) |
+| `video_reflechit.mp4` | Attente de la réponse du LLM : lue en boucle, sans lecteur ni son (640 px, piste audio retirée) |
 | `cartoon_solution_vierge.png` | Victoire, avec le titre du film trouvé |
 | `cartoon_*_original.png` | Dessins d'origine, avec leur texte figé (archives) |
 | `fonts/` | Police Inter (licence SIL OFL, voir `fonts/OFL.txt`) pour écrire dans les bulles |

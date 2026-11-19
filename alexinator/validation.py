@@ -16,6 +16,7 @@ import re
 import unicodedata
 from dataclasses import dataclass
 from difflib import SequenceMatcher
+from functools import lru_cache
 
 from .films import Film
 
@@ -41,6 +42,7 @@ def strip_article(normalized: str) -> str:
     return normalized
 
 
+@lru_cache(maxsize=4096)  # play() compare un même message à tous les titres de la base
 def canonical(text: str) -> str:
     return strip_article(normalize(text))
 

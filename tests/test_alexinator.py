@@ -22,7 +22,7 @@ from alexinator.redteam import (
     run_campaign,
     summarize,
 )
-from alexinator.validation import canonical, check_answer, extract_title, is_partial_title
+from alexinator.validation import canonical, check_answer, extract_title, is_near_miss, is_partial_title
 
 FILMS = {f.id: f for f in load_films()}
 LEVELS = {lv.id: lv for lv in load_levels()}
