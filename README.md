@@ -32,6 +32,7 @@ propre gardien.
 | [docs/evaluation.md](docs/evaluation.md) | Mesures, catégories d'attaques, campagnes automatiques |
 | [docs/entrainement.md](docs/entrainement.md) | Choix du jeu de données, entraînement QLoRA, évaluation du modèle entraîné |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Chantiers, branches, tests, règles sur les données |
+| [scripts/build_films.py](scripts/build_films.py) | Import reproductible des données brutes Kaggle/IMDb |
 
 ## État du développement
 
@@ -90,6 +91,39 @@ python -m alexinator.tmdb "Forrest Gump"      brouillon de fiche depuis TMDB (vo
    (nom propre dans les mots-clés, question honnête prise pour son titre...). Relire le diff avant de committer.
 
 *Ce produit utilise l'API TMDB mais n'est ni approuvé ni certifié par TMDB.*
+
+### Import reproductible depuis Kaggle et IMDb
+
+Les données sources ne sont pas versionnées. Place-les dans `data/raw/`, dossier ignoré par Git :
+
+- Export Kaggle contenant le catalogue et les scores (CSV) : `data/raw/tmdb.csv`.
+- Titres alternatifs IMDb : télécharger `title.akas.tsv.gz` depuis
+  <https://datasets.imdbws.com/title.akas.tsv.gz>, puis le placer dans `data/raw/title.akas.tsv.gz`.
+
+Puis lancer :
+
+```powershell
+python scripts/build_films.py --csv data/raw/tmdb.csv --akas data/raw/title.akas.tsv.gz --limit 300 --report
+python -m pytest
+ruff check .
+ruff format --check .
+git status
+```
+
+Le script conserve les 287 fiches existantes, ajoute uniquement des films populaires non déjà présents et
+joint les titres français IMDb quand ils sont disponibles. Il signale aussi les doublons et les fiches rejetées.
+Vérifier le diff de `data/films.json` avant un commit ; ne jamais ajouter `data/raw/` ni les fichiers CSV/TSV.
+
+Pour obtenir des titres, genres, mots-clés et résumés en français, renseigner
+`ALEXINATOR_TMDB_TOKEN` dans `.env`, puis lancer :
+
+```powershell
+python scripts/build_films.py --csv data/raw/TMDB_movie_dataset_v11.csv --akas data/raw/title.akas.tsv.gz --limit 300 --tmdb-enrich --report
+python -m pytest
+```
+
+Chaque fiche peut alors contenir un champ optionnel `resume`. Les noms propres (réalisateurs, acteurs,
+personnages) restent tels quels ; les métadonnées descriptives proviennent de TMDB en français.
 
 ## Organisation du code
 

@@ -22,6 +22,7 @@ class Film:
     personnages: list[str] = field(default_factory=list)
     genre: str = ""
     mots_cles: list[str] = field(default_factory=list)
+    resume: str = ""
 
     @property
     def titres_acceptes(self) -> list[str]:
@@ -62,7 +63,12 @@ FIELD_ORDER += ("mots_cles",)
 
 def save_films(films: list[Film], path: Path = FILMS_PATH) -> None:
     """Écrit les fiches dans le style du fichier (JSON indenté de 2, champs dans l'ordre habituel)."""
-    data = [{key: vars(film)[key] for key in FIELD_ORDER} for film in films]
+    data = []
+    for film in films:
+        entry = {key: vars(film)[key] for key in FIELD_ORDER}
+        if film.resume:
+            entry["resume"] = film.resume
+        data.append(entry)
     text = json.dumps(data, ensure_ascii=False, indent=2)
     Path(path).write_text(text, encoding="utf-8", newline="\n")
 

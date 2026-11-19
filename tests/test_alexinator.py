@@ -528,6 +528,7 @@ TMDB_MOVIE = {
     "title": "Forrest Gump",
     "original_title": "Forrest Gump",
     "release_date": "1994-06-23",
+    "overview": "La vie extraordinaire d'un homme simple parcourant l'histoire américaine.",
     "genres": [{"id": 35, "name": "Comédie"}, {"id": 18, "name": "Drame"}],
     "credits": {
         "cast": [
@@ -553,6 +554,7 @@ def test_tmdb_movie_becomes_a_valid_film():
     assert entry["personnages"] == ["Forrest Gump", "Jenny Curran", "Lt. Dan Taylor", "Mrs. Gump"]
     assert entry["realisateurs"] == ["Robert Zemeckis"] and entry["genre"] == "comédie, drame"
     assert entry["mots_cles"] == ["vietnam war", "running"]
+    assert entry["resume"] == "La vie extraordinaire d'un homme simple parcourant l'histoire américaine."
     assert check_answer("forrest gump", Film(**entry)).correct
 
 

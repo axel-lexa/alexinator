@@ -165,6 +165,7 @@ def to_film_entry(movie: dict) -> dict:
         "personnages": personnages,
         "genre": ", ".join(g["name"].lower() for g in movie.get("genres", [])),
         "mots_cles": [k for k in keywords if k.lower() not in MOTS_CLES_INUTILES][:MAX_MOTS_CLES],
+        "resume": clean_text(movie.get("overview", "")),
     }
 
 

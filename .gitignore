@@ -8,3 +8,7 @@ finetune/gardien-lora/
 .ipynb_checkpoints/
 .idea/
 .vscode/
+data/raw/
+*.csv
+*.tsv
+*.tsv.gz
