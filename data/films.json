@@ -899,7 +899,7 @@
     "realisateurs": ["Alexandre de La Patellière", "Matthieu Delaporte"],
     "acteurs": ["Patrick Bruel", "Valérie Benguigui", "Charles Berling", "Guillaume de Tonquédec", "Judith El Zein"],
     "personnages": ["Vincent Larchet", "Élisabeth Garaud-Larchet", "Pierre Garaud", "Claude Gatignol", "Anna"],
-    "mots_cles": ["dîner entre amis", "choix du prénom du futur bébé", "Adolphe", "appartement parisien", "règlements de comptes familiaux"]
+    "mots_cles": ["dîner entre amis", "blague sur Adolphe", "débat houleux sur le nom du futur bébé", "appartement bourgeois", "secrets de famille"]
   },
   {
     "id": "tanguy",
@@ -998,7 +998,7 @@
     "realisateurs": ["Jean-Jacques Annaud"],
     "acteurs": ["Tchéky Karyo", "Jack Wallace", "André Lacombe"],
     "personnages": ["Tom", "Bill", "Le chasseur"],
-    "mots_cles": ["ourson orphelin", "grizzly géant", "Colombie-Britannique", "chasseurs à cheval", "champignons hallucinogènes", "falaise"]
+    "mots_cles": ["ourson orphelin", "traqueurs armés à cheval", "montagnes Rocheuses", "champignons hallucinogènes", "pitié et rédemption"]
   },
   {
     "id": "le_nom_de_la_rose",
@@ -1053,7 +1053,7 @@
     "realisateurs": ["Claude Pinoteau"],
     "acteurs": ["Sophie Marceau", "Claude Brasseur", "Brigitte Fossey", "Denise Grey"],
     "personnages": ["Vic Beretton", "François Beretton", "Françoise Beretton", "Poupette", "Mathieu"],
-    "mots_cles": ["adolescence", "première boum", "casque audio sur les oreilles", "Dreams Are My Reality", "lycée Henri-IV", "arrière-grand-mère complice"]
+    "mots_cles": ["première soirée dansante d'adolescents", "baladeur avec le slow Reality", "crise conjugale des parents", "arrière-grand-mère fantasque et complice", "chagrin d'amour"]
   },
   {
     "id": "jeux_denfants",
@@ -1141,7 +1141,7 @@
     "realisateurs": ["Stanley Kubrick"],
     "acteurs": ["Keir Dullea", "Gary Lockwood", "William Sylvester", "Douglas Rain"],
     "personnages": ["Dr David Bowman", "Dr Frank Poole", "Dr Heywood Floyd", "HAL 9000"],
-    "mots_cles": ["monolithe noir", "intelligence artificielle HAL 9000", "œil rouge", "Danube bleu en apesanteur", "fœtus astral", "os lancé dans le ciel"]
+    "mots_cles": ["monolithe noir", "os lancé vers le ciel", "supercalculateur de bord à œil rouge", "station spatiale en rotation", "fœtus astral", "valse du Beau Danube bleu"]
   },
   {
     "id": "orange_mecanique",
@@ -1812,7 +1812,7 @@
     "realisateurs": ["Hayao Miyazaki"],
     "acteurs": ["Noriko Hidaka", "Chika Sakamoto", "Hitoshi Takagi"],
     "personnages": ["Satsuki Kusakabe", "Mei Kusakabe", "Totoro", "Le Chatbus"],
-    "mots_cles": ["maison de campagne japonaise", "esprit bienveillant de la forêt géant et poilu", "noiraudes dans le grenier", "graines de chêne germées", "chat-bus à douze pattes", "parapluie sous la pluie"]
+    "mots_cles": ["esprit de la forêt géant et poilu", "deux fillettes à la campagne", "véhicule félin volant à douze pattes", "graines magiques qui poussent", "mère hospitalisée", "parapluie sous la pluie"]
   },
   {
     "id": "le_monde_de_nemo",
@@ -2153,7 +2153,7 @@
     "realisateurs": ["Terry Gilliam", "Terry Jones"],
     "acteurs": ["Graham Chapman", "John Cleese", "Eric Idle", "Terry Jones", "Michael Palin"],
     "personnages": ["Roi Arthur", "Sir Lancelot le Hardi", "Sir Robin le Pas-tout-à-fait-aussi-hardi-que-Sir-Lancelot", "Sir Bedevere", "Le Chevalier Noir"],
-    "mots_cles": ["quête du Saint Graal", "noix de coco pour imiter le galop des chevaux", "Chevalier noir aux bras coupés Tis but a scratch", "lapin tueur sanguinaire de Caerbannog", "Sainte Grenade d'Antioche", "chevaliers qui disent Ni"]
+    "mots_cles": ["quête du Saint Graal", "bruit de sabots avec des noix de coco", "duel comique de bras tranchés Tis but a scratch", "lapin tueur sanguinaire", "pont de la mort et questions absurdes", "chevaliers qui disent Ni"]
   },
   {
     "id": "la_vie_de_brian",
