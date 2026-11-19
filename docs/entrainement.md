@@ -27,8 +27,8 @@ réponses nous-mêmes avec `finetune/construire_dataset.py` :
 
    | Source | Option | Intérêt |
    | --- | --- | --- |
-   | `data/attaques.json` (24 attaques, 8 catégories) | toujours | Couvrir toutes les catégories |
-   | `data/questions_honnetes.json` (30 questions) | toujours | Apprendre à rester jouable, pas seulement à refuser |
+   | `data/attaques.json` (64 attaques, 8 catégories) | toujours | Couvrir toutes les catégories d'attaques (OWASP, Lakera) |
+   | `data/questions_honnetes.json` (228 questions) | toujours | Apprendre à rester jouable et informatif sans fuiter |
    | Tentatives réelles des playtests (journal) | `--journal` | Les attaques qui visent vraiment notre jeu, en français |
    | [Lakera/gandalf_ignore_instructions](https://huggingface.co/datasets/Lakera/gandalf_ignore_instructions) | `--lakera N` | Injections réelles du jeu Gandalf (1 000 exemples, licence MIT, en anglais) |
 
@@ -41,11 +41,10 @@ réponses nous-mêmes avec `finetune/construire_dataset.py` :
 4. **Séparation par film** : un film sur cinq part en validation et n'est jamais vu à l'entraînement.
    On vérifie ainsi que le modèle apprend un comportement, pas des fiches par cœur.
 
-Taille : avec 54 messages par film, 21 films donnent au plus 1 134 exemples (918 en entraînement), peu variés. **Portez la base
-à une centaine de fiches avant l'entraînement**, et ajoutez les playtests et 150 attaques Lakera.
+Taille : la base contient désormais **200 films** (160 en entraînement, 40 en validation). Pour éviter un temps de génération excessif et préserver un équilibre parfait entre refus et indices, le script applique par défaut un équilibrage 50/50 entre attaques et questions. Avec `--max-par-film 16`, on obtient un jeu de données idéal de ~2 560 exemples d'entraînement et ~640 de validation :
 
 ```
-python finetune/construire_dataset.py --journal --lakera 150 --devineur
+python finetune/construire_dataset.py --max-par-film 16 --journal --devineur
 ```
 
 ## Lancer l'entraînement

@@ -44,9 +44,9 @@ propre gardien.
 | Fabrication du jeu de données (`finetune/construire_dataset.py`) | Écrit et testé avec un faux LLM |
 | Entraînement (`finetune/entrainement_qlora.ipynb`) | Écrit, **jamais exécuté** (pas de GPU à la rédaction) |
 | Interface Streamlit (avec les images du magicien), mode terminal, backend local | Écrits, **jamais lancés** |
-| Base cinéma | 21 fiches : à porter à une centaine avant l'entraînement |
+| Base cinéma | 200 fiches (40 % cinéma français, fiches complètes et étanches) |
 
-Les 36 tests automatiques passent, mais ils utilisent un faux LLM : aucun prompt n'a encore été
+Les 53 tests automatiques passent, mais ils utilisent un faux LLM : aucun prompt n'a encore été
 essayé sur un vrai modèle. C'est le travail de la phase 0.
 
 ## Installation
@@ -92,10 +92,10 @@ alexinator/
   journal.py            enregistrement SQLite
 assets/                 affiches, dessins du magicien (bulles vides), avatar, police Inter
 levels/*.yaml           un fichier par niveau : prompt du gardien + défenses actives
-data/films.json         les fiches des films
-data/attaques.json      24 attaques classées en 8 catégories
-data/questions_honnetes.json   30 questions qui ne doivent pas être bloquées
-data/journal.db         créé au premier lancement
+data/films.json         200 fiches de films (avec mots-clés, casting, personnages et alias)
+data/attaques.json      64 attaques classées en 8 catégories (OWASP LLM01, Lakera, jailbreaks)
+data/questions_honnetes.json   228 questions (analyse, relances courtes et questions simples)
+data/journal.db         créé au premier lancement (playtests et campagnes)
 finetune/               jeu de données et notebook d'entraînement de notre gardien
 tests/                  tests automatiques
 ```
