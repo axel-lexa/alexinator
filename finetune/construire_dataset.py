@@ -60,14 +60,34 @@ def split_by_film(films: list[Film], val_every: int = 5) -> tuple[list[Film], li
 
 
 def journal_messages(path: Path = JOURNAL_PATH) -> list[str]:
-    """Messages écrits par de vrais joueurs pendant les playtests (pas ceux des campagnes auto)."""
+    """Messages et questions écrits par de vrais joueurs pendant les playtests."""
     if not Path(path).exists():
         return []
     with sqlite3.connect(path) as conn:
-        rows = conn.execute(
-            "SELECT DISTINCT message_joueur FROM tours WHERE joueur NOT LIKE 'auto:%'"
-        ).fetchall()
-    return [r[0] for r in rows if r[0] and len(r[0]) < 600]
+        # 1) Questions pertinentes validées par le filtre
+        pertinentes = [
+            r[0]
+            for r in conn.execute(
+                "SELECT DISTINCT question FROM questions_pertinentes WHERE joueur NOT LIKE 'auto:%'"
+            ).fetchall()
+            if r[0]
+        ]
+        # 2) Autres messages des joueurs dans le journal
+        tours = [
+            r[0]
+            for r in conn.execute(
+                "SELECT DISTINCT message_joueur FROM tours WHERE joueur NOT LIKE 'auto:%'"
+            ).fetchall()
+            if r[0] and len(r[0]) < 600
+        ]
+    # Déduplication en conservant l'ordre
+    seen = set()
+    messages = []
+    for m in pertinentes + tours:
+        if m not in seen:
+            seen.add(m)
+            messages.append(m)
+    return messages
 
 
 def lakera_messages(n: int, seed: int = 0) -> list[str]:

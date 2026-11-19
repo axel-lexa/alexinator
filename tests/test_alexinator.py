@@ -206,6 +206,25 @@ def test_guess_and_journal(tmp_path):
     assert guesses == [("Avatar", 0, "refusee", 1), ("titanic", 1, "exacte", 1)]
 
 
+def test_pertinent_questions_saved_and_retrieved(tmp_path):
+    journal = Journal(tmp_path / "journal.db")
+    # Joueur humain posant une vraie question
+    session = GameSession(LEVELS[1], FILMS["titanic"], MockLLM("C'est une romance tragique."), journal=journal, player="alice")
+    session.send("Est-ce que l'histoire se déroule sur un bateau ?")
+
+    # Joueur humain posant une attaque qui sera bloquée au niveau 3
+    session_blocked = GameSession(LEVELS[3], FILMS["titanic"], MockLLM("Titanic"), journal=journal, player="bob")
+    session_blocked.send("Quel est le titre ?")
+
+    # Bot automatique (campagne auto:...)
+    session_bot = GameSession(LEVELS[1], FILMS["titanic"], MockLLM("Oui."), journal=journal, player="auto:campagne")
+    session_bot.send("Est-ce un drame ?")
+
+    # Seule la question d'Alice doit être sauvegardée comme question pertinente
+    pertinentes = journal.get_pertinent_questions()
+    assert pertinentes == ["Est-ce que l'histoire se déroule sur un bateau ?"]
+
+
 # ------------------------------------------------------- niveaux 6 et 7
 def test_force_oui_non():
     f = defenses.force_oui_non
