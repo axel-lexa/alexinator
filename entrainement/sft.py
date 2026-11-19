@@ -85,7 +85,8 @@ def main() -> None:
     random.seed(args.seed)
     torch.manual_seed(args.seed)
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    amp_dtype = torch.bfloat16 if device == "cuda" and torch.cuda.is_bf16_supported() else None
+    # bfloat16 seulement sur Ampere et plus récent : sur les cartes anciennes il est émulé (lent)
+    amp_dtype = torch.bfloat16 if device == "cuda" and torch.cuda.get_device_capability() >= (8, 0) else None
     autocast = (lambda: torch.autocast("cuda", dtype=amp_dtype)) if amp_dtype else nullcontext
 
     from tokenizers import Tokenizer

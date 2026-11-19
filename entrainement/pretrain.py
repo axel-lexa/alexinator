@@ -86,10 +86,14 @@ def main() -> None:
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
 
-    # Précision mixte : bfloat16 si la carte le permet (Ampere et plus récent), sinon float16 + GradScaler
-    if device == "cuda" and torch.cuda.is_bf16_supported():
+    # Précision mixte selon la génération de la carte :
+    #   Ampere et plus récent (8.x+) : bfloat16 ; Volta/Turing (7.x) : float16 + GradScaler ;
+    #   plus ancien (ex. Tesla M40, 5.2) : float32. PyTorch y annonce le bfloat16 « disponible »,
+    #   mais il est émulé (lent) et ces cartes n'accélèrent pas non plus le float16.
+    capability = torch.cuda.get_device_capability() if device == "cuda" else (0, 0)
+    if capability >= (8, 0):
         amp_dtype, scaler = torch.bfloat16, None
-    elif device == "cuda":
+    elif capability >= (7, 0):
         amp_dtype, scaler = torch.float16, torch.amp.GradScaler("cuda")
     else:
         amp_dtype, scaler = None, None
@@ -149,6 +153,10 @@ def main() -> None:
         print("Attention : plus de tokens demandés que dans le corpus, certains seront revus.")
 
     raw_model = model  # le modèle compilé partage ses poids avec raw_model (utilisé pour sauver et générer)
+    if device == "cuda" and capability < (7, 0) and not args.no_compile:
+        # Triton (utilisé par torch.compile) exige une carte 7.0+ ; l'erreur n'apparaîtrait qu'au 1er pas.
+        print(f"Carte {capability[0]}.{capability[1]} : torch.compile désactivé (Triton exige 7.0+).")
+        args.no_compile = True
     if device == "cuda" and not args.no_compile:
         try:
             model = torch.compile(model)

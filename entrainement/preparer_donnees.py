@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import itertools
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -157,6 +158,11 @@ def main() -> None:
     stats.update(vocab_size=tokenizer.get_vocab_size(), tokenizer=str(tok_path))
     (out_dir / "stats.json").write_text(json.dumps(stats, indent=2))
     print(f"Terminé : {stats}")
+    # Les lectures en flux de `datasets` laissent des threads actifs qui font planter Python
+    # à la fermeture (PyGILState_Release, core dumped) : tout est écrit, on sort directement.
+    sys.stdout.flush()
+    sys.stderr.flush()
+    os._exit(0)
 
 
 if __name__ == "__main__":
