@@ -1,4 +1,4 @@
-Tokenizer: hf:tokenizer/almanach-camembert-100000.json
+Tokenizer: hf:tokenizer/almanach-camembert-100000-f3.json
 Vocabulary size: 100000
 
 tblard/allocine / validation: 20000 reviews; 1849998 whitespace-separated words

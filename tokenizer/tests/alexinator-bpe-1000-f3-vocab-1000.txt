@@ -1,4 +1,4 @@
-Tokenizer: tokenizer/alexinator-bpe-1000.json
+Tokenizer: tokenizer/alexinator-bpe-1000-f3.json
 Vocabulary size: 1000
 Pre-tokenizer: ByteLevel(add_prefix_space=False, trim_offsets=True, use_regex=True); vocabulary: 1000
 

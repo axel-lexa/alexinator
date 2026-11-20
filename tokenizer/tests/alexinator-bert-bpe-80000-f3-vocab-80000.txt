@@ -1,4 +1,4 @@
-Tokenizer: tokenizer/alexinator-bert-bpe-80000.json
+Tokenizer: tokenizer/alexinator-bert-bpe-80000-f3.json
 Vocabulary size: 80000
 Pre-tokenizer: BertPreTokenizer(); vocabulary: 80000
 

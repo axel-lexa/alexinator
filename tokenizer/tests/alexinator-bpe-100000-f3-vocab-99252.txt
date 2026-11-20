@@ -1,6 +1,6 @@
-Tokenizer: tokenizer/alexinator-bpe-80000.json
-Vocabulary size: 80000
-Pre-tokenizer: ByteLevel(add_prefix_space=False, trim_offsets=True, use_regex=True); vocabulary: 80000
+Tokenizer: tokenizer/alexinator-bpe-100000-f3.json
+Vocabulary size: 99252
+Pre-tokenizer: ByteLevel(add_prefix_space=False, trim_offsets=True, use_regex=True); vocabulary: 99252
 
 Input:   'Bonjour, quel est le titre du film ?'
 Tokens:  ['bonjour', ',', 'Ġquel', 'Ġest', 'Ġle', 'Ġtitre', 'Ġdu', 'Ġfilm', 'Ġ?']
@@ -28,8 +28,8 @@ IDs:     [11133, 365, 292, 69094]
 Decoded: 'cinatit 😄'
 
 Input:   "  Deux espaces  et une apostrophe : l'histoire.  "
-Tokens:  ['Ġ', 'Ġdeux', 'Ġespaces', 'Ġ', 'Ġet', 'Ġune', 'Ġap', 'ostrophe', 'Ġ:', 'Ġl', "'", 'histoire', '.', 'Ġ', 'Ġ']
-IDs:     [225, 589, 11160, 225, 288, 340, 2917, 71657, 508, 264, 11, 592, 18, 225, 225]
+Tokens:  ['Ġ', 'Ġdeux', 'Ġespaces', 'Ġ', 'Ġet', 'Ġune', 'Ġapostrophe', 'Ġ:', 'Ġl', "'", 'histoire', '.', 'Ġ', 'Ġ']
+IDs:     [225, 589, 11160, 225, 288, 340, 80900, 508, 264, 11, 592, 18, 225, 225]
 Decoded: "  deux espaces  et une apostrophe : l'histoire.  "
 
 Input:   ''
@@ -93,7 +93,7 @@ Film spelling 'cinatit': 3 tokens
 
 tblard/allocine / validation: 20000 reviews; 1849998 whitespace-separated words
 Special tokens disabled; no truncation.
-Total tokens: 2,351,779
-Tokens/review: 117.59
+Total tokens: 2,344,974
+Tokens/review: 117.25
 Tokens/word: 1.27
 [UNK] tokens: 0
