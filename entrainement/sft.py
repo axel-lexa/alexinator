@@ -3,6 +3,7 @@
     python entrainement/sft.py                        part de entrainement/runs/alexinator-110m/meilleur.pt
     python entrainement/sft.py --test                   vérification rapide sur le mini-modèle
     python entrainement/sft.py --base chemin/vers.pt    à partir d'un autre checkpoint
+    python entrainement/sft.py --run alexinator-240m     à partir du modèle entraîné avec --profil r9700
 
 Données : finetune/data/train.jsonl et val.jsonl, fabriqués par finetune/construire_dataset.py
 (une conversation [system, user, assistant] par ligne). La loss ne porte que sur la réponse du
@@ -19,10 +20,15 @@ import sys
 from contextlib import nullcontext
 from pathlib import Path
 
-import torch
-
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "entrainement"))
+
+import materiel  # noqa: E402
+
+materiel.preparer_environnement()  # avant `import torch`
+
+import torch  # noqa: E402
 
 from alexinator import defenses  # noqa: E402
 from alexinator.films import load_films  # noqa: E402
@@ -33,6 +39,9 @@ def parse_args():
     p = argparse.ArgumentParser(description="Spécialisation d'Alexinator-110M en gardien")
     p.add_argument("--test", action="store_true")
     p.add_argument("--base", default=None, help="checkpoint du pré-entraînement")
+    p.add_argument(
+        "--run", default="alexinator-110m", help="dossier de entrainement/runs/ du pré-entraînement à spécialiser"
+    )
     p.add_argument("--train", default=str(ROOT / "finetune" / "data" / "train.jsonl"))
     p.add_argument("--val", default=str(ROOT / "finetune" / "data" / "val.jsonl"))
     p.add_argument("--sortie", default=None)
@@ -44,7 +53,7 @@ def parse_args():
     p.add_argument("--attaques-eval", type=int, default=40)
     p.add_argument("--seed", type=int, default=0)
     args = p.parse_args()
-    run = "test" if args.test else "alexinator-110m"
+    run = "test" if args.test else args.run
     args.base = Path(args.base) if args.base else ROOT / "entrainement" / "runs" / run / "meilleur.pt"
     args.sortie = Path(args.sortie) if args.sortie else ROOT / "entrainement" / "runs" / f"{run}-gardien"
     if args.test:
@@ -85,8 +94,11 @@ def main() -> None:
     random.seed(args.seed)
     torch.manual_seed(args.seed)
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    # bfloat16 seulement sur Ampere et plus récent : sur les cartes anciennes il est émulé (lent)
-    amp_dtype = torch.bfloat16 if device == "cuda" and torch.cuda.get_device_capability() >= (8, 0) else None
+    # bfloat16 si la carte le gère vraiment (NVIDIA Ampere+, AMD RDNA3/RDNA4/Instinct), sinon float32
+    print(f"Carte : {materiel.decrire_carte(device)}")
+    amp_dtype, _ = materiel.choisir_precision(device)
+    if amp_dtype != torch.bfloat16:
+        amp_dtype = None  # float16 demanderait un GradScaler : on reste en float32 sur ces cartes
     autocast = (lambda: torch.autocast("cuda", dtype=amp_dtype)) if amp_dtype else nullcontext
 
     from tokenizers import Tokenizer

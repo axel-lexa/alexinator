@@ -44,6 +44,75 @@ arrière-plan. Elle continue même si la connexion SSH se coupe.
 Si la mémoire déborde (`CUDA out of memory`) : `--micro-batch 8 --accumulation 64` garde le même
 nombre de tokens par pas. Si `torch.compile` pose problème : `--no-compile`.
 
+### Variante Alexinator-240M sur une Radeon AI PRO R9700
+
+Le profil `r9700` adapte la phase 1 à une carte AMD Radeon AI PRO R9700 : RDNA4 (`gfx1201`), 32 Go,
+bfloat16 matériel (191 TFLOPS en crête selon AMD). Cette carte est assez rapide pour entraîner, sur les
+mêmes 3 milliards de tokens, un modèle **deux fois plus gros** :
+
+| | Alexinator-110M | Alexinator-240M (`--profil r9700`) |
+| --- | --- | --- |
+| Blocs / largeur / têtes | 12 / 768 / 12 | 16 / 1 024 / 16 (têtes de 64) |
+| MLP SwiGLU | 2 048 | 2 816 (multiple de 128 pour les unités matricielles) |
+| Paramètres | 109,5 M | 238,3 M |
+| Calcul par token | 0,77 GFLOP | 1,63 GFLOP |
+| Précision | selon la carte (float32 sur la M40) | bfloat16 |
+| Micro-batch | 16 (fixé à la main) | le plus grand qui tient dans 32 Go, trouvé au démarrage |
+| Learning rate max / min | 6e-4 / 6e-5 | 4e-4 / 4e-5 |
+| Sauvegarde | tous les 1 000 pas | tous les 250 pas |
+
+Le pas reste de 524 288 tokens quelle que soit la taille du micro-batch (l'accumulation s'ajuste), donc
+environ 5 700 pas pour 3 milliards de tokens. Durée estimée : **environ un jour** si la carte tient 25 à
+35 % de sa puissance de crête. C'est une estimation : la mesurer avec `--banc` avant de lancer.
+
+**Installation** (Linux, ROCm 6.4.2 ou plus récent, utilisateur dans les groupes `render` et `video`) :
+
+```
+pip install torch --index-url https://download.pytorch.org/whl/rocm6.4
+```
+
+Sous ROCm, PyTorch garde le nom `cuda` : `torch.cuda.is_available()` et `device="cuda"` désignent la carte AMD.
+
+**Lancement dans un notebook** : ouvrir `entrainement/alexinator_r9700.ipynb` et exécuter les cellules dans
+l'ordre. Le notebook récupère le code du dépôt (clone s'il n'est pas déjà dedans), vérifie la carte, prépare le
+corpus s'il manque, choisit le micro-batch, mesure la vitesse (cellule « Banc »), puis entraîne avec une barre de
+progression, des échantillons de texte et les courbes. `TEST = True` dans la première cellule vérifie toute la
+chaîne en 2 à 3 minutes. Le bouton ■ interrompt proprement : `dernier.pt` est enregistré et relancer la cellule
+reprend. Les checkpoints ont le même format que ceux du script.
+
+**Lancement en ligne de commande**, depuis la racine du dépôt :
+
+```
+bash entrainement/lancer_r9700.sh
+```
+
+Comme `lancer_phase1.sh` : vérifications, test rapide de toute la chaîne, puis préparation du corpus
+(sautée si `entrainement/donnees/stats.json` existe déjà) et pré-entraînement en arrière-plan.
+
+| Commande | Rôle |
+| --- | --- |
+| `bash entrainement/lancer_r9700.sh --banc` | Mesurer la vitesse sur 20 pas et estimer la durée totale (rien n'est sauvé) |
+| `tail -f entrainement/logs/r9700.log` | Suivre l'avancement |
+| `kill $(cat entrainement/logs/r9700.pid)` | Arrêter |
+| `bash entrainement/lancer_r9700.sh --reprendre` | Reprendre au dernier checkpoint |
+| `python entrainement/sft.py --run alexinator-240m` | Phase 2 sur ce modèle |
+
+Le corpus n'a pas besoin d'être refait : on peut copier le dossier `entrainement/donnees/` (environ 6 Go)
+depuis le serveur, par exemple `scp -r serveur:~/alexinator/entrainement/donnees entrainement/`.
+
+Ce qui est fait automatiquement pour cette carte (`entrainement/materiel.py`) :
+
+- **bfloat16** : détecté sous ROCm avec `torch.cuda.is_bf16_supported()` ;
+- **attention rapide** : `TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL=1` active les noyaux AOTriton de
+  `scaled_dot_product_attention` sur les cartes Radeon (encore expérimentaux sur RDNA) ;
+- **torch.compile** : essayé sur un vrai pas dès le démarrage ; s'il échoue, l'entraînement continue
+  sans compilation au lieu de planter au premier pas ;
+- **micro-batch** : essais de 64 à 1 séquences, en gardant le premier dont le pic de mémoire reste sous
+  90 % de la carte.
+
+Toutes les options restent modifiables : `--profil r9700 --tokens 2e9` ou `--micro-batch 16` l'emportent
+sur le profil.
+
 ### Phase 2 : spécialisation en gardien
 
 Quand le jeu de données du gardien est prêt (`finetune/construire_dataset.py`, section suivante) :

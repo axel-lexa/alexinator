@@ -3,6 +3,8 @@
     python entrainement/pretrain.py                 entraînement complet (14 à 22 h estimées)
     python entrainement/pretrain.py --test          mini-modèle sur le mini-corpus (1 à 2 minutes)
     python entrainement/pretrain.py --reprendre     repart du dernier checkpoint après une coupure
+    python entrainement/pretrain.py --profil r9700  Alexinator-240M, réglé pour une Radeon AI PRO R9700 (32 Go)
+    python entrainement/pretrain.py --profil r9700 --banc 20   mesure la vitesse sur 20 pas, sans rien sauver
 
 Même boucle que le lab 5 (get_batch -> loss -> backward -> step), avec en plus :
 accumulation de gradients, précision mixte bfloat16, learning rate warmup + cosinus,
@@ -21,17 +23,45 @@ import time
 from contextlib import nullcontext
 from pathlib import Path
 
-import numpy as np
-import torch
-
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "entrainement"))
+
+import materiel  # noqa: E402
+
+materiel.preparer_environnement()  # avant `import torch` : variables lues au démarrage de PyTorch
+
+import numpy as np  # noqa: E402
+import torch  # noqa: E402
 
 from alexinator.gpt import FIN_TEXTE, GPT, GPTConfig  # noqa: E402
+
+# Réglages par carte graphique. Une option donnée en ligne de commande l'emporte toujours sur le profil.
+PROFILS = {
+    # AMD Radeon AI PRO R9700 : RDNA4 (gfx1201), 32 Go, bfloat16 matériel (191 TFLOPS en crête).
+    # Assez rapide pour un modèle 2 fois plus gros que la version 110M sur les mêmes 3 Md de tokens :
+    # 16 couches, d_model 1024, têtes de 64 (taille gérée par les noyaux d'attention AOTriton de RDNA4),
+    # dimensions multiples de 128 pour les unités matricielles (WMMA). 238 M de paramètres.
+    "r9700": dict(
+        n_layer=16,
+        n_head=16,
+        d_model=1024,
+        d_ff=2816,
+        micro_batch="auto",  # plus grand micro-batch qui tient dans les 32 Go
+        lr=4e-4,  # un peu plus bas que pour 110M : les modèles plus larges supportent moins bien 6e-4
+        lr_min=4e-5,
+        eval_batchs=40,
+        sauver_tous=250,
+        nom="alexinator-240m",
+    ),
+}
 
 
 def parse_args():
     p = argparse.ArgumentParser(description="Pré-entraînement d'Alexinator-110M")
+    p.add_argument(
+        "--profil", choices=sorted(PROFILS), default=None, help="réglages prêts pour une carte graphique"
+    )
     p.add_argument("--test", action="store_true", help="mini-modèle, quelques pas, pour vérifier la chaîne")
     p.add_argument("--donnees", default=None, help="dossier produit par preparer_donnees.py")
     p.add_argument("--nom", default=None, help="nom du dossier de sortie dans entrainement/runs/")
@@ -43,12 +73,22 @@ def parse_args():
     p.add_argument("--d-ff", type=int, default=2048)
     p.add_argument("--block-size", type=int, default=1024)
     # Entraînement
-    p.add_argument("--micro-batch", type=int, default=16, help="séquences par passage sur le GPU")
+    p.add_argument(
+        "--micro-batch",
+        default="16",
+        help="séquences par passage sur le GPU, ou « auto » : la plus grande taille qui tient en mémoire",
+    )
     p.add_argument(
         "--accumulation",
         type=int,
         default=32,
-        help="micro-batchs cumulés par pas (16 x 1024 x 32 ≈ 512 000 tokens)",
+        help="micro-batchs cumulés par pas (16 x 1024 x 32 ≈ 512 000 tokens) ; calculé si --micro-batch auto",
+    )
+    p.add_argument(
+        "--tokens-par-pas",
+        type=int,
+        default=16 * 1024 * 32,
+        help="avec --micro-batch auto : tokens par pas d'optimisation (fixe l'accumulation)",
     )
     p.add_argument("--tokens", type=float, default=3e9, help="tokens à voir au total (fixe le nombre de pas)")
     p.add_argument("--lr", type=float, default=6e-4)
@@ -61,7 +101,15 @@ def parse_args():
     p.add_argument("--sauver-tous", type=int, default=1000)
     p.add_argument("--no-compile", action="store_true", help="désactive torch.compile")
     p.add_argument("--seed", type=int, default=1337)
+    p.add_argument(
+        "--banc", type=int, default=0, help="mesure la vitesse sur N pas puis s'arrête (rien n'est sauvé)"
+    )
+    # Le profil change les valeurs par défaut ; les options écrites explicitement restent prioritaires.
+    profil, _ = p.parse_known_args()
+    if profil.profil:
+        p.set_defaults(**{k: v for k, v in PROFILS[profil.profil].items() if k != "nom"})
     args = p.parse_args()
+    default_name = PROFILS[args.profil]["nom"] if args.profil else "alexinator-110m"
 
     if args.test:
         args.n_layer, args.n_head, args.d_model, args.d_ff, args.block_size = 2, 4, 128, 352, 128
@@ -73,7 +121,12 @@ def parse_args():
         if args.donnees
         else ROOT / "entrainement" / ("donnees_test" if args.test else "donnees")
     )
-    args.nom = args.nom or ("test" if args.test else "alexinator-110m")
+    args.nom = args.nom or ("test" if args.test else default_name)
+    if args.banc:
+        args.banc = max(args.banc, 5)  # les 3 premiers pas ne sont pas chronométrés
+        args.nom = f"banc-{args.nom}"
+    if str(args.micro_batch) != "auto":
+        args.micro_batch = int(args.micro_batch)
     return args
 
 
@@ -86,17 +139,9 @@ def main() -> None:
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
 
-    # Précision mixte selon la génération de la carte :
-    #   Ampere et plus récent (8.x+) : bfloat16 ; Volta/Turing (7.x) : float16 + GradScaler ;
-    #   plus ancien (ex. Tesla M40, 5.2) : float32. PyTorch y annonce le bfloat16 « disponible »,
-    #   mais il est émulé (lent) et ces cartes n'accélèrent pas non plus le float16.
-    capability = torch.cuda.get_device_capability() if device == "cuda" else (0, 0)
-    if capability >= (8, 0):
-        amp_dtype, scaler = torch.bfloat16, None
-    elif capability >= (7, 0):
-        amp_dtype, scaler = torch.float16, torch.amp.GradScaler("cuda")
-    else:
-        amp_dtype, scaler = None, None
+    # Précision mixte selon la carte (NVIDIA ou AMD) : voir materiel.choisir_precision
+    print(f"Carte : {materiel.decrire_carte(device)}")
+    amp_dtype, scaler = materiel.choisir_precision(device)
     autocast = (lambda: torch.autocast("cuda", dtype=amp_dtype)) if amp_dtype else nullcontext
 
     # ----------------------------------------------------------------- données
@@ -117,9 +162,6 @@ def main() -> None:
             return x.pin_memory().to(device, non_blocking=True), y.pin_memory().to(device, non_blocking=True)
         return x, y
 
-    tokens_per_step = args.micro_batch * T * args.accumulation
-    max_steps = math.ceil(args.tokens / tokens_per_step)
-
     # ------------------------------------------------------------------ modèle
     run_dir = ROOT / "entrainement" / "runs" / args.nom
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -133,6 +175,16 @@ def main() -> None:
         d_ff=args.d_ff,
         dropout=0.0,
     )
+    if args.micro_batch == "auto":
+        # Avant de charger le modèle : les essais tournent dans des processus séparés sur la même carte.
+        if device != "cuda":
+            sys.exit("--micro-batch auto demande un GPU.")
+        sequences = max(1, args.tokens_par_pas // T)
+        # On ne garde que les tailles qui divisent le nombre de séquences par pas : le pas reste
+        # exactement de --tokens-par-pas tokens, même si une reprise choisit une autre taille.
+        candidats = [c for c in (64, 32, 16, 8, 4, 2, 1) if sequences % c == 0]
+        args.micro_batch = materiel.trouver_micro_batch(cfg.to_dict(), amp_dtype, candidats)
+        args.accumulation = sequences // args.micro_batch
     model = GPT(cfg).to(device)
     optimizer = model.configure_optimizer(args.lr, args.weight_decay)
     start_step, best_val = 0, float("inf")
@@ -142,8 +194,15 @@ def main() -> None:
         optimizer.load_state_dict(ckpt["optimizer"])
         start_step, best_val = ckpt["step"], ckpt.get("best_val", float("inf"))
         print(f"Reprise au pas {start_step}")
+        del ckpt
+
+    tokens_per_step = args.micro_batch * T * args.accumulation
+    max_steps = math.ceil(args.tokens / tokens_per_step)
+    if args.banc:
+        max_steps = min(max_steps, start_step + args.banc)
 
     print(f"Modèle : {model.num_params() / 1e6:.1f} M de paramètres | {device} | précision {amp_dtype}")
+    print(f"Micro-batch {args.micro_batch} x accumulation {args.accumulation} x {T} tokens")
     print(f"Données : {len(train_data) / 1e9:.3f} Md tokens (train), {len(val_data) / 1e6:.1f} M (val)")
     print(
         f"{max_steps} pas de {tokens_per_step:,} tokens = "
@@ -153,15 +212,26 @@ def main() -> None:
         print("Attention : plus de tokens demandés que dans le corpus, certains seront revus.")
 
     raw_model = model  # le modèle compilé partage ses poids avec raw_model (utilisé pour sauver et générer)
-    if device == "cuda" and capability < (7, 0) and not args.no_compile:
-        # Triton (utilisé par torch.compile) exige une carte 7.0+ ; l'erreur n'apparaîtrait qu'au 1er pas.
-        print(f"Carte {capability[0]}.{capability[1]} : torch.compile désactivé (Triton exige 7.0+).")
+    possible, raison = materiel.compilation_possible(device)
+    if device == "cuda" and not possible and not args.no_compile:
+        print(f"torch.compile désactivé ({raison}).")
         args.no_compile = True
     if device == "cuda" and not args.no_compile:
+        # torch.compile ne compile vraiment qu'au premier appel : une erreur (Triton absent, carte non
+        # gérée...) n'apparaîtrait qu'au premier pas. On fait donc un passage d'essai tout de suite.
+        print("Compilation du modèle (torch.compile, 1 à 3 minutes)...")
         try:
-            model = torch.compile(model)
+            model = torch.compile(raw_model)
+            x, y = get_batch("train")
+            with autocast():
+                _, loss = model(x, y)
+            loss.backward()
+            print("Compilation réussie.")
         except Exception as error:  # compilation indisponible : on continue sans
-            print(f"torch.compile indisponible ({error}), entraînement sans compilation.")
+            print(f"torch.compile indisponible ({type(error).__name__}: {error}), entraînement sans compilation.")
+            model = raw_model
+        finally:
+            raw_model.zero_grad(set_to_none=True)
 
     def lr_at(step: int) -> float:
         """Warmup linéaire, puis décroissance en cosinus jusqu'à lr_min."""
@@ -226,7 +296,7 @@ def main() -> None:
             group["lr"] = lr
 
         # Évaluation, échantillons et sauvegarde régulières
-        if step % args.eval_tous == 0 or step == max_steps - 1:
+        if not args.banc and (step % args.eval_tous == 0 or step == max_steps - 1):
             losses = evaluate()
             mem = torch.cuda.max_memory_allocated() / 1e9 if device == "cuda" else 0.0
             print(
@@ -254,7 +324,7 @@ def main() -> None:
             if losses["val"] < best_val and step > start_step:
                 best_val = losses["val"]
                 save(step, run_dir / "meilleur.pt")
-        if step > start_step and step % args.sauver_tous == 0:
+        if not args.banc and step > start_step and step % args.sauver_tous == 0:
             save(step, ckpt_path)
 
         # Un pas d'optimisation = `accumulation` micro-batchs (gradients additionnés)
@@ -276,6 +346,10 @@ def main() -> None:
         else:
             optimizer.step()
         optimizer.zero_grad(set_to_none=True)
+        if args.banc and step == start_step + 2:  # les 3 premiers pas (compilation, caches) sont exclus
+            if device == "cuda":
+                torch.cuda.synchronize()
+            t_banc = time.time()
 
         if step % 10 == 0:
             if device == "cuda":
@@ -301,6 +375,19 @@ def main() -> None:
                 ]
             )
             log_file.flush()
+
+    if args.banc:
+        if device == "cuda":
+            torch.cuda.synchronize()
+        measured = max(1, max_steps - start_step - 3)
+        speed = measured * tokens_per_step / (time.time() - t_banc)
+        mem = torch.cuda.max_memory_allocated() / 1e9 if device == "cuda" else 0.0
+        log_file.close()
+        print(
+            f"Banc : {speed / 1e3:.1f} k tokens/s | mémoire max {mem:.1f} Go | "
+            f"{args.tokens / 1e9:.1f} Md de tokens en ~{args.tokens / speed / 3600:.1f} h"
+        )
+        return
 
     save(max_steps, ckpt_path)
     if best_val == float("inf"):  # entraînement très court : pas encore de « meilleur » modèle
