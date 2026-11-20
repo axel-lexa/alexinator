@@ -1,0 +1,9 @@
+Tokenizer: hf:tokenizer/almanach-camembert-100000.json
+Vocabulary size: 100000
+
+tblard/allocine / validation: 20000 reviews; 1849998 whitespace-separated words
+Special tokens disabled; no truncation.
+Total tokens: 2,077,730
+Tokens/review: 103.89
+Tokens/word: 1.12
+[UNK] tokens: 0
