@@ -146,6 +146,33 @@ def format_duration(seconds: float) -> str:
     return f"{m:02d}m{s:02d}s"
 
 
+def load_existing_examples(path: Path) -> tuple[list[dict], set[tuple[str, str]]]:
+    """Charge les exemples existants d'un fichier JSONL pour reprendre sans recalculer."""
+    if not path.exists():
+        return [], set()
+    examples = []
+    seen = set()
+    with path.open("r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                ex = json.loads(line)
+                film_id = ex.get("film_id", "")
+                user_msg = ""
+                for m in ex.get("messages", []):
+                    if m.get("role") == "user":
+                        user_msg = m.get("content", "")
+                        break
+                if film_id and user_msg:
+                    seen.add((film_id, user_msg))
+                examples.append(ex)
+            except json.JSONDecodeError:
+                continue
+    return examples, seen
+
+
 def build_examples(
     films: list[Film],
     level: Level,
@@ -157,51 +184,77 @@ def build_examples(
     rng: random.Random | None = None,
     equilibre: bool = True,
     split_name: str = "",
+    output_path: Path | None = None,
+    resume: bool = True,
 ) -> tuple[list[dict], int]:
-    """Génère les exemples. Renvoie (exemples, nombre de messages abandonnés faute de réponse sûre)."""
+    """Génère les exemples. Écrit au fil de l'eau si output_path est fourni.
+    
+    Renvoie (exemples, nombre de messages abandonnés faute de réponse sûre).
+    """
     rng = rng or random.Random(0)
     examples, skipped = [], 0
+    seen_keys: set[tuple[str, str]] = set()
+    f_out = None
+
+    if output_path is not None:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        if resume and output_path.exists():
+            examples, seen_keys = load_existing_examples(output_path)
+            if seen_keys:
+                print(f"  ↪ Reprise activée : {len(examples)} exemples déjà présents dans {output_path.name}")
+            f_out = output_path.open("a", encoding="utf-8")
+        else:
+            f_out = output_path.open("w", encoding="utf-8")
+
     t0 = time.time()
     n_films = len(films)
 
-    if max_per_film is not None:
-        total_target = sum(min(max_per_film, len(items)) for _ in films)
-    else:
-        total_target = len(films) * len(items)
+    # Pré-calcul des messages sélectionnés par film pour préserver l'ordre du RNG
+    film_tasks = []
+    already_done = 0
+    for film in films:
+        chosen = sample_items(items, max_per_film, rng, equilibre=equilibre)
+        film_tasks.append((film, chosen))
+        for _, text in chosen:
+            if (film.id, text) in seen_keys:
+                already_done += 1
 
+    total_target = sum(len(chosen) for _, chosen in film_tasks)
+    processed_count = already_done
     prefix = f"[{split_name.upper()}] " if split_name else ""
     is_tty = sys.stdout.isatty()
-    processed_count = 0
 
-    for film_idx, film in enumerate(films, 1):
-        chosen = sample_items(items, max_per_film, rng, equilibre=equilibre)
-        system = level.guardian_prompt.replace("{fiche}", film.fiche())
-        for kind, text in chosen:
-            reply = None
-            for _ in range(tries):
-                candidate = teacher.chat(
-                    [
-                        {"role": "system", "content": system + TEACHER_GUIDE},
-                        {"role": "user", "content": text},
-                    ],
-                    temperature=0.8,
-                    max_tokens=200,
-                )
-                # Contrôle qualité n°1 : notre filtre (titre, alias, noms de la fiche)
-                if not candidate.strip() or defenses.output_filter(candidate, film, True).blocked:
+    try:
+        for film_idx, (film, chosen) in enumerate(film_tasks, 1):
+            system = level.guardian_prompt.replace("{fiche}", film.fiche())
+            for kind, text in chosen:
+                if (film.id, text) in seen_keys:
                     continue
-                # Contrôle qualité n°2 (option) : un devineur ne doit pas retrouver le film
-                if guesser is not None and check_answer(guess_film([candidate], guesser), film).correct:
-                    continue
-                reply = candidate.strip()
-                break
 
-            processed_count += 1
-            if reply is None:
-                skipped += 1
-            else:
-                examples.append(
-                    {
+                reply = None
+                for _ in range(tries):
+                    candidate = teacher.chat(
+                        [
+                            {"role": "system", "content": system + TEACHER_GUIDE},
+                            {"role": "user", "content": text},
+                        ],
+                        temperature=0.8,
+                        max_tokens=200,
+                    )
+                    # Contrôle qualité n°1 : notre filtre (titre, alias, noms de la fiche)
+                    if not candidate.strip() or defenses.output_filter(candidate, film, True).blocked:
+                        continue
+                    # Contrôle qualité n°2 (option) : un devineur ne doit pas retrouver le film
+                    if guesser is not None and check_answer(guess_film([candidate], guesser), film).correct:
+                        continue
+                    reply = candidate.strip()
+                    break
+
+                processed_count += 1
+                if reply is None:
+                    skipped += 1
+                else:
+                    item_dict = {
                         "messages": [
                             {"role": "system", "content": system},
                             {"role": "user", "content": text},
@@ -210,41 +263,62 @@ def build_examples(
                         "film_id": film.id,
                         "type": kind,
                     }
+                    examples.append(item_dict)
+                    seen_keys.add((film.id, text))
+                    if f_out is not None:
+                        f_out.write(json.dumps(item_dict, ensure_ascii=False) + "\n")
+                        f_out.flush()
+
+                # Affichage de l'état d'avancement
+                elapsed = time.time() - t0
+                session_processed = processed_count - already_done
+                speed = session_processed / elapsed if elapsed > 0.5 else 0.0
+                remaining_items = total_target - processed_count
+                remaining_sec = remaining_items / speed if speed > 0 else 0
+                pct = (processed_count / total_target * 100) if total_target else 100.0
+
+                if is_tty:
+                    bar_len = 20
+                    filled = int(bar_len * processed_count / total_target) if total_target else 0
+                    bar = "=" * filled + (">" if filled < bar_len else "") + "." * max(0, bar_len - filled - (1 if filled < bar_len else 0))
+                    stat = (
+                        f"\r{prefix}[{bar}] {pct:5.1f}% | "
+                        f"Film {film_idx}/{n_films} ({film.titre[:16]}) | "
+                        f"{len(examples)}/{total_target} ex | "
+                        f"{speed:.1f} ex/s | ETA: {format_duration(remaining_sec)}"
+                    )
+                    sys.stdout.write(stat.ljust(95))
+                    sys.stdout.flush()
+
+            if not is_tty:
+                elapsed = time.time() - t0
+                session_processed = processed_count - already_done
+                speed = session_processed / elapsed if elapsed > 0.5 else 0.0
+                remaining_items = total_target - processed_count
+                remaining_sec = remaining_items / speed if speed > 0 else 0
+                pct = (processed_count / total_target * 100) if total_target else 100.0
+                print(
+                    f"{prefix}Film {film_idx}/{n_films} ({film.titre}) : "
+                    f"{len(examples)}/{total_target} ex ({pct:.1f}%) | "
+                    f"Vitesse: {speed:.1f} ex/s | ETA: {format_duration(remaining_sec)}"
                 )
 
-            # Affichage de l'état d'avancement
-            elapsed = time.time() - t0
-            speed = processed_count / elapsed if elapsed > 0.5 else 0.0
-            remaining_sec = (total_target - processed_count) / speed if speed > 0 else 0
-            pct = (processed_count / total_target * 100) if total_target else 0.0
+        if is_tty and total_target > 0:
+            sys.stdout.write("\n")
+            sys.stdout.flush()
 
-            if is_tty:
-                bar_len = 20
-                filled = int(bar_len * processed_count / total_target) if total_target else 0
-                bar = "=" * filled + (">" if filled < bar_len else "") + "." * max(0, bar_len - filled - (1 if filled < bar_len else 0))
-                stat = (
-                    f"\r{prefix}[{bar}] {pct:5.1f}% | "
-                    f"Film {film_idx}/{n_films} ({film.titre[:16]}) | "
-                    f"{len(examples)}/{total_target} ex | "
-                    f"{speed:.1f} ex/s | ETA: {format_duration(remaining_sec)}"
-                )
-                sys.stdout.write(stat.ljust(95))
-                sys.stdout.flush()
+    except KeyboardInterrupt:
+        if is_tty:
+            sys.stdout.write("\n")
+        dest = output_path.name if output_path else "mémoire"
+        print(f"\n⚠️  Interruption détectée (Ctrl+C).")
+        print(f"   {len(examples)} exemples sont sécurisés sur disque dans {dest}.")
+        print("   Vous pourrez reprendre exactement ici en relançant la commande.")
+        return examples, skipped
 
-        if not is_tty:
-            elapsed = time.time() - t0
-            speed = processed_count / elapsed if elapsed > 0 else 0.0
-            remaining_sec = (total_target - processed_count) / speed if speed > 0 else 0
-            pct = (processed_count / total_target * 100) if total_target else 0.0
-            print(
-                f"{prefix}Film {film_idx}/{n_films} ({film.titre}) : "
-                f"{len(examples)}/{total_target} ex ({pct:.1f}%) | "
-                f"Vitesse: {speed:.1f} ex/s | ETA: {format_duration(remaining_sec)}"
-            )
-
-    if is_tty and total_target > 0:
-        sys.stdout.write("\n")
-        sys.stdout.flush()
+    finally:
+        if f_out is not None:
+            f_out.close()
 
     return examples, skipped
 
@@ -265,6 +339,7 @@ def main() -> None:
     parser.add_argument("--max-films", type=int, default=None, help="limite le nombre de films au total")
     parser.add_argument("--sans-equilibre", action="store_true", help="désactive l'équilibrage 50/50 attaques/questions")
     parser.add_argument("--niveau-prompt", type=int, default=2, help="niveau dont on reprend le prompt")
+    parser.add_argument("--ecraser", action="store_true", help="écrase les fichiers jsonl existants sans reprendre")
     args = parser.parse_args()
 
     from alexinator.llm import make_llm
@@ -294,11 +369,13 @@ def main() -> None:
         f"Films sélectionnés    : {len(all_films)} ({len(train_films)} train, {len(val_films)} val)\n"
         f"Max par film          : {args.max_par_film if args.max_par_film else 'illimité (produit cartésien)'}\n"
         f"Professeur LLM        : {settings.teacher_model}\n"
-        f"Devineur sémantique   : {settings.aux_model if args.devineur else 'désactivé'}"
+        f"Devineur sémantique   : {settings.aux_model if args.devineur else 'désactivé'}\n"
+        f"Mode reprise          : {'désactivé (--ecraser)' if args.ecraser else 'actif (reprise automatique)'}"
     )
     print("==================================================\n")
 
     for name, films in (("train", train_films), ("val", val_films)):
+        out_file = OUT_DIR / f"{name}.jsonl"
         print(f"--- Démarrage du split '{name}' ({len(films)} films) ---")
         examples, skipped = build_examples(
             films,
@@ -309,9 +386,10 @@ def main() -> None:
             max_per_film=args.max_par_film,
             equilibre=not args.sans_equilibre,
             split_name=name,
+            output_path=out_file,
+            resume=not args.ecraser,
         )
-        write_jsonl(OUT_DIR / f"{name}.jsonl", examples)
-        print(f"  ✓ {name}.jsonl : {len(examples)} exemples générés ({skipped} abandonnés)\n")
+        print(f"  ✓ {name}.jsonl : {len(examples)} exemples au total ({skipped} abandonnés)\n")
 
     print("==================================================")
     print(f"✅ Génération terminée avec succès dans {OUT_DIR}/")
