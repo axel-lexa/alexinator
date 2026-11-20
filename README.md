@@ -29,6 +29,7 @@ propre gardien.
 | Document | Contenu |
 | --- | --- |
 | [docs/architecture.md](docs/architecture.md) | Trajet d'un message, modules, format des niveaux, des fiches et du journal |
+| [docs/dataset_card.md](docs/dataset_card.md) | Fiche d'identité des données, distillation, benchmark et assurance qualité |
 | [docs/evaluation.md](docs/evaluation.md) | Mesures, catégories d'attaques, campagnes automatiques |
 | [docs/entrainement.md](docs/entrainement.md) | Choix du jeu de données, entraînement QLoRA, évaluation du modèle entraîné |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Chantiers, branches, tests, règles sur les données |
@@ -41,7 +42,7 @@ propre gardien.
 | Validation des réponses, journal SQLite | Écrits et testés |
 | Red team : campagne d'attaques, devineur, attaquant automatique (`campagne.py`) | Écrits et testés avec un faux LLM |
 | Analyse (`analyse.ipynb`) | Écrit, exécuté sur un journal factice |
-| Fabrication du jeu de données (`finetune/construire_dataset.py`) | Écrit et testé avec un faux LLM |
+| Fabrication du jeu de données (`finetune/construire_dataset.py`) | **12 350 exemples générés** (train.jsonl & val.jsonl) |
 | Entraînement (`finetune/entrainement_qlora.ipynb`) | Écrit, **jamais exécuté** (pas de GPU à la rédaction) |
 | Interface Streamlit (avec les images du magicien), mode terminal, backend local | Écrits, **jamais lancés** |
 | Base cinéma | 200 fiches (40 % cinéma français, fiches complètes et étanches) |
