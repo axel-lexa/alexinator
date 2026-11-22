@@ -205,14 +205,36 @@ def _is_typo_of(g: str, target: str) -> bool:
     return all(SequenceMatcher(None, w, t).ratio() >= SEUIL_MOT for w, t in pairs)
 
 
+_NEAR_MISS_STOPWORDS = frozenset(
+    {"le", "la", "les", "l", "un", "une", "de", "du", "des", "d", "a", "au", "aux", "et", "en", "the", "of", "in", "and", "to"}
+)
+
+
 def is_near_miss(candidate: str, film: Film) -> bool:
     """Le message ressemble fortement à un titre du film sans être correct : « Retour vers le passé »."""
     c = canonical(candidate)
     if len(c) < MIN_PARTIAL_CHARS:
         return False
+    c_words = c.split()
     for target in (canonical(t) for t in film.titres_acceptes):
-        close_length = abs(len(c.split()) - len(target.split())) <= 1
-        if close_length and SequenceMatcher(None, c, target).ratio() >= SEUIL_PROCHE:
+        t_words = target.split()
+        close_length = abs(len(c_words) - len(t_words)) <= 1
+        if not close_length:
+            continue
+        ratio = SequenceMatcher(None, c, target).ratio()
+        if ratio < SEUIL_PROCHE:
+            continue
+        # Sur un seul mot, exige même initiale et ressemblance plus forte (évite « realiste » ~ « grease »).
+        if len(c_words) == 1 and len(t_words) == 1:
+            if c[0] == target[0] and ratio >= 0.75:
+                return True
+            continue
+        # Sur plusieurs mots, exige une correspondance réelle sur les mots significatifs
+        # (évite « avec des armes » ~ « vie des autres » ou « qui d autre » ~ « vie des autres »).
+        c_sig = [w for w in c_words if w not in _NEAR_MISS_STOPWORDS] or c_words
+        t_sig = [w for w in t_words if w not in _NEAR_MISS_STOPWORDS] or t_words
+        matched = sum(1 for tw in t_sig if max(SequenceMatcher(None, cw, tw).ratio() for cw in c_sig) >= 0.75)
+        if matched / len(t_sig) >= 0.6:
             return True
     return False
 
