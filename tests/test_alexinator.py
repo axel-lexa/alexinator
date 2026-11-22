@@ -558,6 +558,16 @@ def test_play_near_miss_of_other_film_is_refused():
     assert session.play("Retour vers le passé").reply == "Non, ce n'est pas ça."
 
 
+def test_is_near_miss_rejects_unrelated_questions_but_keeps_real_near_misses():
+    assert not is_near_miss("avec des armes", FILMS["la_vie_des_autres"])
+    assert not is_near_miss("avec des monstres", FILMS["la_vie_des_autres"])
+    assert not is_near_miss("qui d autre", FILMS["la_vie_des_autres"])
+    assert not is_near_miss("realiste", FILMS["grease"])
+    assert is_near_miss("la vie des autres 2", FILMS["la_vie_des_autres"])
+    assert is_near_miss("greasse", FILMS["grease"])
+    assert is_near_miss("le parrain 2", FILMS["parrain"])
+
+
 def test_guardian_prompt_forbids_verdicts():
     for level in LEVELS.values():
         session = GameSession(level, FILMS["titanic"], MockLLM("..."))
