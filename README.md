@@ -32,6 +32,7 @@ propre gardien.
 | [docs/dataset_card.md](docs/dataset_card.md) | Fiche d'identité des données, distillation, benchmark et assurance qualité |
 | [docs/evaluation.md](docs/evaluation.md) | Mesures, catégories d'attaques, campagnes automatiques |
 | [docs/entrainement.md](docs/entrainement.md) | Choix du jeu de données, entraînement QLoRA, évaluation du modèle entraîné |
+| [docs/tokenizer.md](docs/tokenizer.md) | Tokenizer BPE : pipeline, entraînement, benchmark et comparaison avec GPT-2, BERT et CamemBERT |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Chantiers, branches, tests, règles sur les données |
 
 ## État du développement
@@ -64,17 +65,15 @@ Pour entraîner et inspecter le tokenizer :
 uv run --only-group tokenizer python tokenizer/tokenizer.py
 uv run --only-group tokenizer python tokenizer/tokenizer_test.py
 uv run --only-group tokenizer python tokenizer/tokenizer-bert.py
-uv run --only-group tokenizer python tokenizer/tokenizer_test.py tokenizer/alexinator-bert-bpe.json
+uv run --only-group tokenizer python tokenizer/tokenizer_test.py tokenizer/alexinator-bert-bpe-80000.json
 ```
 
-La taille du vocabulaire se règle avec `VOCAB_SIZE` dans `tokenizer/tokenizer.py`.
-`local_corpus()` est à compléter quand le corpus local d'entraînement sera choisi.
+La taille du vocabulaire se règle avec `VOCAB_SIZE` dans `tokenizer/tokenizer.py`, et le nom du fichier
+produit avec `OUTPUT`. `local_corpus()` est à compléter quand le corpus local d'entraînement sera choisi.
 La normalisation met le texte en minuscules et retire les accents : le décodage restitue cette
-version normalisée, pas le texte original. Réentraîner le tokenizer pour obtenir une version
-normalisée ; `tokenizer_test.py` accepte aussi les anciens fichiers JSON sans normalisation.
-`tokenizer-bert.py` entraîne une variante BPE avec `BertPreTokenizer` et l'enregistre séparément.
-Ce pré-tokenizer supprime les espaces : comparer les découpages et les tokens inconnus, sans appliquer
-à cette variante le test de décodage exact de `tokenizer_test.py`.
+version normalisée, pas le texte original. `tokenizer-bert.py` entraîne une variante avec `BertPreTokenizer`,
+et `tokenizer_test.py` mesure un tokenizer sur les critiques de validation Allociné.
+Le fonctionnement, les commandes et les résultats sont détaillés dans [docs/tokenizer.md](docs/tokenizer.md).
 
 Puis choisir un LLM :
 
@@ -135,6 +134,7 @@ data/attaques.json      128 attaques classées en 8 catégories (OWASP LLM01, La
 data/questions_honnetes.json   228 questions (analyse, relances courtes et questions simples)
 data/journal.db         créé au premier lancement (playtests et campagnes)
 finetune/               jeu de données et notebook d'entraînement de notre gardien
+tokenizer/              entraînement et benchmark de tokenizers BPE (voir docs/tokenizer.md)
 tests/                  tests automatiques
 ```
 
