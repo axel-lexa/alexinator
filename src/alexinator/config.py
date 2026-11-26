@@ -10,8 +10,8 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-# Racine du projet = dossier qui contient app.py, data/, levels/...
-ROOT = Path(__file__).resolve().parent.parent
+# Racine du projet = dossier qui contient app.py, data/, levels/... (ce fichier est dans src/alexinator/)
+ROOT = Path(__file__).resolve().parents[2]
 FILMS_PATH = ROOT / "data" / "films.json"
 LEVELS_DIR = ROOT / "levels"
 JOURNAL_PATH = ROOT / "data" / "journal.db"
