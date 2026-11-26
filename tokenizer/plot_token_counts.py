@@ -1,6 +1,19 @@
-"""Plot tokenizer benchmarks from the reports in tokenizer/tests.
+"""Trace trois graphiques à partir des rapports de `tokenizer/tests/` (écrits par `tokenizer_test.py`).
 
-Run from the project root with ``uv run --group tokenizer python tokenizer/plot_token_counts.py``.
+- `vocabulary_sizes.png` : taille réelle du vocabulaire de chaque tokenizer. Les corpus
+  d'entraînement ne sont pas les mêmes d'un tokenizer à l'autre.
+- `tokens_per_word.png` : tokens par mot (fertility) sur la validation Allociné. Plus petit = texte
+  plus compact.
+- `letters_per_token.png` : lettres par token. Plus grand = tokens plus longs en moyenne.
+
+En bleu, les tokenizers entraînés en local. En vert, ceux dont la source commence par `hf:` (téléchargés
+du Hub). Le script relit aussi la validation Allociné : les rapports ne contiennent pas le nombre de
+lettres, et il faut vérifier que tous les rapports portent sur les mêmes textes.
+
+À lancer depuis la racine du projet. `--group` (et non `--only-group`) ajoute le groupe `app`, qui
+contient matplotlib :
+
+    uv run --group tokenizer python tokenizer/plot_token_counts.py
 """
 
 import argparse
@@ -17,6 +30,12 @@ DATASET_SPLIT = "validation"
 
 @dataclass(frozen=True)
 class Benchmark:
+    """Les chiffres d'un rapport dont les graphiques ont besoin.
+
+    `name` est la ligne `Tokenizer:` du rapport, `vocabulary_size` la taille réelle du vocabulaire et
+    `tokens` le nombre total de tokens sur toute la validation.
+    """
+
     name: str
     vocabulary_size: int
     reviews: int
@@ -25,10 +44,16 @@ class Benchmark:
 
     @property
     def label(self) -> str:
+        """Nom affiché sur le graphique : la source sans le préfixe `tokenizer/`."""
         return self.name.removeprefix("tokenizer/")
 
 
 def report_value(contents: str, pattern: str, path: Path) -> str:
+    """Renvoie le premier groupe capturé par `pattern` dans le rapport.
+
+    `re.MULTILINE` permet à `^` et `$` de viser une ligne du rapport. Une ligne absente, dans un
+    rapport d'un ancien format par exemple, donne une erreur qui nomme le fichier.
+    """
     match = re.search(pattern, contents, flags=re.MULTILINE)
     if match is None:
         raise ValueError(f"Missing benchmark field in {path}: {pattern}")
@@ -36,6 +61,13 @@ def report_value(contents: str, pattern: str, path: Path) -> str:
 
 
 def read_benchmarks(directory: Path) -> list[Benchmark]:
+    """Lit tous les rapports `*-vocab-*.txt` de `directory/tests`, triés par taille de vocabulaire.
+
+    La fonction refuse un rapport mesuré sur un autre dataset ou un autre split. Elle refuse aussi des
+    rapports qui n'ont pas tous le même nombre de critiques et de mots : les comparer n'aurait pas de
+    sens. Les rapports ont deux formats (avec ou sans exemples de découpage) : seules les lignes
+    communes aux deux sont lues.
+    """
     reports_dir = directory / "tests"
     text_paths = sorted(reports_dir.glob("*-vocab-*.txt"))
     if not text_paths:
@@ -63,7 +95,13 @@ def read_benchmarks(directory: Path) -> list[Benchmark]:
 
 
 def count_corpus_letters() -> tuple[int, int, int]:
-    """Match tokenizer_test.py: ignore empty reviews and split words on whitespace."""
+    """Compte critiques, mots et lettres de la validation, avec les règles de `tokenizer_test.py`.
+
+    Comme dans `tokenizer_test.py`, les critiques vides sont ignorées et les mots sont séparés par les
+    espaces. Une lettre est un caractère pour lequel `str.isalpha` est vrai : les lettres accentuées
+    comptent, les chiffres et la ponctuation non. Le nombre de lettres ne dépend pas du tokenizer :
+    on le compte une seule fois pour tous.
+    """
     dataset = load_dataset(DATASET_NAME, split=DATASET_SPLIT, streaming=True)
     reviews = words = letters = 0
     for row in dataset:
@@ -79,6 +117,11 @@ def count_corpus_letters() -> tuple[int, int, int]:
 def save_chart(
     benchmarks: list[Benchmark], values: list[float], title: str, xlabel: str, output: Path, *, decimals: int
 ) -> None:
+    """Enregistre un graphique en barres horizontales, avec une barre par tokenizer et sa valeur au bout.
+
+    La hauteur de la figure suit le nombre de tokenizers. `invert_yaxis` place le premier de la liste
+    (le plus petit vocabulaire) en haut.
+    """
     labels = [benchmark.label for benchmark in benchmarks]
     colors = ["#43a047" if benchmark.name.startswith("hf:") else "#1e88e5" for benchmark in benchmarks]
     fig, ax = plt.subplots(figsize=(11, max(6, 0.48 * len(labels) + 1.5)))
@@ -94,14 +137,22 @@ def save_chart(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
+    """Lit les rapports, vérifie qu'ils portent sur le dataset actuel et trace les trois graphiques.
+
+    Lettres par token = lettres de toute la validation / tokens émis. Le dénominateur compte aussi les
+    tokens de ponctuation et d'espaces, qui n'ont aucune lettre. La valeur est donc plus basse que la
+    longueur moyenne d'un token de mot.
+    """
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument(
         "--directory",
         type=Path,
         default=Path(__file__).resolve().parent,
-        help="Tokenizer directory containing the tests/ benchmark reports",
+        help="dossier du tokenizer qui contient les rapports dans tests/",
     )
-    parser.add_argument("--show", action="store_true", help="Display the three charts")
+    parser.add_argument("--show", action="store_true", help="affiche aussi les trois graphiques")
     args = parser.parse_args()
 
     benchmarks = read_benchmarks(args.directory)
