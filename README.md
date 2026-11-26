@@ -52,11 +52,29 @@ essayé sur un vrai modèle. C'est le travail de la phase 0.
 
 ## Installation
 
+```bash
+uv sync                         # jeu et outils du projet (groupe app)
+uv sync --all-groups            # jeu + tokenizer
+uv sync --only-group tokenizer  # tokenizer uniquement
 ```
-python -m venv .venv
-.venv\Scripts\activate          (Windows)   ou   source .venv/bin/activate   (macOS, Linux)
-pip install -r requirements.txt
+
+Pour entraîner et inspecter le tokenizer :
+
+```bash
+uv run --only-group tokenizer python tokenizer/tokenizer.py
+uv run --only-group tokenizer python tokenizer/tokenizer_test.py
+uv run --only-group tokenizer python tokenizer/tokenizer-bert.py
+uv run --only-group tokenizer python tokenizer/tokenizer_test.py tokenizer/alexinator-bert-bpe.json
 ```
+
+La taille du vocabulaire se règle avec `VOCAB_SIZE` dans `tokenizer/tokenizer.py`.
+`local_corpus()` est à compléter quand le corpus local d'entraînement sera choisi.
+La normalisation met le texte en minuscules et retire les accents : le décodage restitue cette
+version normalisée, pas le texte original. Réentraîner le tokenizer pour obtenir une version
+normalisée ; `tokenizer_test.py` accepte aussi les anciens fichiers JSON sans normalisation.
+`tokenizer-bert.py` entraîne une variante BPE avec `BertPreTokenizer` et l'enregistre séparément.
+Ce pré-tokenizer supprime les espaces : comparer les découpages et les tokens inconnus, sans appliquer
+à cette variante le test de décodage exact de `tokenizer_test.py`.
 
 Puis choisir un LLM :
 
