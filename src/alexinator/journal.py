@@ -43,6 +43,14 @@ CREATE TABLE IF NOT EXISTS evaluations (
     fuite_devineur INTEGER, -- 1 si le LLM devineur retrouve le film à partir de la réponse
     proposition_devineur TEXT
 );
+-- Questions pertinentes posées par les utilisateurs humains (joueur != 'auto:%')
+CREATE TABLE IF NOT EXISTS questions_pertinentes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    horodatage TEXT, session_id TEXT, joueur TEXT, niveau INTEGER, film_id TEXT,
+    question TEXT UNIQUE,
+    reponse_affichee TEXT,
+    source TEXT DEFAULT 'playtest'
+);
 """
 
 
@@ -160,3 +168,63 @@ class Journal:
                     proposition_devineur,
                 ),
             )
+
+    @staticmethod
+    def is_pertinent_question(message: str, blocked_by: str | None = None) -> bool:
+        """Détermine si un message d'un joueur est une vraie question pertinente sur le film.
+
+        Critères :
+        - non bloqué par une défense (pas une attaque de prompt injection) ;
+        - longueur raisonnable (entre 10 et 250 caractères) ;
+        - se termine par '?' ou contient une tournure interrogative ;
+        - ne ressemble pas à une simple salutation ou une insulte courte.
+        """
+        if blocked_by is not None:
+            return False
+        msg = message.strip()
+        if len(msg) < 10 or len(msg) > 300:
+            return False
+        interrogatifs = (
+            "est-ce", "est ce", "qui", "quoi", "quel", "quelle", "quels", "quelles",
+            "comment", "pourquoi", "où", "ou", "quand", "combien", "peux-tu", "peut-on",
+            "raconte", "donne-moi", "donne moi", "dis-moi", "dis moi", "y a-t-il", "y a t il"
+        )
+        msg_lower = msg.lower()
+        has_mark = "?" in msg
+        has_keyword = any(msg_lower.startswith(k) or f" {k} " in msg_lower for k in interrogatifs)
+        return has_mark or has_keyword
+
+    def save_pertinent_question(
+        self,
+        session_id: str,
+        joueur: str,
+        niveau: int,
+        film_id: str,
+        question: str,
+        reponse_affichee: str,
+    ) -> bool:
+        """Enregistre la question si elle est nouvelle et non vide. Renvoie True si insérée."""
+        q = question.strip()
+        if not q:
+            return False
+        try:
+            with self._connect() as conn:
+                cur = conn.execute(
+                    "INSERT OR IGNORE INTO questions_pertinentes "
+                    "(horodatage, session_id, joueur, niveau, film_id, question, reponse_affichee) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    (_now(), session_id, joueur, niveau, film_id, q, reponse_affichee),
+                )
+                return cur.rowcount > 0
+        except sqlite3.Error:
+            return False
+
+    def get_pertinent_questions(self, limit: int | None = None) -> list[str]:
+        """Retourne la liste des questions pertinentes uniques posées par les utilisateurs."""
+        query = "SELECT question FROM questions_pertinentes ORDER BY id DESC"
+        if limit is not None:
+            query += f" LIMIT {int(limit)}"
+        with self._connect() as conn:
+            rows = conn.execute(query).fetchall()
+        return [r[0] for r in rows]
+

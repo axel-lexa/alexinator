@@ -1,10 +1,12 @@
 .env
+.DS_Store
+data/*.db
 data/journal.db
 __pycache__/
 .pytest_cache/
 .venv/
-finetune/data/
 finetune/gardien-lora/
 .ipynb_checkpoints/
 .idea/
 .vscode/
+skills/

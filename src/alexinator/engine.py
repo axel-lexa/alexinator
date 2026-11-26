@@ -210,6 +210,16 @@ class GameSession:
                 detail=detail,
                 latence_ms=int((time.perf_counter() - start) * 1000),
             )
+            # Sauvegarder automatiquement les vraies questions posées par des humains
+            if not self.player.startswith("auto:") and self.journal.is_pertinent_question(user_message, blocked_by):
+                self.journal.save_pertinent_question(
+                    session_id=self.session_id,
+                    joueur=self.player,
+                    niveau=self.level.id,
+                    film_id=self.film.id,
+                    question=user_message,
+                    reponse_affichee=reply,
+                )
         return TurnResult(reply=reply, blocked_by=blocked_by, raw_reply=raw_reply)
 
     # ------------------------------------------------------------------
