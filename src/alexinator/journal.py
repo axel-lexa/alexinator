@@ -228,3 +228,43 @@ class Journal:
             rows = conn.execute(query).fetchall()
         return [r[0] for r in rows]
 
+
+    # ------------------------------------------------------------------
+    # Lectures pour l'interface : progression, classement, chiffres du gardien
+    # ------------------------------------------------------------------
+    def niveau_atteint(self, joueur: str) -> int:
+        """Plus haut niveau gagné par ce joueur (0 s'il n'a encore rien trouvé)."""
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT MAX(niveau) FROM propositions WHERE joueur = ? AND correcte = 1", (joueur,)
+            ).fetchone()
+        return row[0] or 0
+
+    def classement(self, limit: int = 20) -> list[dict]:
+        """Joueurs humains qui ont trouvé au moins un film, du meilleur au moins bon.
+
+        Tri : niveau le plus haut gagné, puis nombre de films trouvés, puis messages utilisés
+        en moyenne avant de trouver (moins = mieux). Les campagnes (« auto: ») et « anonyme » sont exclus.
+        """
+        query = """
+            SELECT joueur, MAX(niveau) AS meilleur_niveau, COUNT(*) AS films_trouves,
+                   ROUND(AVG(messages_utilises), 1) AS messages_moyens
+            FROM propositions
+            WHERE correcte = 1 AND joueur NOT LIKE 'auto:%' AND joueur <> 'anonyme'
+            GROUP BY joueur
+            ORDER BY meilleur_niveau DESC, films_trouves DESC, messages_moyens ASC, joueur
+            LIMIT ?
+        """
+        with self._connect() as conn:
+            conn.row_factory = sqlite3.Row
+            rows = conn.execute(query, (int(limit),)).fetchall()
+        return [dict(row) for row in rows]
+
+    def blocages(self) -> dict[str, int]:
+        """Messages des joueurs humains par issue : {"aucune": n, "output_filter": n, ...}."""
+        query = (
+            "SELECT COALESCE(bloque_par, 'aucune'), COUNT(*) FROM tours "
+            "WHERE joueur NOT LIKE 'auto:%' GROUP BY 1"
+        )
+        with self._connect() as conn:
+            return dict(conn.execute(query).fetchall())

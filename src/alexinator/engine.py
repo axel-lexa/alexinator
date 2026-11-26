@@ -9,6 +9,7 @@ from __future__ import annotations
 import re
 import time
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -41,6 +42,14 @@ GUARDIAN_NO_VERDICT = (
 # Niveau 7 : le gardien appelle son outil en écrivant seul sur une ligne « VERIFIER: <titre> ».
 # (Protocole en texte brut : il marche avec n'importe quel modèle, même sans « tool calling » natif.)
 TOOL_RE = re.compile(r"^[ \t>*-]*VERIFIER\s*:\s*(.+?)\s*$", flags=re.I | re.M)
+
+# Suivi en direct d'un tour (interface web) : fonction appelée avec le nom de chaque étape au moment
+# où elle commence : "input_detector", "guardian", "tool", "output_filter", "censor".
+StepCallback = Callable[[str], None]
+
+
+def _no_step(_step: str) -> None:
+    pass
 
 
 @dataclass
@@ -119,10 +128,11 @@ class GameSession:
             prompt += "\nVérifications déjà faites avec ton outil :\n" + "\n".join(self.tool_notes)
         return prompt
 
-    def _use_tool(self, messages: list[dict[str, str]], raw_reply: str) -> str:
+    def _use_tool(self, messages: list[dict[str, str]], raw_reply: str, step: StepCallback = _no_step) -> str:
         """Niveau 7 : exécute l'appel « VERIFIER: <titre> » du gardien, puis le laisse répondre."""
         call = TOOL_RE.search(raw_reply)
         if call:
+            step("tool")
             proposal = call.group(1)
             if self.tool_calls_left > 0:
                 self.tool_calls_left -= 1
@@ -148,43 +158,60 @@ class GameSession:
     # ------------------------------------------------------------------
     # Un tour de jeu : le message traverse la chaîne de défenses du niveau
     # ------------------------------------------------------------------
-    def send(self, user_message: str) -> TurnResult:
+    def _defend_and_answer(self, user_message: str, step: StepCallback) -> tuple[str | None, str, str | None]:
+        """Renvoie (défense qui a bloqué ou None, détail pour le journal, réponse brute du gardien)."""
+        blocked_by, detail, raw_reply = None, "", None
+
+        # Étape 1 - défense en ENTRÉE : le message est-il une manipulation ?
+        if "input_detector" in self.level.defenses:
+            step("input_detector")
+            verdict = defenses.input_detector(user_message, self.aux_llm)
+            if verdict.blocked:
+                return "input_detector", verdict.reason, None
+
+        # Étape 2 - le gardien répond (prompt système + historique + nouveau message)
+        messages = (
+            [{"role": "system", "content": self.system_prompt()}]
+            + self.history
+            + [{"role": "user", "content": user_message}]
+        )
+        step("guardian")
+        raw_reply = self.llm.chat(messages, temperature=self.level.temperature)
+        if self.level.tool_calls:
+            raw_reply = self._use_tool(messages, raw_reply, step)
+        if self.level.response_mode == "oui_non":
+            raw_reply = defenses.force_oui_non(raw_reply)
+
+        # Étape 3 - défenses en SORTIE : la réponse laisse-t-elle fuiter le secret ?
+        if "output_filter" in self.level.defenses:
+            step("output_filter")
+            verdict = defenses.output_filter(raw_reply, self.film, self.level.filter_entities)
+            if verdict.blocked:
+                blocked_by, detail = "output_filter", verdict.reason
+        if blocked_by is None and "censor" in self.level.defenses:
+            step("censor")
+            verdict = defenses.censor(raw_reply, self.film, self.aux_llm)
+            if verdict.blocked:
+                blocked_by, detail = "censor", verdict.reason
+        return blocked_by, detail, raw_reply
+
+    def send(self, user_message: str, on_step: StepCallback | None = None) -> TurnResult:
+        step = on_step or _no_step
         start = time.perf_counter()
         blocked_by, detail, raw_reply = None, "", None
 
         if self.messages_left == 0:
             blocked_by = "limite"
         else:
+            saved = (self.messages_used, self.tool_calls_left, list(self.tool_notes))
             self.messages_used += 1
-
-            # Étape 1 - défense en ENTRÉE : le message est-il une manipulation ?
-            if "input_detector" in self.level.defenses:
-                verdict = defenses.input_detector(user_message, self.aux_llm)
-                if verdict.blocked:
-                    blocked_by, detail = "input_detector", verdict.reason
-
-            # Étape 2 - le gardien répond (prompt système + historique + nouveau message)
-            if blocked_by is None:
-                messages = (
-                    [{"role": "system", "content": self.system_prompt()}]
-                    + self.history
-                    + [{"role": "user", "content": user_message}]
-                )
-                raw_reply = self.llm.chat(messages, temperature=self.level.temperature)
-                if self.level.tool_calls:
-                    raw_reply = self._use_tool(messages, raw_reply)
-                if self.level.response_mode == "oui_non":
-                    raw_reply = defenses.force_oui_non(raw_reply)
-
-                # Étape 3 - défenses en SORTIE : la réponse laisse-t-elle fuiter le secret ?
-                if "output_filter" in self.level.defenses:
-                    verdict = defenses.output_filter(raw_reply, self.film, self.level.filter_entities)
-                    if verdict.blocked:
-                        blocked_by, detail = "output_filter", verdict.reason
-                if blocked_by is None and "censor" in self.level.defenses:
-                    verdict = defenses.censor(raw_reply, self.film, self.aux_llm)
-                    if verdict.blocked:
-                        blocked_by, detail = "censor", verdict.reason
+            try:
+                blocked_by, detail, raw_reply = self._defend_and_answer(user_message, step)
+            except BaseException:
+                # LLM injoignable, clé invalide, page rechargée en plein tour... : le tour n'a pas eu
+                # lieu, il ne coûte rien au joueur.
+                self.messages_used, self.tool_calls_left, self.tool_notes = saved
+                raise
 
         reply = REFUSALS[blocked_by] if blocked_by else raw_reply
 
@@ -225,14 +252,14 @@ class GameSession:
     # ------------------------------------------------------------------
     # Point d'entrée du joueur : un seul champ pour questionner ou proposer un titre
     # ------------------------------------------------------------------
-    def play(self, message: str) -> TurnResult:
+    def play(self, message: str, on_step: StepCallback | None = None) -> TurnResult:
         """Un message qui désigne un film est une proposition, validée par le code ; le reste va au gardien.
 
         Seul le message ENTIER compte (après les formules du type « c'est ... ? ») : citer un titre au
         milieu d'une phrase, ou coller une liste de titres, ne fait pas gagner.
         """
         if self.messages_left == 0:
-            return self.send(message)  # bloqué par la limite
+            return self.send(message, on_step)  # bloqué par la limite
         candidate = extract_title(message)
 
         result = check_answer(candidate, self.film)
@@ -262,7 +289,7 @@ class GameSession:
             if is_partial_title(candidate, other) or is_near_miss(candidate, other):
                 return self._record_guess(message, GuessResult(False, "refusee"), "Non, ce n'est pas ça.")
 
-        return self.send(message)
+        return self.send(message, on_step)
 
     def _record_guess(self, message: str, result: GuessResult, reply: str) -> TurnResult:
         """Proposition de titre : coûte un message, entre dans l'historique et dans le journal."""

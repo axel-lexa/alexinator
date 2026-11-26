@@ -16,13 +16,16 @@ from PIL import Image, ImageDraw, ImageFont
 from .config import ROOT
 
 ASSETS = ROOT / "assets"
+# static/ : fichiers servis tels quels au navigateur (server.enableStaticServing), à l'adresse app/static/...
+STATIC = ROOT / "static"
 AVATAR = ASSETS / "avatar.png"  # visage du magicien, pour la bulle de chat
 AFFICHE = ASSETS / "affiche_reflechit.png"  # affiche « Il lit dans vos pensées... »
 AFFICHE_VICTOIRE = ASSETS / "affiche_solution.png"  # affiche « ... et il ne se trompe jamais. »
-VIDEO_REFLECHIT = ASSETS / "video_reflechit.mp4"  # magicien qui réfléchit, pendant la réponse du LLM
+VIDEO_REFLECHIT = STATIC / "video_reflechit.mp4"  # magicien qui réfléchit, pendant la réponse du LLM
+VIDEO_REFLECHIT_URL = "app/static/video_reflechit.mp4"  # la même, vue du navigateur
 
-_FONT_BOLD = ASSETS / "fonts" / "Inter-Bold.otf"
-_FONT_BLACK = ASSETS / "fonts" / "Inter-ExtraBold.otf"
+_FONT_BOLD = STATIC / "fonts" / "Inter-Bold.otf"
+_FONT_BLACK = STATIC / "fonts" / "Inter-ExtraBold.otf"
 _INK = (30, 30, 46)  # texte sombre, comme les contours du dessin
 _RED = (230, 57, 70)  # rouge du dessin original (« INCEPTION ! »)
 
@@ -40,13 +43,18 @@ PHRASES = {
         "Je consulte ma boule...",
     ],
     "bloque": ["Bien tenté...", "Je t'ai vu venir !", "Pas si vite...", "Ma boule a tout vu."],
-    "rate": ["Raté ! Ce n'est pas ça...", "Non, non, non...", "Tu chauffes ? Même pas."],
+    "rate": ["Raté ! Ce n'est pas ça...", "Non, non, non...", "Froid, très froid..."],
+    "brule": ["Tu brûles !", "Oh, si près du but...", "Précise ta pensée..."],
+    "chauffe": ["Tu chauffes...", "Pas loin du tout !", "Vérifie l'orthographe..."],
     "debut": ["J'ai un film en tête...", "Devine à quoi je pense...", "Prêt ? Je pense à un film..."],
+    # Fin de partie sans victoire : {titre} est remplacé par le titre du film.
+    "perdu": ["C'était « {titre} » !", "Perdu ! C'était « {titre} »", "Je pensais à « {titre} »..."],
 }
 
 
-def phrase(moment: str, rng: random.Random | None = None) -> str:
-    return (rng or random).choice(PHRASES[moment])
+def phrase(moment: str, rng: random.Random | None = None, **valeurs: str) -> str:
+    """Une phrase au hasard pour ce moment du jeu ; `valeurs` remplit les {champs} (ex. titre=...)."""
+    return (rng or random).choice(PHRASES[moment]).format(**valeurs)
 
 
 @cache

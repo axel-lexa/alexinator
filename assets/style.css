@@ -1,0 +1,61 @@
+/* Couche de style d'Alexinator, en plus du thème de .streamlit/config.toml.
+   On vise les conteneurs nommés (classe st-key-NOM, stable) plutôt que la structure interne
+   de Streamlit, qui change d'une version à l'autre.
+   Attention : jamais de chevron ouvrant dans ce fichier (même en commentaire). Le nettoyeur HTML
+   de Streamlit supprimerait toute la feuille sans prévenir. */
+
+/* Zone de jeu : dégradé ciel -> crème, comme le fond des dessins du magicien. */
+[data-testid="stMain"] {
+  background: linear-gradient(180deg, #d4eafb 0%, #eef2ee 45%, #fdf5e2 100%);
+  background-attachment: fixed;
+}
+[data-testid="stHeader"] {
+  background: transparent;
+}
+[data-testid="stMainBlockContainer"] {
+  max-width: 1200px;
+}
+
+/* Cartes blanches : scène du magicien, discussion, écran d'accueil, panneaux. */
+.st-key-scene,
+.st-key-discussion,
+.st-key-accueil,
+.st-key-carte-niveau {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(107, 79, 214, 0.12);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 28px rgba(46, 33, 110, 0.1);
+  padding: 1rem;
+}
+.st-key-scene img,
+.st-key-scene video {
+  width: 100%;
+  border-radius: 1rem;
+}
+
+/* En-tête de niveau : titre violet, comme la robe du magicien. */
+.st-key-entete h1,
+.st-key-accueil h1 {
+  color: #4b33b5;
+}
+
+/* Mobile : la scène passe au-dessus de la discussion, en plus petit (important : Streamlit fixe la
+   largeur de l'image en style en ligne), et la discussion ne prend que la place de ses messages. */
+@media (max-width: 640px) {
+  .st-key-scene img,
+  .st-key-scene video {
+    max-width: 220px !important;
+    display: block;
+    margin: 0 auto;
+  }
+  .st-key-scene [data-testid="stFullScreenFrame"] {
+    display: flex;
+    justify-content: center;
+  }
+  [data-testid="stLayoutWrapper"]:has(> .st-key-discussion),
+  .st-key-discussion {
+    flex: 0 1 auto !important;
+    height: auto !important;
+    max-height: 60vh;
+  }
+}

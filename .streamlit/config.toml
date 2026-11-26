@@ -1,0 +1,43 @@
+# Réglages de l'interface Streamlit (lus au lancement de `streamlit run app.py`).
+# Style « hybride » : zone de jeu claire comme les dessins du magicien,
+# barre latérale bleu nuit et or comme l'affiche.
+
+[server]
+# Sert le dossier static/ à l'adresse app/static/... (polices Inter, vidéo du magicien).
+enableStaticServing = true
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base = "light"
+primaryColor = "#6B4FD6"            # violet de la robe du magicien
+backgroundColor = "#FDF8EE"         # crème du bas des dessins
+secondaryBackgroundColor = "#EAF3FB" # ciel du haut des dessins
+textColor = "#1E1E2E"               # encre des contours (visuels._INK)
+redColor = "#E63946"                # rouge du socle (visuels._RED)
+yellowColor = "#E0A100"
+violetColor = "#6B4FD6"
+borderColor = "#DCD3EE"
+baseRadius = "0.75rem"
+buttonRadius = "full"
+showSidebarBorder = false
+headingFont = "Inter, sans-serif"
+headingFontWeights = [800, 700, 700, 700, 700, 700]
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/fonts/Inter-Bold.otf"
+weight = 700
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/fonts/Inter-ExtraBold.otf"
+weight = 800
+
+[theme.sidebar]
+backgroundColor = "#0E1530"         # bleu nuit de l'affiche
+secondaryBackgroundColor = "#1A2346"
+textColor = "#EDE7D6"
+primaryColor = "#D9A93F"            # or du titre de l'affiche
+borderColor = "#2A3560"
