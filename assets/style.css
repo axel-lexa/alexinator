@@ -9,11 +9,160 @@
   background: linear-gradient(180deg, #d4eafb 0%, #eef2ee 45%, #fdf5e2 100%);
   background-attachment: fixed;
 }
-[data-testid="stHeader"] {
-  background: transparent;
-}
 [data-testid="stMainBlockContainer"] {
   max-width: 1200px;
+}
+
+/* ---------------------------------------------------------------------------------------------
+   En-tête : la navigation reste en haut (seule la zone principale défile), sur un fond flouté.
+   --------------------------------------------------------------------------------------------- */
+[data-testid="stHeader"] {
+  background: rgba(250, 248, 242, 0.5);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  border-bottom: 1px solid rgba(107, 79, 214, 0.12);
+  box-shadow: 0 6px 24px rgba(46, 33, 110, 0.07);
+}
+[data-testid="stTopNavLink"] {
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+[data-testid="stTopNavLink"]:hover {
+  background: rgba(107, 79, 214, 0.08);
+}
+[data-testid="stTopNavLink"][aria-current="page"] {
+  background: rgba(107, 79, 214, 0.14);
+}
+[data-testid="stTopNavLink"][aria-current="page"] p {
+  color: #4b33b5;
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------------------------------------
+   Barre latérale : le ciel étoilé de l'affiche, la marque en or, la carte du joueur, les niveaux.
+   --------------------------------------------------------------------------------------------- */
+[data-testid="stSidebar"] {
+  background:
+    radial-gradient(1.5px 1.5px at 14% 12%, rgba(255, 255, 255, 0.7) 50%, transparent 51%),
+    radial-gradient(1px 1px at 82% 7%, rgba(255, 255, 255, 0.55) 50%, transparent 51%),
+    radial-gradient(1px 1px at 64% 22%, rgba(255, 255, 255, 0.45) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 30% 38%, rgba(255, 255, 255, 0.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 90% 46%, rgba(255, 255, 255, 0.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 8% 61%, rgba(255, 255, 255, 0.4) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 72% 70%, rgba(255, 255, 255, 0.3) 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 86%, rgba(255, 255, 255, 0.45) 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 93%, rgba(255, 255, 255, 0.35) 50%, transparent 51%),
+    radial-gradient(ellipse 140% 55% at 50% 0%, #1f2b5e 0%, #0e1530 60%, #0a0f24 100%);
+  box-shadow: inset -1px 0 0 rgba(217, 169, 63, 0.16);
+}
+
+/* Marque : avatar dans un halo doré, titre en lettres d'or comme sur l'affiche. */
+.st-key-marque {
+  padding: 0 0.25rem 0.5rem;
+}
+.st-key-marque img {
+  border-radius: 50%;
+  border: 2px solid #d9a93f;
+  box-shadow: 0 0 22px rgba(217, 169, 63, 0.35);
+}
+.st-key-marque p {
+  line-height: 1.25;
+}
+.st-key-marque strong {
+  font-family: Inter, sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #fbe7ad 0%, #d9a93f 55%, #a9771f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.st-key-marque em {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: rgba(237, 231, 214, 0.6);
+}
+
+/* Carte du joueur : pseudo, déconnexion, niveaux gagnés. */
+.st-key-joueur {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(217, 169, 63, 0.2);
+  border-radius: 1rem;
+  padding: 0.6rem 0.9rem 0.8rem;
+}
+.st-key-joueur [data-testid="stBaseButton-tertiary"] {
+  color: rgba(237, 231, 214, 0.55);
+}
+.st-key-joueur [data-testid="stBaseButton-tertiary"]:hover {
+  color: #f6dc95;
+}
+
+/* Liste des niveaux : lignes légères ; le niveau en cours est surligné d'or. */
+.st-key-niveaux {
+  gap: 0.15rem;
+  margin-top: 0.75rem;
+}
+.st-key-niveaux [data-testid="stCaptionContainer"] p {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(217, 169, 63, 0.85);
+  margin: 0 0 0.35rem 0.75rem;
+}
+.st-key-niveaux button {
+  justify-content: flex-start;
+  min-height: 2.55rem;
+  padding: 0.3rem 0.85rem;
+  border: none;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: rgba(237, 231, 214, 0.82);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.st-key-niveaux button > div {
+  justify-content: flex-start;
+}
+.st-key-niveaux button p {
+  font-size: 0.95rem;
+}
+.st-key-niveaux button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+}
+.st-key-niveaux [data-testid="stBaseButton-tertiary"] [data-testid="stIconMaterial"] {
+  color: #7fd3a1;
+}
+.st-key-niveaux [data-testid="stBaseButton-primary"] {
+  background: linear-gradient(90deg, rgba(217, 169, 63, 0.3), rgba(217, 169, 63, 0.05));
+  box-shadow: inset 3px 0 0 #d9a93f;
+  color: #f6dc95;
+  font-weight: 700;
+}
+.st-key-niveaux [data-testid="stBaseButton-primary"]:hover:not(:disabled) {
+  background: linear-gradient(90deg, rgba(217, 169, 63, 0.38), rgba(217, 169, 63, 0.08));
+  color: #fbe7ad;
+}
+.st-key-niveaux button:disabled {
+  background: transparent;
+  color: rgba(237, 231, 214, 0.32);
+}
+
+/* Nouveau film : bouton doré, en bas de la liste. */
+.st-key-nouveau_film {
+  margin-top: 0.75rem;
+}
+.st-key-nouveau_film button {
+  border: 1px solid rgba(217, 169, 63, 0.45);
+  background: rgba(217, 169, 63, 0.08);
+  color: #f6dc95;
+}
+.st-key-nouveau_film button:hover {
+  border-color: #d9a93f;
+  background: rgba(217, 169, 63, 0.18);
+  color: #fbe7ad;
 }
 
 /* Cartes blanches : scène du magicien, discussion, écran d'accueil, panneaux. */

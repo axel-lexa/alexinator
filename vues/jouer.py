@@ -88,23 +88,33 @@ def demander(action: str, level_id: int | None = None) -> None:
         st.rerun()
 
 
-# --- Barre latérale : progression sur les niveaux ---------------------------------------------
+# --- Barre latérale : les niveaux ------------------------------------------------------------
+# Gagné : coche (bouton « tertiary »), en cours : surligné (« primary »), verrouillé : cadenas.
 with st.sidebar:
-    st.subheader("Progression")
     debloque = commun.niveau_debloque()
-    for lv in r.levels:
-        gagne, verrouille = lv.id <= state.meilleur, lv.id > debloque
-        if st.button(
-            f"{lv.id}. {lv.name}",
-            key=f"niveau_{lv.id}",
-            icon="✅" if gagne else "🔒" if verrouille else "🔮",
-            type="primary" if lv.id == level.id else "secondary",
-            disabled=verrouille,
-            width="stretch",
-        ):
-            demander("niveau", lv.id)
-    st.caption(f"{state.meilleur} niveau(x) gagné(s) sur {len(r.levels)}")
-    if st.button("Nouveau film", icon="🎬", width="stretch"):
+    with st.container(key="niveaux", gap=None):
+        st.caption("Niveaux")
+        for lv in r.levels:
+            courant, gagne, verrouille = lv.id == level.id, lv.id <= state.meilleur, lv.id > debloque
+            if courant:
+                icone, genre = ":material/play_circle:", "primary"
+            elif gagne:
+                icone, genre = ":material/check_circle:", "tertiary"
+            elif verrouille:
+                icone, genre = ":material/lock:", "secondary"
+            else:
+                icone, genre = ":material/radio_button_unchecked:", "secondary"
+            if st.button(
+                f"{lv.id} · {lv.name}",
+                key=f"niveau_{lv.id}",
+                icon=icone,
+                type=genre,
+                disabled=verrouille,
+                width="stretch",
+                help=f"Gagné · {lv.description}" if gagne else lv.description,
+            ):
+                demander("niveau", lv.id)
+    if st.button("Nouveau film", key="nouveau_film", icon=":material/movie:", width="stretch"):
         demander("film")
 
 

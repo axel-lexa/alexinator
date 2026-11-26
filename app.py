@@ -33,14 +33,22 @@ page = st.navigation(
     position="top",
 )
 
+# Barre latérale commune : la marque, puis la carte du joueur (la page Jouer y ajoute les niveaux).
 # Sur l'écran d'accueil, l'affiche est déjà au centre : la barre latérale reste vide.
 if st.session_state.joueur:
+    r = commun.ressources()
     with st.sidebar:
-        st.image(str(visuels.AFFICHE), width="stretch", alt="Affiche : Alexinator, il lit dans vos pensées")
-        with st.container(horizontal=True, vertical_alignment="center"):
-            st.markdown(f"👤 **{interface.echapper(st.session_state.joueur)}**")
-            if st.button("Changer", type="tertiary", help="Changer de pseudo"):
-                commun.deconnecter()
-                st.switch_page("vues/jouer.py")
+        with st.container(key="marque", horizontal=True, vertical_alignment="center", gap="small"):
+            st.image(commun.AVATAR, width=52)
+            st.markdown("**Alexinator**  \n*Il lit dans vos pensées...*")
+        with st.container(key="joueur"):
+            with st.container(horizontal=True, vertical_alignment="center"):
+                pseudo = interface.echapper(st.session_state.joueur)
+                st.markdown(f":material/person: **{pseudo}**", width="stretch")
+                if st.button("", icon=":material/logout:", type="tertiary", help="Changer de pseudo"):
+                    commun.deconnecter()
+                    st.switch_page("vues/jouer.py")
+            gagnes = st.session_state.meilleur
+            st.progress(gagnes / len(r.levels), text=f"{gagnes} / {len(r.levels)} niveaux gagnés")
 
 page.run()

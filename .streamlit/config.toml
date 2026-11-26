@@ -9,6 +9,11 @@ enableStaticServing = true
 [browser]
 gatherUsageStats = false
 
+[client]
+# Pas de bouton « Deploy » ni d'options de développement dans l'en-tête des joueurs.
+# Pour les retrouver en local : streamlit run app.py --client.toolbarMode developer
+toolbarMode = "viewer"
+
 [theme]
 base = "light"
 primaryColor = "#6B4FD6"            # violet de la robe du magicien
