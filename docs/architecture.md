@@ -23,6 +23,9 @@ message du joueur
 
 Points importants :
 
+- **Chaque étape peut être suivie en direct.** `play` et `send` acceptent un rappel optionnel `on_step`, appelé avec le nom de l'étape au moment où elle commence (`input_detector`, `guardian`, `tool`, `output_filter`, `censor`). L'interface web s'en sert pour afficher la chaîne de défenses pendant l'attente.
+- **Une erreur du LLM ne coûte rien.** Si un appel échoue (serveur injoignable, clé invalide...), `send` remet le compteur de messages et les vérifications du niveau 7 dans leur état d'avant, puis laisse remonter l'erreur.
+
 - **Une réponse bloquée n'entre pas dans l'historique.** Le gardien ne voit que ce que le joueur a vu, sinon il pourrait citer plus tard une réponse censurée.
 - **Une proposition de titre ne passe pas par le gardien.** `play` retire les formules d'introduction (« est-ce que c'est … ? », `validation.extract_title`), puis compare **le message entier** aux titres. Citer un titre au milieu d'une phrase ou coller une liste de titres ne fait donc pas gagner.
   - le film secret (exact ou approché, via `validation.check_answer`) : victoire, avec l'orthographe correcte si le joueur a fait une faute ;
@@ -40,15 +43,17 @@ Points importants :
 | Fichier | Rôle |
 | --- | --- |
 | `alexinator/config.py` | Chemins du projet, lecture du fichier `.env` |
-| `alexinator/llm.py` | `LLMClient` (API compatible OpenAI), `TransformersLLM` (modèle local + adaptateur LoRA), `MockLLM` (tests), `make_llm` (choix selon `.env`) |
+| `alexinator/llm.py` | `LLMClient` (API compatible OpenAI), `TransformersLLM` (modèle local + adaptateur LoRA), `MockLLM` (tests), `DemoLLM` (faux gardien de l'interface), `make_llm` (choix selon `.env`) |
 | `alexinator/films.py` | Classe `Film`, chargement de `data/films.json`, fiche complète ou anonyme |
 | `alexinator/validation.py` | Normalisation et vérification de la réponse du joueur |
 | `alexinator/defenses.py` | Les quatre défenses |
 | `alexinator/engine.py` | Chargement des niveaux, classe `GameSession` |
 | `alexinator/visuels.py` | Images du magicien : bulle de pensée ou de victoire remplie avec le texte du moment |
 | `alexinator/redteam.py` | Devineur, campagne d'attaques, attaquant automatique |
-| `alexinator/journal.py` | Écriture dans SQLite |
-| `app.py` | Interface Streamlit |
+| `alexinator/journal.py` | Écriture dans SQLite ; lectures pour l'interface (progression, classement, blocages) |
+| `alexinator/interface.py` | Logique d'affichage sans Streamlit (testée) : noms des étapes, badges d'un niveau, issue d'un tour, suggestions, contrôle du pseudo |
+| `app.py` | Interface Streamlit : réglages de page, barre latérale commune, navigation |
+| `vues/*.py` | Pages de l'interface : jeu, « Comment ça marche », classement ; `commun.py` pour les ressources et l'état du joueur |
 | `cli.py` | Jeu dans le terminal |
 | `campagne.py` | Campagne d'évaluation automatique |
 
@@ -101,19 +106,38 @@ niveau 7, qui ne doit pas pouvoir trahir le film).
 Les parties jouées par les campagnes automatiques ont un pseudo qui commence par `auto:`, ce qui permet
 de les séparer des parties humaines dans l'analyse.
 
-## Les images du magicien (`assets/`)
+## Les images du magicien (`assets/` et `static/`)
 
 | Fichier | Où il apparaît |
 | --- | --- |
-| `affiche_reflechit.png` | Barre latérale de l'interface, README |
-| `affiche_solution.png` | Écran final, quand le joueur a battu tous les niveaux ; README |
-| `avatar.png` | Avatar du gardien dans la discussion (visage découpé du dessin) |
-| `cartoon_reflechit_vierge.png` | Début de partie, réponse bloquée par une défense, mauvaise proposition |
-| `video_reflechit.mp4` | Attente de la réponse du LLM : lue en boucle, sans lecteur ni son (640 px, piste audio retirée) |
-| `cartoon_solution_vierge.png` | Victoire, avec le titre du film trouvé |
-| `cartoon_*_original.png` | Dessins d'origine, avec leur texte figé (archives) |
-| `fonts/` | Police Inter (licence SIL OFL, voir `fonts/OFL.txt`) pour écrire dans les bulles |
+| `assets/affiche_reflechit.png` | Écran d'accueil et barre latérale de l'interface, README |
+| `assets/affiche_solution.png` | Écran final, quand le joueur a battu tous les niveaux ; README |
+| `assets/avatar.png` | Avatar du gardien dans la discussion (visage découpé du dessin) |
+| `assets/cartoon_reflechit_vierge.png` | Scène du magicien : début de partie, réaction à chaque tour, film révélé en cas d'échec |
+| `assets/cartoon_solution_vierge.png` | Victoire, avec le titre du film trouvé |
+| `assets/cartoon_*_original.png` | Dessins d'origine, avec leur texte figé (archives) |
+| `static/video_reflechit.mp4` | Attente de la réponse du LLM : lue en boucle, sans lecteur ni son (640 px, piste audio retirée) |
+| `static/fonts/` | Police Inter (licence SIL OFL, voir `static/fonts/OFL.txt`) : bulles du magicien et titres de l'interface |
+
+`static/` contient les fichiers que le navigateur télécharge directement (adresse `app/static/...`,
+activée par `server.enableStaticServing` dans `.streamlit/config.toml`) : la vidéo n'est plus renvoyée à
+chaque message et le navigateur la garde en cache.
 
 Les versions « vierge » ont une bulle vide. `visuels.magicien_reflechit(texte)` et
 `visuels.magicien_trouve(titre)` y écrivent le texte en ajustant la taille de la police, ce qui permet
 d'afficher n'importe quel titre, même long. Les phrases du magicien se changent dans `visuels.PHRASES`.
+
+## L'interface web
+
+`streamlit run app.py` affiche trois pages (barre de navigation en haut) :
+
+| Page | Contenu |
+| --- | --- |
+| Jouer (`vues/jouer.py`) | Accueil (pseudo, avertissement sur l'enregistrement des messages), puis le jeu : en-tête du niveau avec ses défenses, scène du magicien qui réagit à chaque tour, discussion avec les étapes de la chaîne de défenses en direct, fin de partie (niveau suivant, film révélé) |
+| Comment ça marche (`vues/comment_ca_marche.py`) | Règles détaillées et trajet d'un message pour chaque niveau. Les prompts du gardien ne sont jamais montrés |
+| Classement (`vues/classement.py`) | Meilleurs joueurs et nombre de messages bloqués par défense, calculés à partir du journal (agrégats seulement) |
+
+- **Progression.** Le pseudo est gardé dans l'adresse (`?joueur=...`) et la progression relue dans le journal (`Journal.niveau_atteint`) : recharger la page ne fait rien perdre. Les pseudos `auto:...` sont refusés, ils sont réservés aux campagnes.
+- **Mode démo.** `ALEXINATOR_BACKEND=demo` remplace le LLM par `DemoLLM` (aucun serveur) et écrit dans `data/journal_demo.db`, pour ne jamais mêler de fausses parties aux données des playtests.
+- **Style.** Le thème (couleurs, polices, barre latérale) est dans `.streamlit/config.toml`. La petite couche CSS de `assets/style.css` vise les conteneurs nommés (`st.container(key=...)` donne la classe `st-key-...`). Ce fichier ne doit contenir aucun chevron ouvrant, même en commentaire : le nettoyeur HTML de Streamlit supprimerait toute la feuille sans prévenir (un test le vérifie).
+- **Ce qui est testable sans navigateur** (badges, issue d'un tour, étapes, suggestions) est dans `alexinator/interface.py`, couvert par `tests/`.

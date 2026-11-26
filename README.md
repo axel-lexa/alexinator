@@ -44,10 +44,11 @@ propre gardien.
 | Analyse (`analyse.ipynb`) | Écrit, exécuté sur un journal factice |
 | Fabrication du jeu de données (`finetune/construire_dataset.py`) | **12 350 exemples générés** (train.jsonl & val.jsonl) |
 | Entraînement (`finetune/entrainement_qlora.ipynb`) | Écrit, **jamais exécuté** (pas de GPU à la rédaction) |
-| Interface Streamlit (avec les images du magicien), mode terminal, backend local | Écrits, **jamais lancés** |
+| Interface Streamlit (jeu, « Comment ça marche », classement) | Vérifiée en mode démo (faux gardien), **jamais lancée avec un vrai modèle** |
+| Mode terminal, backend local | Écrits, **jamais lancés** |
 | Base cinéma | 200 fiches (40 % cinéma français, fiches complètes et étanches) |
 
-Les 53 tests automatiques passent, mais ils utilisent un faux LLM : aucun prompt n'a encore été
+Les 67 tests automatiques passent, mais ils utilisent un faux LLM : aucun prompt n'a encore été
 essayé sur un vrai modèle. C'est le travail de la phase 0.
 
 ## Installation
@@ -88,6 +89,7 @@ Puis choisir un LLM :
 python -m pytest                              les tests (sans LLM)
 python cli.py --niveau 1                      jouer dans le terminal
 streamlit run app.py                          jouer dans le navigateur
+ALEXINATOR_BACKEND=demo streamlit run app.py  l'interface sans serveur LLM (faux gardien, journal à part)
 python campagne.py --niveaux 1 2 3 --films 3  campagne d'évaluation automatique
 jupyter notebook analyse.ipynb                chiffres et graphiques du rapport
 python -m alexinator.tmdb "Forrest Gump"      brouillon de fiche depuis TMDB (voir ci-dessous)
@@ -113,22 +115,26 @@ python -m alexinator.tmdb "Forrest Gump"      brouillon de fiche depuis TMDB (vo
 ## Organisation du code
 
 ```
-app.py                  interface web Streamlit
+app.py                  interface web Streamlit : réglages communs, barre latérale, navigation
+vues/                   pages de l'interface : jouer.py, comment_ca_marche.py, classement.py (+ commun.py)
 cli.py                  jeu dans le terminal (pratique pour tester un modèle ou un prompt)
 campagne.py             campagne d'évaluation automatique
 analyse.ipynb           analyse du journal (playtests et campagnes)
-alexinator/
+src/alexinator/
   config.py             chemins, lecture du fichier .env
-  llm.py                LLMClient (API), TransformersLLM (modèle local entraîné), MockLLM (tests)
+  llm.py                LLMClient (API), TransformersLLM (modèle local entraîné), MockLLM (tests), DemoLLM
   films.py              chargement des fiches, tirage d'un film
   validation.py         la réponse du joueur est-elle juste ?
   visuels.py            images du magicien et texte de ses bulles
+  interface.py          logique d'affichage de l'interface (badges, étapes, suggestions), sans Streamlit
   defenses.py           filtre de sortie, censeur, détecteur d'attaques, réponses oui/non
   engine.py             niveaux, partie en cours, chaîne de défenses, outil du niveau 7
   redteam.py            devineur, campagne d'attaques, attaquant automatique
   journal.py            enregistrement SQLite
   tmdb.py               client de l'API TMDB : brouillons de fiches de films
-assets/                 affiches, dessins du magicien (bulles vides), avatar, police Inter
+assets/                 affiches, dessins du magicien (bulles vides), avatar, style.css de l'interface
+static/                 fichiers servis au navigateur : police Inter, vidéo du magicien
+.streamlit/config.toml  thème de l'interface (zone de jeu claire, barre latérale bleu nuit et or)
 levels/*.yaml           un fichier par niveau : prompt du gardien + défenses actives
 data/films.json         200 fiches de films (avec mots-clés, casting, personnages et alias)
 data/attaques.json      128 attaques classées en 8 catégories (OWASP LLM01, Lakera Gandalf traduit, jailbreaks)
@@ -170,7 +176,8 @@ Méthode de travail en groupe : voir [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Modifier un niveau** : éditer son fichier YAML (prompt, défenses, nombre de messages).
 - **Ajouter un niveau** : créer un nouveau fichier YAML avec un `id` plus grand.
 - **Ajouter une défense** : écrire la fonction dans `defenses.py`, ajouter son nom à `KNOWN_DEFENSES`
-  et son appel dans `GameSession.send` (`engine.py`), plus un message dans `REFUSALS`.
+  et son appel dans `GameSession._defend_and_answer` (`engine.py`), plus un message dans `REFUSALS`
+  et son nom affiché dans `interface.ETAPES`.
 - **Analyser les parties** : `pd.read_sql("SELECT * FROM tours", sqlite3.connect("data/journal.db"))`.
 
 ## Prochaines étapes

@@ -7,7 +7,7 @@
 | A. Moteur et gardien | `alexinator/engine.py`, `alexinator/llm.py`, `levels/*.yaml` |
 | B. Défenses (blue team) | `alexinator/defenses.py` |
 | C. Contenu cinéma | `data/films.json` |
-| D. Interface et déploiement | `app.py`, `cli.py` |
+| D. Interface et déploiement | `app.py`, `vues/`, `alexinator/interface.py`, `.streamlit/`, `assets/style.css`, `cli.py` |
 | E. Red team et évaluation | `alexinator/redteam.py`, `campagne.py`, `analyse.ipynb`, `data/attaques.json` |
 | Entraînement | `finetune/` |
 
